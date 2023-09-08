@@ -1,11 +1,11 @@
-import useDocumentTitle from '@/hooks/useDocumentTitle';
+import Feed from '@/components/Feed/Feed';
+import SearchBar from '@/components/SearchBar/SearchBar';
 
 function Home() {
-  useDocumentTitle('TECHIT BY LIKELION');
-
   return (
-    <div>
-      <>허스키 테스트</>
+    <div className="flex flex-col items-center">
+      <SearchBar />
+      <Feed />
     </div>
   );
 }
