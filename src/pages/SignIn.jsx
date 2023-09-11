@@ -1,39 +1,72 @@
-import React from 'react';
-import Button from './components/Button/Button';
+import Button from '@/components/Button/Button';
+import Input from '@/components/Input/Input';
 
 function SignIn() {
   return (
-    <div>
-      <div className="input_wrapper w-[250px] h-[128px] items-center justify-center">
-        <div className="flex flex-col">
-          <input
-            id="userEmail"
-            type="email"
-            placeholder="아이디를 입력해주세요"
-            className="px-5 w-[250px] h-[42px] border-primary border-solid border rounded"
-          ></input>
+    <>
+      <div className="flex items-center justify-center pt-[123px] pb-[22px]">
+        <img className="mx-auto" src="/public/logo.svg" />
+      </div>
+      <div className="flex items-center justify-center ">
+        <div className="w-[250px] h-[128px] flex flex-col items-center justify-center">
+          <div>
+            <Input
+              type="email"
+              placeholder="아이디"
+              width="w-[250px]"
+              height="h-[42px]"
+            />
+          </div>
+          <div className="py-3">
+            <Input
+              type="password"
+              placeholder="비밀번호"
+              width="w-[250px]"
+              height="h-[42px]"
+            />
+            <ul className="flex justify-end pt-3 w-[250px] h-5 text-xs text-gray700">
+              <li>아이디 찾기</li>
+              <li className="text-primary">ㅣ</li>
+              <li>비밀번호 찾기</li>
+            </ul>
+          </div>
         </div>
-        <div className="flex-col py-3">
-          <input
-            id="userPassword"
-            type="password"
-            placeholder="비밀번호를 입력해주세요"
-            className="px-5 w-[250px] h-[42px] border-primary border-solid border rounded"
-          ></input>
-          <ul className="flex justify-end pt-3 w-[160px] h-5 text-xs text-gray700">
-            <li>아이디 찾기</li>
-            <li className="text-primary">ㅣ</li>
-            <li>비밀번호 찾기</li>
-          </ul>
-        </div>
+      </div>
+      <div className="flex items-center justify-center py-[10px]">
+        <button
+          type="submit"
+          className="flex w-[230px] h-[34px] bg-yellow rounded-xl text-[15px] pl-2 py-[5px]"
+          title="카카오 계정으로 로그인하는 버튼입니다"
+          // onClick={() => {}}
+        >
+          <img className="w-6 h-6" src="/public/mdi-chat.svg" />
+          카카오 계정으로 로그인하기
+        </button>
       </div>
       <div>
-        <Button>로그인</Button>
+        <Button
+          text="로그인"
+          title="로그인 버튼입니다"
+          width="w-[250px]"
+          height="h-[54px]"
+          fontsize="text-base"
+          fontcolor="text-white"
+          bgcolor="bg-primary"
+        />
       </div>
       <div className="py-3">
-        <Button>회원가입</Button>
+        <Button
+          text="회원가입"
+          title="회원가입 버튼입니다"
+          width="w-[250px]"
+          height="h-[54px]"
+          fontsize="text-base"
+          fontcolor="text-primary"
+          bgcolor="bg-white"
+          border="border-primary"
+        />
       </div>
-    </div>
+    </>
   );
 }
 
