@@ -24,6 +24,7 @@ export default {
         gray750: '#666666',
         gray800: '#575757',
         gray900: '#2B2B2B',
+        yellow: '#FEE500',
         infoError: '#f03f40',
         infoCorrect: '#1859FF',
       },
