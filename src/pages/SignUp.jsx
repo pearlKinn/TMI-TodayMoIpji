@@ -18,7 +18,7 @@ function SignUp() {
               title="이메일 중복확인 버튼입니다"
               width="w-[62px]"
               height="h-[42px]"
-              fontcolor="text-white"
+              fontcolor="text-gray900"
               fontsize="text-xs"
               bgcolor="bg-primary"
             />
@@ -38,7 +38,7 @@ function SignUp() {
               title="닉네임 랜덤생성 버튼입니다"
               width="w-[62px]"
               height="h-[42px]"
-              fontcolor="text-white"
+              fontcolor="text-gray900"
               fontsize="text-xs"
               bgcolor="bg-primary"
             />
@@ -75,7 +75,7 @@ function SignUp() {
               width="w-[250px]"
               height="h-[54px]"
               fontsize="text-base"
-              fontcolor="text-white"
+              fontcolor="text-gray900"
               bgcolor="bg-primary"
             />
           </div>

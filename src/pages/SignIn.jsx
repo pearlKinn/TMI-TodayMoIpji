@@ -12,7 +12,7 @@ function SignIn() {
           <div>
             <Input
               type="email"
-              placeholder="아이디"
+              placeholder="아이디를 입력해주세요"
               width="w-[250px]"
               height="h-[42px]"
             />
@@ -20,7 +20,7 @@ function SignIn() {
           <div className="py-3">
             <Input
               type="password"
-              placeholder="비밀번호"
+              placeholder="비밀번호를 입력해주세요"
               width="w-[250px]"
               height="h-[42px]"
             />
@@ -50,7 +50,7 @@ function SignIn() {
           width="w-[250px]"
           height="h-[54px]"
           fontsize="text-base"
-          fontcolor="text-white"
+          fontcolor="text-gray900"
           bgcolor="bg-primary"
         />
       </div>

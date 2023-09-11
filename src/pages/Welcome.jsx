@@ -20,7 +20,7 @@ function Welcome() {
           width="w-[250px]"
           height="h-[54px]"
           fontsize="text-base"
-          fontcolor="text-white"
+          fontcolor="text-gray900"
           bgcolor="bg-primary"
           onClick={handlePopup}
         />
@@ -48,7 +48,7 @@ function Popup() {
           width="w-[250px]"
           height="h-[54px]"
           fontsize="text-base"
-          fontcolor="text-white"
+          fontcolor="text-gray900"
           bgcolor="bg-primary"
         />
       </div>
