@@ -1,10 +1,7 @@
 .feedTitle {
   @apply sr-only;
 }
-.feedsWrapper {
-  @apply grid  grid-cols-3 gap-x-2 gap-y-6 md:grid-cols-4;
-  @apply min-w-[320px] w-full  mt-4 mx-auto;
-}
+
 .feedImage {
   @apply bg-slate-200 w-24 h-24;
 }
@@ -16,7 +13,7 @@
 }
 
 .userImg {
-  @apply bg-gray-300 rounded-full w-5 h-5 self-center;
+  @apply bg-gray-300 rounded-full w-6 h-6 self-center;
 }
 
 .speechBubbleHead {
