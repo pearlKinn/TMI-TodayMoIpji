@@ -50,8 +50,6 @@ export default Feed;
 function FeedItem({ item }) {
   const { data: userData } = useFetchData(PB_USER_ENDPOINT);
 
-  let userItems = userData.items;
-
   if (userData) {
     const matchingUser = userData.items?.find((user) => user.id === item.user);
     console.log(matchingUser);
@@ -70,7 +68,7 @@ function FeedItem({ item }) {
         aria-label={``}
       >
         <img
-          src={getPbImageURL(item, 'photo')}
+          src={getPbImageURL(item, 'photo')[0]}
           alt=""
           className={S.feedImage}
         />
