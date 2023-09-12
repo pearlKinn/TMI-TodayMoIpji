@@ -1,9 +1,9 @@
-import { useRef } from 'react';
-import S from './SearchBar.module.css';
-import { useState } from 'react';
 import debounce from '@/utils/debounce';
+import { useState } from 'react';
+import FormInput from '../FormInput/formInput';
+import S from './SearchBar.module.css';
+
 function SearchBar() {
-  const inputRef = useRef(null);
   const [formState, setFormState] = useState('');
 
   const handleInput = debounce((e) => {
@@ -13,22 +13,20 @@ function SearchBar() {
 
   return (
     <div className={S.searchWrapper}>
-      <label htmlFor="search" className={S.searchLabel}>
-        search
-      </label>
-      <input
-        type="text"
+      <FormInput
+        type="search"
         id="search"
-        className={S.searchInput}
-        ref={inputRef}
+        name="search"
+        label="검색창"
         defaultValue={formState.value}
         onChange={handleInput}
-      ></input>
+      />
       <button
         onClick={() => {
-          console.log(inputRef.current.value);
+          console.log(formState);
         }}
         type="button"
+        aria-label="검색하기"
         className={S.searchButton}
       >
         <img src="/public/Search.svg" alt="search" />
