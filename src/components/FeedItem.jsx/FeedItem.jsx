@@ -34,7 +34,7 @@ function FeedItem({ item }) {
         <div className={S.postInfo}>
           <div className={S.userWrapper}>
             {userAvatar}
-            <span>지역</span>
+            <span className={S.local}>지역</span>
           </div>
           <div className={S.speechBubbleHead}>
             🥵
