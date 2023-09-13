@@ -8,6 +8,10 @@
   @apply flex gap-1 justify-between;
 }
 
+.local {
+  @apply dark:text-white;
+}
+
 .userImg {
   @apply bg-gray-300 rounded-full w-6 h-6 self-center;
 }
