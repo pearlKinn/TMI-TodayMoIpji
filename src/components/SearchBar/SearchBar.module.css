@@ -1,0 +1,9 @@
+.searchWrapper {
+  @apply flex justify-between border border-2 border-gray-900 rounded-[15px];
+  @apply w-72 h-12  mt-3 p-2 items-center;
+}
+
+.searchButton {
+  @apply bg-transparent border-none;
+  @apply w-5 h-5;
+}
