@@ -1,12 +1,14 @@
 import FileUpload from '@/components/FileUpload/FileUpload';
+import SelectEmoji from '@/components/SelectEmoji/SelectEmoji';
 import { Link } from 'react-router-dom';
 
 function Writing() {
   return (
-    <div className="flex flex-col w-72 mt-5 gap-5 mx-auto">
-      <Link to={'/'}>
-        <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5" />
+    <div className="flex flex-col w-72 gap-2 mx-auto dark:bg-black border border-black">
+      <Link to={'/'} className="p-1 ">
+        <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5 mt-2 mb-2" />
       </Link>
+      {/* <SelectEmoji /> */}
       <FileUpload />
     </div>
   );
