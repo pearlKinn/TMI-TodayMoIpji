@@ -1,21 +1,23 @@
 import { string } from 'prop-types';
+import S from './Input.module.css';
 
 function Input(props) {
   return (
-    <>
+    <div className={S.inputWrapper}>
       <input
-        id="userEmail"
+        id={props.id}
         type={props.type}
         placeholder={`${props.placeholder}`}
-        className={`pl-2 ${props.width} ${props.height} border-primary border-solid border rounded placeholder:text-xs`}
+        className={`${S.input} ${props.width} ${props.height} `}
       ></input>
-    </>
+    </div>
   );
 }
 
 export default Input;
 
 Input.propTypes = {
+  id: string,
   type: string,
   placeholder: string,
   width: string,

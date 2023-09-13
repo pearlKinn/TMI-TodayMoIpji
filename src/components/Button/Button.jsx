@@ -1,12 +1,13 @@
-import { string } from 'prop-types';
+import { string, func } from 'prop-types';
+import S from './Button.module.css';
 
 function Button(props) {
   return (
-    <div className="flex items-center justify-center">
+    <div className={S.buttonWrapper}>
       <button
         type="submit"
         title={props.title}
-        className={`${props.width} ${props.height} rounded ${props.fontsize} border ${props.fontcolor} ${props.bgcolor} ${props.border}`}
+        className={`${S.button} ${props.width} ${props.height} ${props.border} ${props.bgcolor} ${props.fontcolor} ${props.fontsize}`}
         onClick={props.onClick}
       >
         {props.text}
@@ -21,10 +22,10 @@ Button.propTypes = {
   title: string,
   width: string,
   height: string,
-  fontcolor: string,
-  fontsize: string,
-  bgcolor: string,
   border: string,
+  fontsize: string,
+  fontcolor: string,
+  bgcolor: string,
   text: string,
-  onClick: string,
+  onClick: func,
 };
