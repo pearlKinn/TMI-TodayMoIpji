@@ -19,7 +19,6 @@ function FeedItem({ item }) {
         className={S.userImg}
       />
     ) : null;
-
     return (
       <Link
         to={`/${item.id}`}
@@ -37,7 +36,7 @@ function FeedItem({ item }) {
             <span className={S.local}>지역</span>
           </div>
           <div className={S.speechBubbleHead}>
-            🥵
+            {item.statusEmoji}
             <div className={S.speechBubbleBody}></div>
           </div>
         </div>
@@ -51,5 +50,6 @@ FeedItem.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
+    statusEmoji: PropTypes.string,
   }).isRequired,
 };
