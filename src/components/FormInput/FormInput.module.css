@@ -1,0 +1,7 @@
+.label {
+  @apply sr-only;
+}
+
+.input {
+  @apply bg-transparent outline-none w-72;
+}
