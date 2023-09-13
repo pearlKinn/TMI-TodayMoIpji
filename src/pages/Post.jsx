@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 function Post() {
   const { postId } = useParams();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [fileImages] = useState([]);
   const [formState, setFormState] = useState('');
   const [postUser, setPostUser] = useState(null);
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -38,7 +37,7 @@ function Post() {
       try {
         const post = await pb.collection('posts').getOne(postId);
         setPostUser(post);
-        setButtonDisabled(post.photo.length <= 1 || currentIndex === 0);
+        setButtonDisabled(post.photo.length <= 1);
       } catch (error) {
         if (!(error in DOMException)) {
           console.error();
@@ -69,14 +68,14 @@ function Post() {
           <button
             className={S.carouselBtn}
             onClick={handelPrevSlide}
-            // disabled={buttonDisabled}
+            disabled={buttonDisabled}
           >
             Pre
           </button>
           <button
             className={S.carouselBtn}
             onClick={handleNextSlide}
-            // disabled={buttonDisabled}
+            disabled={buttonDisabled}
           >
             Next
           </button>
