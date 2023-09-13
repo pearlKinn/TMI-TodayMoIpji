@@ -10,7 +10,7 @@ const router = createHashRouter([
     element: <App />,
     children: [{ index: true, element: <Home /> }],
   },
-  { path: 'post', element: <Post /> },
+  { path: ':postId', element: <Post /> },
   { path: 'writing', element: <Writing /> },
 ]);
 

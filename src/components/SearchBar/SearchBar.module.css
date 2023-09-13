@@ -2,12 +2,7 @@
   @apply flex justify-between border border-2 border-gray-900 rounded-[15px];
   @apply w-72 h-12  mt-3 p-2 items-center;
 }
-.searchLabel {
-  @apply sr-only;
-}
-.searchInput {
-  @apply bg-transparent outline-none w-72;
-}
+
 .searchButton {
   @apply bg-transparent border-none;
   @apply w-5 h-5;
