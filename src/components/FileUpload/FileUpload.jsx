@@ -1,10 +1,8 @@
-import { useRef, useState } from 'react';
-import S from './FileUpload.module.css';
-// import Textarea from '../Textarea/Textarea';
-import { useNavigate } from 'react-router-dom';
 import pb from '@/api/pocketbase';
 import debounce from '@/utils/debounce';
-import useAuthStore from '@/store/auth';
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import S from './FileUpload.module.css';
 
 function FileUpload() {
   const navigate = useNavigate();
@@ -36,26 +34,23 @@ function FileUpload() {
   const handlePost = async (e) => {
     e.preventDefault();
 
+    const statusValue = selectedOption;
+    console.log(statusValue);
     const contentValue = contentRef.current.value;
     const photoValue = photoRef.current.files;
 
-    //! photoValue?.forEach((file, index) => {
-    //!   console.log(file)
-    //!   console.log(index)
-    //!   formData.append(`photo`, file);
-    //! });
     const formData = new FormData();
 
+    formData.append('statusEmoji', statusValue);
     formData.append('content', contentValue);
     if (photoValue) {
-      photoValue.forEach((file, index) => {
-        formData.append(`photo`, file);
-      });
+      for (let i = 0; i < photoValue.length; i++) {
+        formData.append('photo', photoValue[i]);
+      }
     }
 
     try {
-      // await pb.collection('posts').create(formData);
-      console.log('성공');
+      await pb.collection('posts').create(formData);
       navigate('/');
     } catch (error) {
       console.log('에러!');
@@ -83,8 +78,6 @@ function FileUpload() {
     }));
     setFileImages(fileImages);
   };
-  const signUp = useAuthStore((state) => state.signUp);
-  console.log(signUp);
 
   return (
     <>
@@ -94,6 +87,7 @@ function FileUpload() {
         onSubmit={handlePost}
         className={S.formWrapper}
       >
+        {/* 이모지 선택 */}
         <div className={S.selectEmojiWrapper}>
           <div className={S.speechBubbleBody} onClick={toggleOptions}>
             <div className={S.speechBubbleHead}></div>
@@ -145,9 +139,10 @@ function FileUpload() {
             </ul>
           )}
         </div>
+        {/* 사진 업로드 */}
         <div className={S.photoContainer}>
           <label htmlFor="photo" className="sr-only">
-            사진
+            사진 업로드
           </label>
           <div className="relative">
             <input
@@ -208,7 +203,7 @@ function FileUpload() {
             </div>
           </div>
         </div>
-        {/* <Textarea /> */}
+        {/* textarea */}
         <div className={S.textareaWrapper}>
           <label htmlFor="content" className="sr-only">
             message
