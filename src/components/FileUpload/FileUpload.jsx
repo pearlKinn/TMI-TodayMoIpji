@@ -17,7 +17,7 @@ function FileUpload() {
       formData.append('photo', photoValue[0]);
     }
   };
-
+  /* 페이지 이동 버튼 --------------------------------------------------------------------- */
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNextSlide = () => {
