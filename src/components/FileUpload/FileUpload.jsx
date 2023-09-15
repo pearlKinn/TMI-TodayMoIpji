@@ -2,6 +2,7 @@ import debounce from '@/utils/debounce';
 import { useRef, useState } from 'react';
 import S from './FileUpload.module.css';
 import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
+import MoveSlide from '../MoveSlide/MoveSlide';
 
 function FileUpload() {
   const formRef = useRef(null);
@@ -76,7 +77,7 @@ function FileUpload() {
                     return (
                       <div
                         key={index}
-                        className={` ${index === currentIndex ? '' : 'hidden'}`}
+                        className={`${index === currentIndex ? '' : 'hidden'}`}
                       >
                         <img
                           src={image.image}
@@ -89,30 +90,15 @@ function FileUpload() {
                 </div>
               ) : (
                 <div className={S.uploadBefore}>
-                  <img
-                    src="/photoIcon.svg"
-                    alt="업로드 이미지"
-                    className="h-8 w-8"
-                  />
+                  <img src="/photoIcon.svg" alt="업로드" className="h-8 w-8" />
                 </div>
               )}
             </div>
-            <div className={S.carouselBtnWrapper}>
-              <button
-                className={S.carouselBtn}
-                onClick={handelPrevSlide}
-                disabled={fileImages.length === 0 ? true : false}
-              >
-                Pre
-              </button>
-              <button
-                className={S.carouselBtn}
-                onClick={handleNextSlide}
-                disabled={fileImages.length === 0 ? true : false}
-              >
-                Next
-              </button>
-            </div>
+            <MoveSlide
+              prevFunc={handelPrevSlide}
+              nextFunc={handleNextSlide}
+              disabled={fileImages.length <= 1 ? true : false}
+            />
           </div>
         </div>
         <div className={S.textareaWrapper}>

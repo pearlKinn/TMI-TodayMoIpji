@@ -9,14 +9,16 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import S from '../components/FileUpload/FileUpload.module.css';
 import FormInput from '@/components/FormInput/FormInput';
+import MoveSlide from '@/components/MoveSlide/MoveSlide';
 
 function Post() {
   const { postId } = useParams();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [postInfo, setPostInfo] = useState(null);
-  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [commentList, setCommentList] = useState([]);
   const inputRef = useRef(null);
+  const inputDateString = postInfo?.created;
+  const formattedDate = formatDate(inputDateString);
 
   const handleNextSlide = () => {
     setCurrentIndex(
@@ -38,7 +40,6 @@ function Post() {
           .getOne(postId, { expand: 'comments.user' });
         const { expand: postExpandData } = post;
         setPostInfo(post);
-        setButtonDisabled(post.photo.length <= 1);
         setCommentList(postExpandData.comments); // 댓글 리스트
       } catch (error) {
         if (!(error in DOMException)) {
@@ -63,10 +64,8 @@ function Post() {
     inputRef.current.value = '';
   };
 
-  const inputDateString = postInfo?.created;
-  const formattedDate = formatDate(inputDateString);
-
   if (postInfo) {
+    console.log(postInfo);
     return (
       <div className="flex flex-col w-72 mt-5  mx-auto">
         <div className="wrapper flex justify-center mb-3">
@@ -79,7 +78,7 @@ function Post() {
           {postInfo.photo?.map((_, index) => (
             <div
               key={index}
-              className={` ${index === currentIndex ? '' : 'hidden'}`}
+              className={`${index === currentIndex ? '' : 'hidden'}`}
             >
               <img
                 src={getPbImageURL(postInfo, 'photo')[currentIndex]}
@@ -89,22 +88,11 @@ function Post() {
             </div>
           ))}
         </div>
-        <div className=" flex justify-between my-2">
-          <button
-            className="font-semibold uppercase disabled:cursor-not-allowed bg-primary rounded-xl  px-3"
-            onClick={handelPrevSlide}
-            disabled={buttonDisabled}
-          >
-            Prev
-          </button>
-          <button
-            className="font-semibold uppercase disabled:cursor-not-allowed bg-primary rounded-xl  px-3"
-            onClick={handleNextSlide}
-            disabled={buttonDisabled}
-          >
-            Next
-          </button>
-        </div>
+        <MoveSlide
+          prevFunc={handelPrevSlide}
+          nextFunc={handleNextSlide}
+          disabled={postInfo.photo.length <= 1 ? true : false}
+        />
         <div className="text-xs">{formattedDate}</div>
         <hr className="bg-gray500" />
         <span>{postInfo.content}</span>
