@@ -1,6 +1,7 @@
 import debounce from '@/utils/debounce';
 import { useRef, useState } from 'react';
 import S from './FileUpload.module.css';
+import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
 
 function FileUpload() {
   const formRef = useRef(null);
@@ -21,11 +22,11 @@ function FileUpload() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNextSlide = () => {
-    setCurrentIndex((currentIndex + 1) % fileImages.length);
+    setCurrentIndex(getNextSlideIndex(currentIndex, fileImages));
   };
 
   const handelPrevSlide = () => {
-    setCurrentIndex((currentIndex - 1 + fileImages.length) % fileImages.length);
+    setCurrentIndex(getPreviousSlideIndex(currentIndex, fileImages));
   };
 
   const [fileImages, setFileImages] = useState([]);

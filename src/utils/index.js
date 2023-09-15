@@ -7,3 +7,4 @@ export * from './filterItemsByState';
 export * from './validation';
 export * from './debounce';
 export * from './formatDate';
+export * from './getSlideIndex';

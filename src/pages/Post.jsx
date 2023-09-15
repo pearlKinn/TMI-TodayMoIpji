@@ -1,8 +1,14 @@
 import pb from '@/api/pocketbase';
-import { formatDate, getPbImageURL } from '@/utils';
+import {
+  formatDate,
+  getNextSlideIndex,
+  getPbImageURL,
+  getPreviousSlideIndex,
+} from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import S from '../components/FileUpload/FileUpload.module.css';
+import FormInput from '@/components/FormInput/FormInput';
 
 function Post() {
   const { postId } = useParams();
@@ -14,14 +20,13 @@ function Post() {
 
   const handleNextSlide = () => {
     setCurrentIndex(
-      (currentIndex + 1) % getPbImageURL(postInfo, 'photo').length
+      getNextSlideIndex(currentIndex, getPbImageURL(postInfo, 'photo'))
     );
   };
 
   const handelPrevSlide = () => {
     setCurrentIndex(
-      (currentIndex - 1 + getPbImageURL(postInfo, 'photo').length) %
-        getPbImageURL(postInfo, 'photo').length
+      getPreviousSlideIndex(currentIndex, getPbImageURL(postInfo, 'photo'))
     );
   };
 
@@ -48,37 +53,20 @@ function Post() {
     e.preventDefault();
     const newComment = { message: inputRef.current.value, post: postId };
 
-    // 댓글을 서버에 저장
-    await pb.collection('comments').create(newComment);
+    const commentRecord = await pb.collection('comments').create(newComment);
 
-    // 해당 포스트 레코드를 가져오고 comments 관계를 업데이트
     await pb.collection('posts').update(postId, {
-      comments: {
-        message: [newComment],
-      },
+      'comments+': commentRecord.id,
     });
 
     setCommentList([...commentList, newComment]);
-    console.log(commentList);
-
-    inputRef.current.value = ''; // 입력 필드 초기화
+    inputRef.current.value = '';
   };
-
-  // const handleCommentSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const newComment = { message: inputRef.current.value, post: postId };
-  //   await pb.collection('comments').create(newComment);
-  //   await pb.collection('posts').update(postId, { expand: 'comments.message' })
-  //   setCommentList([...commentList, newComment]);
-  //   inputRef.current.value = '';
-  // };
 
   const inputDateString = postInfo?.created;
   const formattedDate = formatDate(inputDateString);
 
   if (postInfo) {
-    // console.log(commentList) //^ 새로고침 시 댓글 사라지는 이유??????
-
     return (
       <div className="flex flex-col w-72 mt-5  mx-auto">
         <div className="wrapper flex justify-center mb-3">
@@ -101,16 +89,16 @@ function Post() {
             </div>
           ))}
         </div>
-        <div className=" flex justify-between">
+        <div className=" flex justify-between my-2">
           <button
-            className="font-semibold uppercase disabled:cursor-not-allowed"
+            className="font-semibold uppercase disabled:cursor-not-allowed bg-primary rounded-xl  px-3"
             onClick={handelPrevSlide}
             disabled={buttonDisabled}
           >
-            Pre
+            Prev
           </button>
           <button
-            className={S.carouselBtn}
+            className="font-semibold uppercase disabled:cursor-not-allowed bg-primary rounded-xl  px-3"
             onClick={handleNextSlide}
             disabled={buttonDisabled}
           >
@@ -136,7 +124,7 @@ function Post() {
         </div>
         <hr />
         <div className="flex justify-between border-2 border-gray-900 rounded-[15px] w-72 h-7  p-4 items-center gap-2">
-          <input
+          <FormInput
             type="text"
             id="comment"
             name="comment"
