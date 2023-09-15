@@ -73,20 +73,18 @@ function FileUpload() {
             <div className="carouselContainer">
               {fileImages.length ? (
                 <div className={S.carouselWrapper}>
-                  {fileImages.map((image, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className={`${index === currentIndex ? '' : 'hidden'}`}
-                      >
-                        <img
-                          src={image.image}
-                          alt={image.label}
-                          className={S.uploadImage}
-                        />
-                      </div>
-                    );
-                  })}
+                  {fileImages.map((file, index) => (
+                    <div
+                      key={index}
+                      className={`${index === currentIndex ? '' : 'hidden'}`}
+                    >
+                      <img
+                        src={file.image}
+                        alt={file.label}
+                        className={S.uploadImage}
+                      />
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <div className={S.uploadBefore}>

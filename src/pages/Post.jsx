@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import S from '../components/FileUpload/FileUpload.module.css';
 import FormInput from '@/components/FormInput/FormInput';
 import MoveSlide from '@/components/MoveSlide/MoveSlide';
+import toast from 'react-hot-toast';
 
 function Post() {
   const { postId } = useParams();
@@ -54,18 +55,29 @@ function Post() {
     e.preventDefault();
     const newComment = { message: inputRef.current.value, post: postId };
 
-    const commentRecord = await pb.collection('comments').create(newComment);
+    try {
+      const commentRecord = await pb.collection('comments').create(newComment);
 
-    await pb.collection('posts').update(postId, {
-      'comments+': commentRecord.id,
-    });
+      await pb.collection('posts').update(postId, {
+        'comments+': commentRecord.id,
+      });
 
-    setCommentList([...commentList, newComment]);
-    inputRef.current.value = '';
+      setCommentList([...commentList, newComment]);
+      inputRef.current.value = '';
+      // ! 왜 안뜨지?????
+      toast.success('댓글이 성공적으로 달렸습니다', {
+        position: 'top-center',
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   if (postInfo) {
-    console.log(postInfo);
     return (
       <div className="flex flex-col w-72 mt-5  mx-auto">
         <div className="wrapper flex justify-center mb-3">
