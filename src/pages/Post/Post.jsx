@@ -9,9 +9,10 @@ import {
   getPreviousSlideIndex,
 } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
-import { toast } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import S from './Post.module.css';
+import { Link } from 'react-router-dom';
 
 function Post() {
   const { postId } = useParams();
@@ -56,11 +57,11 @@ function Post() {
     e.preventDefault();
 
     if (inputRef.current.value.replace(/\s+/g, '') === '') {
+      console.log('댓글을 입력해주세요');
       toast.error('댓글을 입력해주세요', {
-        position: 'top-center',
         ariaProps: {
           role: 'status',
-          'aria-live': 'polite',
+          ariaLive: 'polite',
         },
       });
       return;
@@ -91,13 +92,10 @@ function Post() {
   if (postInfo) {
     return (
       <div className={S.postWrapper}>
-        {/* <div className="wrapper flex justify-center mb-3">
-          <div className="relative bg-primary w-24 h-12 rounded-xl flex justify-center items-center">
-            <div className="absolute left-1/2 transform -translate-x-1/2 translate-y-1/2 bottom-0 -rotate-45 bg-primary w-2 h-2"></div>
-            {postInfo.statusEmoji}
-          </div>
-        </div> */}
-        <SpeechBubble props={postInfo.statusEmoji} />
+        <Link to={'/'}>
+          <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5" />
+        </Link>
+        <SpeechBubble text={postInfo.statusEmoji} />
         <div className={S.photoWrapper}>
           {postInfo.photo?.map((_, index) => (
             <div
