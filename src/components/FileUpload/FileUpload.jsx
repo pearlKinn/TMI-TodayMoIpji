@@ -33,11 +33,12 @@ function FileUpload() {
 
   const handlePost = async (e) => {
     e.preventDefault();
-
     const statusValue = selectedOption;
-    console.log(statusValue);
     const contentValue = contentRef.current.value;
     const photoValue = photoRef.current.files;
+    if (photoValue.length === 0) {
+      return;
+    }
 
     const formData = new FormData();
 
@@ -89,12 +90,12 @@ function FileUpload() {
       >
         {/* 이모지 선택 */}
         <div className={S.selectEmojiWrapper}>
-          <div className={S.speechBubbleBody} onClick={toggleOptions}>
+          <button className={S.speechBubbleBody} onClick={toggleOptions}>
             <div className={S.speechBubbleHead}></div>
             {isShowOptions && (
               <div title="상태 선택"> {selectedOption || '🫥'}</div>
             )}
-          </div>
+          </button>
           {!isShowOptions && (
             <ul className={S.statusListWrapper}>
               <li>
