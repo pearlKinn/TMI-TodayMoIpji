@@ -97,66 +97,73 @@ function Post() {
   if (postInfo) {
     return (
       <div className={S.postWrapper}>
-        <Link to={'/'}>
-          <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5" />
-        </Link>
-        <SpeechBubble text={postInfo.statusEmoji} />
-        <div className="relative">
-          <div className={S.photoWrapper}>
-            {postInfo.photo?.map((_, index) => (
-              <div
-                key={index}
-                className={`${index === currentIndex ? '' : 'hidden'}`}
-              >
-                <img
-                  src={getPbImageURL(postInfo, 'photo')[currentIndex]}
-                  className={S.uploadImage}
-                  alt={`Image ${index + 1}`}
-                />
-              </div>
-            ))}
-          </div>
-          <button
-            type="button"
-            className="absolute right-2 top-64 text-white flex text-outline-black"
-            onClick={handleLikePost}
-          >
-            {likePost ? <Heart /> : <Heart color="#FF3A3A" />}
-          </button>
-        </div>
-        <MoveSlide
-          prevFunc={handelPrevSlide}
-          nextFunc={handleNextSlide}
-          disabled={postInfo.photo.length <= 1 ? true : false}
-        />
-        <div className="text-xs">{formattedDate}</div>
-        <hr />
-        <span>{postInfo.content}</span>
-        <hr className="mt-2" />
-        <div className={S.colLayout}>
-          <span className="font-semibold ">comment</span>
-          <ul className={S.colLayout}>
-            <div className={`${S.colLayout} gap-1`}>
-              {commentList?.map((item, index) => (
-                <li key={index} className="flex gap-4">
-                  {/* {<span>{item.expand.user.username}</span> } //! {인증되면  주석 풀기!!!!} */}
-                  <span>{item.message}</span>
-                </li>
+        <div className="formWrapper w-72 mx-auto">
+          <Link to={'/'}>
+            <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5" />
+          </Link>
+          <SpeechBubble text={postInfo.statusEmoji} />
+          <div className="relative mx-auto">
+            <div className={S.photoWrapper}>
+              {postInfo.photo?.map((_, index) => (
+                <div
+                  key={index}
+                  className={`${index === currentIndex ? '' : 'hidden'}`}
+                >
+                  <img
+                    src={getPbImageURL(postInfo, 'photo')[currentIndex]}
+                    className={S.uploadImage}
+                    alt={`Image ${index + 1}`}
+                  />
+                </div>
               ))}
             </div>
-          </ul>
-        </div>
-        <hr />
-        <div className={S.inputWrapper}>
-          <FormInput type="text" name="comment" label="댓글창" ref={inputRef} />
-          <button
-            onClick={handleCommentSubmit}
-            type="submit"
-            aria-label="댓글 게시"
-            className={S.inputBtn}
-          >
-            게시
-          </button>
+            <button
+              type="button"
+              className="absolute right-2 top-64 text-white flex text-outline-black"
+              onClick={handleLikePost}
+            >
+              {likePost ? <Heart /> : <Heart color="#FF3A3A" />}
+            </button>
+          </div>
+          <MoveSlide
+            prevFunc={handelPrevSlide}
+            nextFunc={handleNextSlide}
+            disabled={postInfo.photo.length <= 1 ? true : false}
+          />
+          <div className="text-xs">{formattedDate}</div>
+          <hr />
+          <span>{postInfo.content}</span>
+          <hr className="mt-2" />
+          <div className={S.colLayout}>
+            <span className="font-semibold">comment</span>
+            <ul className={S.colLayout}>
+              <div className={`${S.colLayout} gap-1`}>
+                {commentList?.map((item, index) => (
+                  <li key={index} className="flex gap-4">
+                    {/* {<span>{item.expand.user.username}</span> } //! {인증되면  주석 풀기!!!!} */}
+                    <span>{item.message}</span>
+                  </li>
+                ))}
+              </div>
+            </ul>
+          </div>
+          <hr />
+          <div className={S.inputWrapper}>
+            <FormInput
+              type="text"
+              name="comment"
+              label="댓글창"
+              ref={inputRef}
+            />
+            <button
+              onClick={handleCommentSubmit}
+              type="submit"
+              aria-label="댓글 게시"
+              className={S.inputBtn}
+            >
+              게시
+            </button>
+          </div>
         </div>
       </div>
     );
