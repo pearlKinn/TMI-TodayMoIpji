@@ -15,7 +15,6 @@ function SearchBar() {
     <div className={S.searchWrapper}>
       <FormInput
         type="search"
-        id="search"
         name="search"
         label="검색창"
         defaultValue={formState.value}
