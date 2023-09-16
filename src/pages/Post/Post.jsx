@@ -1,4 +1,7 @@
 import pb from '@/api/pocketbase';
+import FormInput from '@/components/FormInput/FormInput';
+import MoveSlide from '@/components/MoveSlide/MoveSlide';
+import SpeechBubble from '@/components/SpeechBubble/SpeechBubble';
 import {
   formatDate,
   getNextSlideIndex,
@@ -6,11 +9,9 @@ import {
   getPreviousSlideIndex,
 } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
-import S from '../components/FileUpload/FileUpload.module.css';
-import FormInput from '@/components/FormInput/FormInput';
-import MoveSlide from '@/components/MoveSlide/MoveSlide';
-import toast from 'react-hot-toast';
+import S from './Post.module.css';
 
 function Post() {
   const { postId } = useParams();
@@ -53,8 +54,18 @@ function Post() {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    const newComment = { message: inputRef.current.value, post: postId };
 
+    if (inputRef.current.value.replace(/\s+/g, '') === '') {
+      toast.error('댓글을 입력해주세요', {
+        position: 'top-center',
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
+      return;
+    }
+    const newComment = { message: inputRef.current.value, post: postId };
     try {
       const commentRecord = await pb.collection('comments').create(newComment);
 
@@ -79,14 +90,15 @@ function Post() {
 
   if (postInfo) {
     return (
-      <div className="flex flex-col w-72 mt-5  mx-auto">
-        <div className="wrapper flex justify-center mb-3">
+      <div className={S.postWrapper}>
+        {/* <div className="wrapper flex justify-center mb-3">
           <div className="relative bg-primary w-24 h-12 rounded-xl flex justify-center items-center">
-            {postInfo.statusEmoji}
             <div className="absolute left-1/2 transform -translate-x-1/2 translate-y-1/2 bottom-0 -rotate-45 bg-primary w-2 h-2"></div>
+            {postInfo.statusEmoji}
           </div>
-        </div>
-        <div className="flex bg-gray500 w-72 h-72">
+        </div> */}
+        <SpeechBubble props={postInfo.statusEmoji} />
+        <div className={S.photoWrapper}>
           {postInfo.photo?.map((_, index) => (
             <div
               key={index}
@@ -106,13 +118,13 @@ function Post() {
           disabled={postInfo.photo.length <= 1 ? true : false}
         />
         <div className="text-xs">{formattedDate}</div>
-        <hr className="bg-gray500" />
+        <hr />
         <span>{postInfo.content}</span>
         <hr className="mt-2" />
-        <div className="flex flex-col">
+        <div className={S.colLayout}>
           <span className="font-semibold ">comment</span>
-          <ul className="flex flex-col">
-            <div className="flex flex-col gap-1">
+          <ul className={S.colLayout}>
+            <div className={`${S.colLayout} gap-1`}>
               {commentList?.map((item, index) => (
                 <li key={index} className="flex gap-4">
                   {/* {<span>{item.expand.user.username}</span> } //! {인증되면  주석 풀기!!!!} */}
@@ -123,19 +135,13 @@ function Post() {
           </ul>
         </div>
         <hr />
-        <div className="flex justify-between border-2 border-gray-900 rounded-[15px] w-72 h-7  p-4 items-center gap-2">
-          <FormInput
-            type="text"
-            id="comment"
-            name="comment"
-            label="댓글창"
-            ref={inputRef}
-          />
+        <div className={S.inputWrapper}>
+          <FormInput type="text" name="comment" label="댓글창" ref={inputRef} />
           <button
             onClick={handleCommentSubmit}
             type="submit"
             aria-label="댓글 게시"
-            className="bg-transparent border-none w-7 h-5 whitespace-nowrap"
+            className={S.inputBtn}
           >
             게시
           </button>

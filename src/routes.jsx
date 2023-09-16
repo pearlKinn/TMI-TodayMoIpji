@@ -1,7 +1,7 @@
 import { createHashRouter } from 'react-router-dom';
 import App from './App';
 import Home from './pages/Home';
-import Post from './pages/Post';
+import Post from './pages/Post/Post';
 import Writing from './pages/Writing';
 
 const router = createHashRouter([
