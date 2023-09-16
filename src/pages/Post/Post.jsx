@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import S from './Post.module.css';
 import { Link } from 'react-router-dom';
+import Heart from '@/components/Heart';
 
 function Post() {
   const { postId } = useParams();
@@ -22,6 +23,7 @@ function Post() {
   const inputRef = useRef(null);
   const inputDateString = postInfo?.created;
   const formattedDate = formatDate(inputDateString);
+  const [likePost, setLikePost] = useState(true);
 
   const handleNextSlide = () => {
     setCurrentIndex(
@@ -88,6 +90,9 @@ function Post() {
       console.error(error);
     }
   };
+  const handleLikePost = () => {
+    setLikePost(!likePost);
+  };
 
   if (postInfo) {
     return (
@@ -96,19 +101,28 @@ function Post() {
           <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5" />
         </Link>
         <SpeechBubble text={postInfo.statusEmoji} />
-        <div className={S.photoWrapper}>
-          {postInfo.photo?.map((_, index) => (
-            <div
-              key={index}
-              className={`${index === currentIndex ? '' : 'hidden'}`}
-            >
-              <img
-                src={getPbImageURL(postInfo, 'photo')[currentIndex]}
-                className={S.uploadImage}
-                alt={`Image ${index + 1}`}
-              />
-            </div>
-          ))}
+        <div className="relative">
+          <div className={S.photoWrapper}>
+            {postInfo.photo?.map((_, index) => (
+              <div
+                key={index}
+                className={`${index === currentIndex ? '' : 'hidden'}`}
+              >
+                <img
+                  src={getPbImageURL(postInfo, 'photo')[currentIndex]}
+                  className={S.uploadImage}
+                  alt={`Image ${index + 1}`}
+                />
+              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="absolute right-2 top-64 text-white flex text-outline-black"
+            onClick={handleLikePost}
+          >
+            {likePost ? <Heart /> : <Heart color="#FF3A3A" />}
+          </button>
         </div>
         <MoveSlide
           prevFunc={handelPrevSlide}
