@@ -23,7 +23,7 @@ function FeedItem({ item }) {
       <Link
         to={`/${item.id}`}
         className="flex flex-col items-center"
-        aria-label={``}
+        aria-label={`${matchingUser.name}님의 게시물`}
       >
         <img
           src={getPbImageURL(item, 'photo')[0]}
