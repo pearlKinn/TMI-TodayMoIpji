@@ -11,7 +11,7 @@ function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center dark:bg-black">
+    <div className="flex flex-col items-center dark:bg-black w-[320px] mx-auto border border-green-800 md:w-[768px]">
       <SearchBar onSearch={handleSearch} />
       <Feed filter={filter} />
       <Link to={'/writing'}>글쓰기</Link>
