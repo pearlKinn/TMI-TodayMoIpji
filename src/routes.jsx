@@ -3,6 +3,7 @@ import App from './App';
 import Home from './pages/Home';
 import Post from './pages/Post/Post';
 import Writing from './pages/Writing';
+import ProtectRoute from './components/ProtectRoute';
 
 const router = createHashRouter([
   {
@@ -12,6 +13,7 @@ const router = createHashRouter([
   },
   { path: ':postId', element: <Post /> },
   { path: 'writing', element: <Writing /> },
+  // { path: 'writing', element: <ProtectRoute><Writing /></ProtectRoute> }
 ]);
 
 export default router;

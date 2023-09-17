@@ -44,12 +44,11 @@ function FeedItem({ item }) {
         className={S.userImg}
       />
     ) : null;
-
     return (
       <Link
         to={`/${item.id}`}
         className="flex flex-col items-center"
-        aria-label={``}
+        aria-label={`${matchingUser?.name}님의 게시물`}
       >
         <img
           src={getPbImageURL(item, 'photo')[0]}
@@ -59,10 +58,10 @@ function FeedItem({ item }) {
         <div className={S.postInfo}>
           <div className={S.userWrapper}>
             {userAvatar}
-            <span className={S.local}>{matchingUser.region}</span>
+            <span className={S.local}>{matchingUser?.region}</span>
           </div>
           <div className={S.speechBubbleHead}>
-            🥵
+            {item.statusEmoji}
             <div className={S.speechBubbleBody}></div>
           </div>
         </div>
@@ -76,5 +75,6 @@ FeedItem.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
+    statusEmoji: PropTypes.string,
   }).isRequired,
 };
