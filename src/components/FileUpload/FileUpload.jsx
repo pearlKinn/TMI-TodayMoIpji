@@ -3,6 +3,8 @@ import debounce from '@/utils/debounce';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import S from './FileUpload.module.css';
+import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
+import MoveSlide from '../MoveSlide/MoveSlide';
 
 function FileUpload() {
   const navigate = useNavigate();
@@ -58,15 +60,15 @@ function FileUpload() {
       console.error(error);
     }
   };
-
+  /* 페이지 이동 버튼 --------------------------------------------------------------------- */
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNextSlide = () => {
-    setCurrentIndex((currentIndex + 1) % fileImages.length);
+    setCurrentIndex(getNextSlideIndex(currentIndex, fileImages));
   };
 
   const handelPrevSlide = () => {
-    setCurrentIndex((currentIndex - 1 + fileImages.length) % fileImages.length);
+    setCurrentIndex(getPreviousSlideIndex(currentIndex, fileImages));
   };
 
   const [fileImages, setFileImages] = useState([]);
@@ -159,49 +161,30 @@ function FileUpload() {
             <div className="carouselContainer">
               {fileImages.length ? (
                 <div className={S.carouselWrapper}>
-                  {fileImages.map((image, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className={` ${index === currentIndex ? '' : 'hidden'}`}
-                      >
-                        <img
-                          src={image.image}
-                          alt={image.label}
-                          className={S.uploadImage}
-                        />
-                      </div>
-                    );
-                  })}
+                  {fileImages.map((file, index) => (
+                    <div
+                      key={index}
+                      className={`${index === currentIndex ? '' : 'hidden'}`}
+                    >
+                      <img
+                        src={file.image}
+                        alt={file.label}
+                        className={S.uploadImage}
+                      />
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <div className={S.uploadBefore}>
-                  <img
-                    src="/photoIcon.svg"
-                    alt="업로드 이미지"
-                    className="h-8 w-8"
-                  />
+                  <img src="/photoIcon.svg" alt="업로드" className="h-8 w-8" />
                 </div>
               )}
             </div>
-            <div className={S.carouselBtnWrapper}>
-              <button
-                type="button"
-                className={S.carouselBtn}
-                onClick={handelPrevSlide}
-                disabled={fileImages.length === 0 ? true : false}
-              >
-                Pre
-              </button>
-              <button
-                type="button"
-                className={S.carouselBtn}
-                onClick={handleNextSlide}
-                disabled={fileImages.length === 0 ? true : false}
-              >
-                Next
-              </button>
-            </div>
+            <MoveSlide
+              prevFunc={handelPrevSlide}
+              nextFunc={handleNextSlide}
+              disabled={fileImages.length <= 1 ? true : false}
+            />
           </div>
         </div>
         {/* textarea */}
