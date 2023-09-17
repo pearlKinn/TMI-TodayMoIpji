@@ -6,7 +6,7 @@ import FeedItem from '../FeedItem.jsx/FeedItem';
 const PB = import.meta.env.VITE_PB_URL;
 const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records`;
 
-function Feed() {
+function Feed({ filter }) {
   const { error, data: postData, isLoading } = useFetchData(PB_FEED_ENDPOINT);
   let dataItems = postData.items;
 
