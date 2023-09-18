@@ -1,0 +1,7 @@
+.moveSlideWrapper {
+  @apply flex justify-between my-2 w-72 mx-auto;
+}
+
+.moveSlideBtn {
+  @apply font-semibold uppercase disabled:cursor-not-allowed bg-primary rounded-xl  px-3;
+}

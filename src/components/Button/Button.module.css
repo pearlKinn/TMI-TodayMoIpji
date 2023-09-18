@@ -16,3 +16,11 @@
   @apply hover:bg-zinc-300 hover:border-zinc-300;
   @apply dark:bg-zinc-400 dark:border-zinc-400
 }
+
+.buttonWrapper {
+  @apply flex items-center justify-center;
+}
+
+.button {
+  @apply rounded border;
+}

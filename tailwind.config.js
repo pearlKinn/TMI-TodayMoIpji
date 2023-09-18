@@ -3,6 +3,9 @@ export default {
   content: ['./index.html', './src/**/*.jsx'],
   theme: {
     extend: {
+      backgroundImage: {
+        userBoardEmojiBackground: "url('/src/assets/userEmoji.svg')",
+      },
       fontFamily: {
         suit: ['SUIT Variable'],
       },
@@ -24,13 +27,14 @@ export default {
         gray750: '#666666',
         gray800: '#575757',
         gray900: '#2B2B2B',
+        yellow: '#FEE500',
         infoError: '#f03f40',
         infoCorrect: '#1859FF',
       },
       width: {
         '3/10': '30%',
-      }
+      },
     },
   },
   plugins: [],
-};
+}

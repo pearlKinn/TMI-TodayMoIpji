@@ -2,13 +2,26 @@ import S from './Feed.module.css';
 import useFetchData from '@/hooks/useFetchData';
 import Spinner from '../Spinner';
 import FeedItem from '../FeedItem.jsx/FeedItem';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
 const PB = import.meta.env.VITE_PB_URL;
 const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records`;
 
-function Feed({ filter }) {
-  const { error, data: postData, isLoading } = useFetchData(PB_FEED_ENDPOINT);
-  let dataItems = postData.items;
+async function fetchProducts() {
+  const response = await axios(PB_FEED_ENDPOINT);
+  return await response.data;
+}
+
+function Feed() {
+  const {
+    isLoading,
+    data: postData,
+    error,
+  } = useQuery(['posts'], fetchProducts, {
+    retry: 2,
+  });
+  let dataItems = postData?.items;
 
   if (isLoading) {
     return <Spinner size={160} title="데이터 가져오는 중이에요." />;
