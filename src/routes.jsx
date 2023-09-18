@@ -1,23 +1,34 @@
-import { lazy } from "react";
-import {
-  Route,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
-const Home = lazy(() => import("./pages/Home"));
-const SignIn = lazy(() => import("./pages/SignIn"));
-const SignUp = lazy(() => import("./pages/SignUp"));
-const RootLayout = lazy(() => import("./layout/RootLayout"));
+import { createHashRouter } from 'react-router-dom';
+import App from './App';
+import Home from './pages/Home';
+import Post from './pages/Post/Post';
+import Writing from './pages/Writing';
+// import ProtectRoute from './components/ProtectRoute';
+import SignUp from './pages/SignUp';
+import SignIn from './pages/SignIn';
+import Welcome from './pages/Welcome';
+import { Mypage } from './pages/Mypage';
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<RootLayout />}>
-      <Route index element={<Home />} />
-      <Route path="signin" element={<SignIn />} />
-      <Route path="signup" element={<SignUp />} />
-      <Route path="*" element={<Home />} />
-    </Route>
-  )
-);
+const router = createHashRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [{ index: true, element: <Home /> }],
+  },
+  { path: ':postId', element: <Post /> },
+  { path: 'writing', element: <Writing /> },
+  { path: 'signin', element: <SignIn /> },
+  { path: 'signup', element: <SignUp /> },
+  { path: 'welcome', element: <Welcome /> },
+  { path: 'mypage', element: <Mypage /> },
+  // {
+  //   path: 'writing',
+  //   element: (
+  //     <ProtectRoute>
+  //       <Writing />
+  //     </ProtectRoute>
+  //   ),
+  // },
+]);
 
 export default router;

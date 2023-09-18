@@ -10,9 +10,6 @@ function Heading() {
           <Logo size={60} />
         </Link>
       </h1>
-      <Link to="/signin">
-        <span>SignIn</span>
-      </Link>
     </div>
   );
 }
