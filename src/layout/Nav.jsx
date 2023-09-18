@@ -3,7 +3,6 @@ import { WritingIcon } from '@/assets/WritingIcon';
 import { HomeIcon } from '@/assets/HomeIcon';
 import { MypageIcon } from '@/assets/MypageIcon';
 import { Link } from 'react-router-dom';
-import { node, string } from 'prop-types';
 
 function Nav() {
 
@@ -26,15 +25,9 @@ function Nav() {
               <MypageIcon size={50} />
             </Link>
           </li>
-       
       </ul>
     </nav>
   );
 }
 
 export default Nav;
-
-Link.propTypes = {
-  href: string.isRequired,
-  children: node.isRequired,
-};

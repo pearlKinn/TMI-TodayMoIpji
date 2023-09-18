@@ -1,10 +1,8 @@
 import { createHashRouter } from 'react-router-dom';
 import App from './App';
 import Home from './pages/Home';
-import { Mypage } from './pages/Mypage';
-import { Post } from './pages/Post';
-
-const { VITE_PUBLIC_URL } = import.meta.env;
+import Mypage from './pages/Mypage/Mypage';
+import Post  from './pages/Post/Post';
 
 const router = createHashRouter(
   [
@@ -27,9 +25,6 @@ const router = createHashRouter(
       ],
     },
   ],
-  {
-    basename: VITE_PUBLIC_URL,
-  }
 );
 
 export default router;

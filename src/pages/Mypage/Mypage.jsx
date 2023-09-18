@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import { MypageIcon } from '@/assets/MypageIcon';
 import { Link } from 'react-router-dom';
-import MypageStyleSlide from '../swiper/MypageStyleSlide';
-import MypageSievingSlide from '../swiper/MypageSievingSlide';
-import MypageBodyTypeSlide from '../swiper/MypageBodyTypeSlide';
-import { useDarkMode } from '../layout/DarkModeContext';
+import MypageStyleSlide from '../../swiper/MypageStyleSlide';
+import MypageSievingSlide from '../../swiper/MypageSievingSlide';
+import MypageBodyTypeSlide from '../../swiper/MypageBodyTypeSlide';
 import S from './Mypage.module.css';
 
-export function Mypage() {
+function Mypage() {
   const [showPosts, setShowPosts] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
 
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
-  
-  const toggleDarkModeHandler = () => {
-    toggleDarkMode();
-  };
-  
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  function toggleDarkModeHandler() {
+    setIsDarkMode((prevMode) => !prevMode);
+  }
+
   return (
     <div className={`flex flex-col pt-5 pb-5`}>
       <div className="w-full flex flex-col items-center ">
@@ -61,7 +60,7 @@ export function Mypage() {
           {
             <Link to={'/post'} className="flex flex-col ml-3 w-[6.125rem]">
               <img
-                src="../assets/test.jpeg"
+                src="#"
                 alt=""
                 className={S.mypagePostImg}
               />
@@ -91,11 +90,7 @@ export function Mypage() {
                 <span className="w-[5.25rem] h-[2.75rem] flex justify-center items-center rounded-3xl bg-black text-white mb-[1.6rem] font-bold">
                   다크모드
                 </span>
-                <div
-                  className={`${S.toggleBtn} ${isDarkMode ? S.on : S.off} ${
-                    isDarkMode ? 'dark' : 'light'
-                  }`}
-                >
+                <div className={`${S.toggleBtn} ${isDarkMode ? S.on : S.off}`}>
                   <div
                     className={`${S.circle}`}
                     onClick={toggleDarkModeHandler}
@@ -123,3 +118,5 @@ export function Mypage() {
     </div>
   );
 }
+
+export default Mypage;
