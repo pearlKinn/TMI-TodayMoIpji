@@ -1,0 +1,25 @@
+.postImage {
+  @apply bg-slate-200 w-24 h-24;
+}
+.postInfo {
+  @apply flex justify-between mt-2 w-24;
+}
+.userWrapper {
+  @apply flex gap-1 justify-between;
+}
+
+.local {
+  @apply dark:text-white;
+}
+
+.userImg {
+  @apply bg-gray-300 rounded-full w-6 h-6 self-center;
+}
+
+.speechBubbleHead {
+  @apply relative bg-white border border-black;
+}
+.speechBubbleBody {
+  @apply absolute inset-0 transform translate-x-1/2 -translate-y-1/2 -rotate-45;
+  @apply bg-white border border-t-black border-r-black border-l-white border-b-white  w-2 h-2;
+}
