@@ -60,12 +60,13 @@ function Post() {
 
     if (inputRef.current.value.replace(/\s+/g, '') === '') {
       console.log('댓글을 입력해주세요');
-      toast.error('댓글을 입력해주세요', {
-        ariaProps: {
-          role: 'status',
-          ariaLive: 'polite',
-        },
-      });
+      toast('Here is your toast.');
+      // toast.error('댓글을 입력해주세요', {
+      //   ariaProps: {
+      //     role: 'status',
+      //     ariaLive: 'polite',
+      //   },
+      // });
       return;
     }
     const newComment = { message: inputRef.current.value, post: postId };

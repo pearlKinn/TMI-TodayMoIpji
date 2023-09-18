@@ -5,6 +5,9 @@ import S from './FeedItem.module.css';
 import Spinner from '../Spinner';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import useSearchStore from '@/store/useSearchStore';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const PB = import.meta.env.VITE_PB_URL;
 const PB_USER_ENDPOINT = `${PB}/api/collections/users/records`;
@@ -14,6 +17,8 @@ async function fetchProducts() {
   return await response.data;
 }
 function FeedItem({ item }) {
+  const searchValue = useSearchStore((state) => state.searchValue);
+  const [searchData, setSearchData] = useState('');
   const {
     isLoading,
     data: userData,
@@ -21,6 +26,10 @@ function FeedItem({ item }) {
   } = useQuery(['users'], fetchProducts, {
     retry: 2,
   });
+
+  useEffect(() => {
+    return () => {};
+  }, [searchData]);
 
   if (isLoading) {
     // return <Spinner size={160} title="데이터 가져오는 중이에요." />;
@@ -36,6 +45,7 @@ function FeedItem({ item }) {
   }
 
   if (userData) {
+    //matchingUser.region 지역
     const matchingUser = userData.items?.find((user) => user.id === item.user);
     const userAvatar = matchingUser ? (
       <img

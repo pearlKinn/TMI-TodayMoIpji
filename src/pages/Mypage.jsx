@@ -4,19 +4,18 @@ import { Link } from 'react-router-dom';
 import MypageStyleSlide from '../swiper/MypageStyleSlide';
 import MypageSievingSlide from '../swiper/MypageSievingSlide';
 import MypageBodyTypeSlide from '../swiper/MypageBodyTypeSlide';
-import { useDarkMode } from '../layout/DarkModeContext';
 import S from './Mypage.module.css';
 
 export function Mypage() {
   const [showPosts, setShowPosts] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
 
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
-  
-  const toggleDarkModeHandler = () => {
-    toggleDarkMode();
-  };
-  
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  function toggleDarkModeHandler() {
+    setIsDarkMode((prevMode) => !prevMode);
+  }
+
   return (
     <div className={`flex flex-col pt-5 pb-5`}>
       <div className="w-full flex flex-col items-center ">
@@ -24,12 +23,12 @@ export function Mypage() {
           <MypageIcon size={50} />
         </div>
         <span>닉네임</span>
-        <a
-          href="/profileEdit"
+        <Link
+          to="/profileEdit"
           className="w-[6.625rem] h-[2.875rem] flex justify-center items-center rounded-lg bg-primary mb-8"
         >
           프로필 수정
-        </a>
+        </Link>
       </div>
       <div className="w-full h-[1.5rem] flex items-center mb-3 border-t-2 border-black">
         <button
@@ -91,11 +90,7 @@ export function Mypage() {
                 <span className="w-[5.25rem] h-[2.75rem] flex justify-center items-center rounded-3xl bg-black text-white mb-[1.6rem] font-bold">
                   다크모드
                 </span>
-                <div
-                  className={`${S.toggleBtn} ${isDarkMode ? S.on : S.off} ${
-                    isDarkMode ? 'dark' : 'light'
-                  }`}
-                >
+                <div className={`${S.toggleBtn} ${isDarkMode ? S.on : S.off}`}>
                   <div
                     className={`${S.circle}`}
                     onClick={toggleDarkModeHandler}

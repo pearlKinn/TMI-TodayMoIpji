@@ -25,11 +25,6 @@ function FileUpload() {
   const contentRef = useRef(null);
   const [content, setContent] = useState('');
 
-  const handleContent = debounce((e) => {
-    const { value } = e.target;
-    setContent(value);
-  });
-
   const formRef = useRef(null);
   const photoRef = useRef(null);
 
