@@ -4,10 +4,20 @@ import S from './MoveSlide.module.css';
 function MoveSlide({ prevFunc, nextFunc, disabled }) {
   return (
     <div className={S.moveSlideWrapper}>
-      <button className={S.moveSlideBtn} onClick={prevFunc} disabled={disabled}>
+      <button
+        type="button"
+        className={S.moveSlideBtn}
+        onClick={prevFunc}
+        disabled={disabled}
+      >
         Prev
       </button>
-      <button className={S.moveSlideBtn} onClick={nextFunc} disabled={disabled}>
+      <button
+        type="button"
+        className={S.moveSlideBtn}
+        onClick={nextFunc}
+        disabled={disabled}
+      >
         Next
       </button>
     </div>

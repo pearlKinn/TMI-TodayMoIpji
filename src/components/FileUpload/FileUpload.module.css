@@ -10,7 +10,7 @@
 }
 
 .carouselWrapper {
-  @apply flex bg-gray500 w-72 h-72;
+  @apply flex bg-gray500 w-72 h-72 mx-auto;
 }
 
 .uploadImage {
