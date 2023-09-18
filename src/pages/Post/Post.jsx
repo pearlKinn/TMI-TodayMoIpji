@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import S from './Post.module.css';
 import { Link } from 'react-router-dom';
 import Heart from '@/components/Heart';
+import useStorage from '@/hooks/useStorage';
 
 function Post() {
   const { postId } = useParams();
@@ -24,6 +25,8 @@ function Post() {
   const inputDateString = postInfo?.created;
   const formattedDate = formatDate(inputDateString);
   const [likePost, setLikePost] = useState(true);
+  const { storageData } = useStorage('pocketbase_auth');
+  const authUser = storageData?.model;
 
   const handleNextSlide = () => {
     setCurrentIndex(
@@ -67,7 +70,11 @@ function Post() {
       });
       return;
     }
-    const newComment = { message: inputRef.current.value, post: postId };
+    const newComment = {
+      message: inputRef.current.value,
+      post: postId,
+      user: authUser.id,
+    };
     try {
       const commentRecord = await pb.collection('comments').create(newComment);
 
@@ -88,6 +95,7 @@ function Post() {
       console.error(error);
     }
   };
+
   const handleLikePost = () => {
     setLikePost(!likePost);
   };
@@ -138,7 +146,7 @@ function Post() {
               <div className={`${S.colLayout} gap-1`}>
                 {commentList?.map((item, index) => (
                   <li key={index} className="flex gap-4">
-                    {/* {<span>{item.expand.user.username}</span> } //! {인증되면  주석 풀기!!!!} */}
+                    <span>{item.expand.user.username}</span>
                     <span>{item.message}</span>
                   </li>
                 ))}
