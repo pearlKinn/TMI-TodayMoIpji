@@ -23,12 +23,12 @@ export function Mypage() {
           <MypageIcon size={50} />
         </div>
         <span>닉네임</span>
-        <a
-          href="/profileEdit"
+        <Link
+          to="/profileEdit"
           className="w-[6.625rem] h-[2.875rem] flex justify-center items-center rounded-lg bg-primary mb-8"
         >
           프로필 수정
-        </a>
+        </Link>
       </div>
       <div className="w-full h-[1.5rem] flex items-center mb-3 border-t-2 border-black">
         <button
