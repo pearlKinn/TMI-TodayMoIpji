@@ -9,7 +9,7 @@ import imageminPngQuant from 'imagemin-pngquant';
 import imageminSvgo from 'imagemin-svgo';
 import imageminWebp from 'imagemin-webp';
 
-const isDev = env.NODE_ENV
+const isDev = env.NODE_ENV;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -55,5 +55,9 @@ export default defineConfig({
         },
       },
     },
+  },
+  server: {
+    // 캐시 무효화를 활성화합니다.
+    force: true,
   },
 });

@@ -82,6 +82,11 @@ function FileUpload() {
     setFileImages(fileImages);
   };
 
+  const handleContent = debounce((e) => {
+    const { value } = e.target;
+    setContent(value);
+  });
+
   return (
     <>
       <form
