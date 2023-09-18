@@ -33,7 +33,12 @@ function FileUpload() {
     const statusValue = selectedOption;
     const contentValue = contentRef.current.value;
     const photoValue = photoRef.current.files;
-    if (photoValue.length === 0) {
+
+    if (
+      photoValue.length === 0 ||
+      contentRef.current.value.trim().length === 0
+    ) {
+      console.log('사진 또는 내용을 입력해주세요');
       return;
     }
 
@@ -92,7 +97,11 @@ function FileUpload() {
       >
         {/* 이모지 선택 */}
         <div className={S.selectEmojiWrapper}>
-          <button className={S.speechBubbleBody} onClick={toggleOptions}>
+          <button
+            type="button"
+            className={S.speechBubbleBody}
+            onClick={toggleOptions}
+          >
             <div className={S.speechBubbleHead}></div>
             {isShowOptions && (
               <div title="상태 선택"> {selectedOption || '🫥'}</div>
