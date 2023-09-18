@@ -1,43 +1,46 @@
 import pb from '@/api/pocketbase';
 import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
-import { useAuth } from '@/contexts/Auth';
+import useAuthStore from '@/store/auth';
 import debounce from '@/utils/debounce';
 import { useState } from 'react';
 // import { Helmet } from 'react-helmet-async';
-import { useNavigate, Navigate } from 'react-router-dom';
-import { useAuthStore } from 'zustand';
+import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
-  const { isAuth } = useAuth();
-
-  const navigate = useNavigate();
-
   const [formState, setFormState] = useState({
     email: '',
     password: '',
   });
 
-  if (isAuth) {
-    return <Navigate to="/Home" />;
-  }
+  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  /* 회원가입 페이지로 이동 */
+  const handleSignUp = () => {
+    navigate('/signup');
+  };
+
+  const signIn = useAuthStore((state) => state.signIn);
+  const isValidForm = formState.email !== '' && formState.password !== '';
+
+  const handleSignIn = async (e) => {
     e.preventDefault();
 
     const { email, password } = formState;
 
     try {
-      await pb.collection('users').authWithPassword(email, password);
-      navigate('/Home');
+      await signIn(email, password);
+      console.log('로그인 성공');
+      navigate('/');
     } catch (error) {
-      console.error(error);
-      alert('아이디나 비밀번호를 다시 확인해주세요.');
+      console.error(error.message);
+      alert('아이디나 비밀번호를 확인해주세요.');
     }
   };
 
   const handleInput = debounce((e) => {
     const { name, value } = e.target;
+    console.log(name);
     setFormState({
       ...formState,
       [name]: value,
@@ -49,18 +52,21 @@ function SignIn() {
       {/* <Helmet>
         <title>Sign In - TMI</title>
       </Helmet> */}
+      <h2 className="sr-only">로그인 페이지</h2>
       <div className="flex items-center justify-center pt-[123px] pb-[22px]">
         <img className="mx-auto" src="/public/logo.svg" />
       </div>
-      <form onSubmit={handleLogin} className="flex items-center justify-center">
-        <div>
+      <form onSubmit={handleSignIn}>
+        <div className="flex items-center justify-center">
           <div className="w-[250px] h-[128px] flex flex-col items-center justify-center">
             <div>
-              <label htmlFor="inputId" className="sr-only" />
-              아이디 입력 공간
+              <label htmlFor="inputId" className="sr-only">
+                아이디 입력 공간
+              </label>
               <Input
                 id="userEmail"
                 type="email"
+                name="email"
                 value={formState.email}
                 placeholder="아이디를 입력해주세요"
                 width="w-[250px]"
@@ -69,11 +75,13 @@ function SignIn() {
               />
             </div>
             <div className="py-3">
-              <label htmlFor="inputId" className="sr-only" />
-              비밀번호 입력 공간
+              <label htmlFor="inputPassword" className="sr-only">
+                비밀번호 입력 공간
+              </label>
               <Input
                 id="userPassword"
                 type="password"
+                name="password"
                 value={formState.password}
                 placeholder="비밀번호를 입력해주세요"
                 width="w-[250px]"
@@ -102,10 +110,12 @@ function SignIn() {
           <Button
             text="로그인"
             title="로그인 버튼"
+            type="submit"
             width="w-[250px]"
             height="h-[54px]"
-            fontcolor="text-gray900"
-            bgcolor="bg-primary"
+            fontcolor={isValidForm ? 'text-gray900' : 'text-white'}
+            bgcolor={isValidForm ? 'bg-primary' : 'bg-gray750'}
+            disabled={!isValidForm}
           />
         </div>
         <div className="py-3">
@@ -117,6 +127,7 @@ function SignIn() {
             fontcolor="text-primary"
             bgcolor="bg-white"
             border="border-primary"
+            onClick={handleSignUp}
           />
         </div>
       </form>
