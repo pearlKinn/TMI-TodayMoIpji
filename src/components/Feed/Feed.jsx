@@ -1,5 +1,4 @@
 import S from './Feed.module.css';
-import useFetchData from '@/hooks/useFetchData';
 import Spinner from '../Spinner';
 import FeedItem from '../FeedItem.jsx/FeedItem';
 import axios from 'axios';
