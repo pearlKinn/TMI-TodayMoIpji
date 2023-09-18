@@ -58,15 +58,13 @@ function Post() {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
 
-    if (inputRef.current.value.replace(/\s+/g, '') === '') {
-      console.log('댓글을 입력해주세요');
-      toast('Here is your toast.');
-      // toast.error('댓글을 입력해주세요', {
-      //   ariaProps: {
-      //     role: 'status',
-      //     ariaLive: 'polite',
-      //   },
-      // });
+    if (inputRef.current.value.trim() === '') {
+      toast.error('댓글을 입력해주세요', {
+        ariaProps: {
+          role: 'status',
+          ariaLive: 'polite',
+        },
+      });
       return;
     }
     const newComment = { message: inputRef.current.value, post: postId };
@@ -79,7 +77,6 @@ function Post() {
 
       setCommentList([...commentList, newComment]);
       inputRef.current.value = '';
-      // ! 왜 안뜨지?????
       toast.success('댓글이 성공적으로 달렸습니다', {
         position: 'top-center',
         ariaProps: {
@@ -100,7 +97,7 @@ function Post() {
       <div className={S.postWrapper}>
         <div className="formWrapper w-72 mx-auto">
           <Link to={'/'}>
-            <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5" />
+            <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5 mt-2" />
           </Link>
           <SpeechBubble text={postInfo.statusEmoji} />
           <div className="relative mx-auto">
