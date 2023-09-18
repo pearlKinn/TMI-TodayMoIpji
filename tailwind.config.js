@@ -31,7 +31,10 @@ export default {
         infoError: '#f03f40',
         infoCorrect: '#1859FF',
       },
+      width: {
+        '3/10': '30%',
+      },
     },
   },
   plugins: [],
-};
+}

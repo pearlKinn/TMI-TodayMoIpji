@@ -1,0 +1,5 @@
+.headingWrapper {
+  @apply min-w-[320px] w-full;
+  @apply h-[4.5rem] flex items-center pl-20 bg-secondary;
+}
+
