@@ -16,6 +16,17 @@ const useAuthStore = create((set) => ({
   },
 
   /* Pb SDK를 사용한 로그인 */
+  // signIn: async (userNameOrEmail, password) => {
+  //   try {
+  //     const user = await pb
+  //       .collection('users')
+  //       .authWithPassword(userNameOrEmail, password);
+  //     set({ isAuth: true, user, token: user.token }); //
+  //   } catch (error) {
+  //     console.error(error);
+  //     throw new Error('아이디나 비밀번호를 확인해주세요.');
+  //   }
+  // },
   signIn: async (userNameOrEmail, password) => {
     return await pb
       .collection('users')
