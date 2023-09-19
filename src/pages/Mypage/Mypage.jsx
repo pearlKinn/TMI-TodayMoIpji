@@ -1,3 +1,4 @@
+import pb from '@/api/pocketbase';
 import { useState } from 'react';
 import { MypageIcon } from '@/assets/MypageIcon';
 import { Link } from 'react-router-dom';
@@ -6,7 +7,19 @@ import MypageSievingSlide from '../../swiper/MypageSievingSlide';
 import MypageBodyTypeSlide from '../../swiper/MypageBodyTypeSlide';
 import S from './Mypage.module.css';
 
-function Mypage() {
+const CheckPocketHostIntegration = async () => {
+  /* const { postId } = useParams(); */
+  try {
+    const response = await pb.collection('users').getFullList();
+    console.log('PocketHost 연동 확인:', response);
+  } catch (error) {
+    console.error('PocketHost 연동 실패:', error);
+  }
+};
+
+CheckPocketHostIntegration();
+
+async function Mypage() {
   const [showPosts, setShowPosts] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -16,6 +29,8 @@ function Mypage() {
     setIsDarkMode((prevMode) => !prevMode);
   }
 
+  
+
   return (
     <div className={`flex flex-col pt-5 pb-5`}>
       <div className="w-full flex flex-col items-center ">
@@ -23,12 +38,12 @@ function Mypage() {
           <MypageIcon size={50} />
         </div>
         <span>닉네임</span>
-        <a
-          href="/profileEdit"
+        <Link
+          to="/profileEdit"
           className="w-[6.625rem] h-[2.875rem] flex justify-center items-center rounded-lg bg-primary mb-8"
         >
           프로필 수정
-        </a>
+        </Link>
       </div>
       <div className="w-full h-[1.5rem] flex items-center mb-3 border-t-2 border-black">
         <button
@@ -57,29 +72,19 @@ function Mypage() {
       </div>
       {showPosts && (
         <div>
-          {
-            <Link to={'/post'} className="flex flex-col ml-3 w-[6.125rem]">
-              <img
-                src="#"
-                alt=""
-                className={S.mypagePostImg}
-              />
-              <div className={S.mypageInfo}>
-                <div className={S.mypageUserWrapper}>
-                  <img
-                    src="../assets/test.jpeg"
-                    alt=""
-                    className={S.mypageUserImg}
-                  />
-                  <span>지역</span>
-                </div>
-                <div className={S.speechBubbleHead}>
-                  <span>🥵</span>
-                  <div className={S.speechBubbleBody}></div>
-                </div>
+          <Link to={'/post'} className="flex flex-col ml-3 w-[6.125rem]">
+            <img src="#" alt="" className={S.mypagePostImg} />
+            <div className={S.mypageInfo}>
+              <div className={S.mypageUserWrapper}>
+                <img src="#" alt="" className={S.mypageUserImg} />
+                <span>지역</span>
               </div>
-            </Link>
-          }
+              <div className={S.speechBubbleHead}>
+                <span>🥵</span>
+                <div className={S.speechBubbleBody}></div>
+              </div>
+            </div>
+          </Link>
         </div>
       )}
       {showSettings && (

@@ -1,13 +1,13 @@
 import pb from '@/api/pocketbase';
-import FormInput from '@/components/FormInput/FormInput';
-import MoveSlide from '@/components/MoveSlide/MoveSlide';
-import SpeechBubble from '@/components/SpeechBubble/SpeechBubble';
 import {
   formatDate,
   getNextSlideIndex,
   getPbImageURL,
   getPreviousSlideIndex,
-} from '@/utils';
+} from '@/utils';import FormInput from '@/components/FormInput/FormInput';
+import MoveSlide from '@/components/MoveSlide/MoveSlide';
+import SpeechBubble from '@/components/SpeechBubble/SpeechBubble';
+
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
@@ -60,12 +60,13 @@ function Post() {
 
     if (inputRef.current.value.replace(/\s+/g, '') === '') {
       console.log('댓글을 입력해주세요');
-      toast.error('댓글을 입력해주세요', {
-        ariaProps: {
-          role: 'status',
-          ariaLive: 'polite',
-        },
-      });
+      toast('Here is your toast.');
+      // toast.error('댓글을 입력해주세요', {
+      //   ariaProps: {
+      //     role: 'status',
+      //     ariaLive: 'polite',
+      //   },
+      // });
       return;
     }
     const newComment = { message: inputRef.current.value, post: postId };

@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Toaster from 'react-hot-toast';
 import { Outlet } from 'react-router-dom';
-import RootLayout from './layout/RootLayout/RootLayout';
+import RootLayout from './layout/RootLayout';
 
 const queryClient = new QueryClient();
 
