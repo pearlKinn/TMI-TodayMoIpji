@@ -4,7 +4,6 @@ import Home from './pages/Home';
 import Post from './pages/Post/Post';
 import Writing from './pages/Writing';
 import User from './pages/User';
-import ProtectRoute from './components/ProtectRoute';
 import GuestSetting from './pages/GuestSetting';
 import UserProfileEdit from './pages/UserProfileEdit';
 import Mypage from './pages/Mypage';

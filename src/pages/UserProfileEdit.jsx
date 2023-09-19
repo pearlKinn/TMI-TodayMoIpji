@@ -3,7 +3,14 @@ import UserNickname from '@/components/UserNickname/UserNickname';
 import EditPageButton from '@/components/EditPageButton/EditPageButton';
 import ProfileUpload from '@/components/ProfileUpload/ProfileUpload';
 
+import useFetchData from '@/hooks/useFetchData';
+
+const PB = import.meta.env.VITE_PB_URL;
+const PB_USER_ENDPOINT = `${PB}/api/collections/users/records`;
+
 function UserProfileEdit() {
+  const { error, data: userData, isLoading } = useFetchData(PB_USER_ENDPOINT);
+  console.log(userData.items);
   return (
     <div className=" md:mx-auto md:w-[768px]  pt-[25px] items-center flex flex-col">
       <UserProfilePicture></UserProfilePicture>
