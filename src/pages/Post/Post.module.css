@@ -1,5 +1,5 @@
 .postWrapper {
-  @apply flex flex-col w-[320px] mt-5  mx-auto border-red-300 border;
+  @apply flex flex-col w-[320px] mx-auto border-red-300 border;
 }
 
 .photoWrapper {

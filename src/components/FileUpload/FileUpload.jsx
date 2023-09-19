@@ -1,13 +1,16 @@
 import pb from '@/api/pocketbase';
+import useStorage from '@/hooks/useStorage';
+import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
 import debounce from '@/utils/debounce';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import S from './FileUpload.module.css';
-import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
 import MoveSlide from '../MoveSlide/MoveSlide';
+import S from './FileUpload.module.css';
 
 function FileUpload() {
   const navigate = useNavigate();
+  const { storageData } = useStorage('pocketbase_auth');
+  const authUser = storageData?.model;
 
   const [isShowOptions, setIsShowOptions] = useState(true);
   const [selectedOption, setSelectedOption] = useState('');
@@ -41,6 +44,7 @@ function FileUpload() {
 
     formData.append('statusEmoji', statusValue);
     formData.append('content', contentValue);
+    formData.append('user', authUser.id);
     if (photoValue) {
       for (let i = 0; i < photoValue.length; i++) {
         formData.append('photo', photoValue[i]);
@@ -51,7 +55,6 @@ function FileUpload() {
       await pb.collection('posts').create(formData);
       navigate('/');
     } catch (error) {
-      console.log('에러!');
       console.error(error);
     }
   };
@@ -92,7 +95,11 @@ function FileUpload() {
       >
         {/* 이모지 선택 */}
         <div className={S.selectEmojiWrapper}>
-          <button className={S.speechBubbleBody} onClick={toggleOptions}>
+          <button
+            type="button"
+            className={S.speechBubbleBody}
+            onClick={toggleOptions}
+          >
             <div className={S.speechBubbleHead}></div>
             {isShowOptions && (
               <div title="상태 선택"> {selectedOption || '🫥'}</div>
