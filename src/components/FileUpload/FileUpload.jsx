@@ -1,16 +1,16 @@
 import pb from '@/api/pocketbase';
+import useStorage from '@/hooks/useStorage';
+import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
 import debounce from '@/utils/debounce';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import S from './FileUpload.module.css';
-import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
 import MoveSlide from '../MoveSlide/MoveSlide';
-import useStorage from '@/hooks/useStorage';
+import S from './FileUpload.module.css';
 
 function FileUpload() {
   const navigate = useNavigate();
   const { storageData } = useStorage('pocketbase_auth');
-  const authUser = storageData.model;
+  const authUser = storageData?.model;
 
   const [isShowOptions, setIsShowOptions] = useState(true);
   const [selectedOption, setSelectedOption] = useState('');

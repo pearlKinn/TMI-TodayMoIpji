@@ -1,7 +1,9 @@
 import pb from '@/api/pocketbase';
 import FormInput from '@/components/FormInput/FormInput';
+import Heart from '@/components/Heart';
 import MoveSlide from '@/components/MoveSlide/MoveSlide';
 import SpeechBubble from '@/components/SpeechBubble/SpeechBubble';
+import useStorage from '@/hooks/useStorage';
 import {
   formatDate,
   getNextSlideIndex,
@@ -10,11 +12,8 @@ import {
 } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import S from './Post.module.css';
-import { Link } from 'react-router-dom';
-import Heart from '@/components/Heart';
-import useStorage from '@/hooks/useStorage';
 
 function Post() {
   const { postId } = useParams();
@@ -48,7 +47,7 @@ function Post() {
           .getOne(postId, { expand: 'comments.user' });
         const { expand: postExpandData } = post;
         setPostInfo(post);
-        setCommentList(postExpandData.comments); // 댓글 리스트
+        setCommentList(postExpandData.comments);
       } catch (error) {
         if (!(error in DOMException)) {
           console.error();
@@ -61,11 +60,15 @@ function Post() {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
 
+    if (!authUser) {
+      console.log('로그인 해주세요');
+      return;
+    }
     if (inputRef.current.value.trim() === '') {
       toast.error('댓글을 입력해주세요', {
         ariaProps: {
           role: 'status',
-          ariaLive: 'polite',
+          'aria-live': 'polite',
         },
       });
       return;
