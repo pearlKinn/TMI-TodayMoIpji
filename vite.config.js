@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { resolve } from "node:path"; // Node.js 런타임이 기본 제공하는 모듈 (파일 경로)
-import { env } from "node:process";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'node:path'; // Node.js 런타임이 기본 제공하는 모듈 (파일 경로)
+import { env } from 'node:process';
 import viteImagemin from '@vheemstra/vite-plugin-imagemin';
 import imageminGifSicle from 'imagemin-gifsicle';
 import imageminMozjpeg from 'imagemin-mozjpeg';
@@ -13,7 +13,7 @@ const isDev = env.NODE_ENV;
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base:'/learn-react/',
+  base: '/TMI-TodayMoIpji/',
   plugins: [
     react(),
     viteImagemin({
