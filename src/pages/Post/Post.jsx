@@ -107,7 +107,7 @@ function Post() {
   if (postInfo) {
     return (
       <div className={S.postWrapper}>
-        <div className="formWrapper w-72 mx-auto">
+        <div className="formWrapper w-72 mx-auto relative">
           <Link to={'/'}>
             <img src={BackIcon} alt="뒤로가기" className="w-3 h-5 mt-2" />
           </Link>
