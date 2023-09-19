@@ -1,20 +1,25 @@
-import { useState } from 'react';
-import { useOutlet } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Toaster } from 'react-hot-toast';
+import { Outlet } from 'react-router-dom';
 import FooterBar from './FooterBar';
 import HeaderBar from './HeaderBar';
 
-function RootLayout() {
-  const o = useOutlet();
-  const [outlet] = useState(o);
+const queryClient = new QueryClient();
 
+function RootLayout() {
   return (
-    <div>
+    <QueryClientProvider client={queryClient}>
       <HeaderBar />
       <main className={`flex flex-1 h-[45.125rem]`}>
-        <div className="flex-1">{outlet}</div>
+        <div className="flex-1">
+          <Outlet />
+        </div>
       </main>
       <FooterBar />
-    </div>
+      <Toaster />
+      <ReactQueryDevtools initialIsOpen />
+    </QueryClientProvider>
   );
 }
 

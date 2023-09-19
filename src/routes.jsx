@@ -1,34 +1,37 @@
 import { createHashRouter } from 'react-router-dom';
-import App from './App';
+import RootLayout from './layout/RootLayout';
 import Home from './pages/Home';
 import Post from './pages/Post/Post';
 import Writing from './pages/Writing';
-// import ProtectRoute from './components/ProtectRoute';
-import SignUp from './pages/SignUp';
-import SignIn from './pages/SignIn';
-import Welcome from './pages/Welcome';
 import { Mypage } from './pages/Mypage';
+import UserProfileEdit from './pages/UserProfileEdit';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Welcome from './pages/Welcome';
+import ProtectRoute from './components/ProtectRoute';
 
 const router = createHashRouter([
   {
     path: '/',
-    element: <App />,
-    children: [{ index: true, element: <Home /> }],
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: ':postId', element: <Post /> },
+      {
+        path: 'writing',
+        element: (
+          <ProtectRoute>
+            <Writing />
+          </ProtectRoute>
+        ),
+      },
+      { path: 'signin', element: <SignIn /> },
+      { path: 'signup', element: <SignUp /> },
+      { path: 'welcome', element: <Welcome /> },
+      { path: 'mypage', element: <Mypage /> },
+      { path: 'userprofileedit', element: <UserProfileEdit /> },
+    ],
   },
-  { path: ':postId', element: <Post /> },
-  { path: 'writing', element: <Writing /> },
-  { path: 'signin', element: <SignIn /> },
-  { path: 'signup', element: <SignUp /> },
-  { path: 'welcome', element: <Welcome /> },
-  { path: 'mypage', element: <Mypage /> },
-  // {
-  //   path: 'writing',
-  //   element: (
-  //     <ProtectRoute>
-  //       <Writing />
-  //     </ProtectRoute>
-  //   ),
-  // },
 ]);
 
 export default router;
