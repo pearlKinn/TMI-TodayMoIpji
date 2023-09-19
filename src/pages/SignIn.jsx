@@ -5,6 +5,8 @@ import debounce from '@/utils/debounce';
 import { useState } from 'react';
 // import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
+import logo from '/logo.svg';
+import ChatIcon from '/mdi-chat.svg';
 
 function SignIn() {
   const [formState, setFormState] = useState({
@@ -53,7 +55,7 @@ function SignIn() {
       </Helmet> */}
       <h2 className="sr-only">로그인 페이지</h2>
       <div className="flex items-center justify-center pt-[123px] pb-[22px]">
-        <img className="mx-auto" src="/public/logo.svg" />
+        <img className="mx-auto" src={logo} />
       </div>
       <form onSubmit={handleSignIn}>
         <div className="flex items-center justify-center">
@@ -101,7 +103,7 @@ function SignIn() {
             className="flex w-[230px] h-[34px] bg-yellow rounded-xl text-[15px] pl-2 py-[5px]"
             title="카카오 계정으로 로그인하는 버튼"
           >
-            <img className="w-6 h-6" src="/public/mdi-chat.svg" />
+            <img className="w-6 h-6" src={ChatIcon} />
             카카오 계정으로 로그인하기
           </button>
         </div>

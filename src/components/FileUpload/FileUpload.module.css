@@ -21,6 +21,10 @@
   @apply bg-gray500 w-72 h-72 flex items-center justify-center mx-auto;
 }
 
+.uploadBefore:focus-within {
+  @apply border-spacing-3 border-gray-950;
+}
+
 .carouselBtn {
   @apply font-semibold uppercase disabled:cursor-not-allowed;
   @apply dark:text-white;
@@ -53,7 +57,6 @@ button.postBtn {
 }
 .selectEmoji {
   @apply appearance-none rounded-full bg-transparent text-white w-6 h-6;
-  @apply focus:ring-1 focus:ring-gray900;
 }
 
 .speechBubbleHead {
@@ -69,4 +72,7 @@ button.speechBubbleBody {
 
 .statusItem {
   @apply absolute left-[1px];
+}
+.selectEmoji:focus-within {
+  @apply border border-gray900 rounded-full;
 }
