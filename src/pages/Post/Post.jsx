@@ -15,6 +15,7 @@ import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
 import S from './Post.module.css';
 import Loading from '@/components/Loading/Loading';
+import BackIcon from '/BackIcon.svg';
 
 function Post() {
   const { postId } = useParams();
@@ -120,9 +121,9 @@ function Post() {
   if (postInfo) {
     return (
       <div className={S.postWrapper}>
-        <div className="formWrapper w-72 mx-auto">
+        <div className="formWrapper w-72 mx-auto relative">
           <Link to={'/'}>
-            <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5 mt-2" />
+            <img src={BackIcon} alt="뒤로가기" className="w-3 h-5 mt-2" />
           </Link>
           <SpeechBubble text={postInfo.statusEmoji} />
           <div className="relative mx-auto">

@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import MoveSlide from '../MoveSlide/MoveSlide';
 import S from './FileUpload.module.css';
+import photoIcon from '/photoIcon.svg';
 
 function FileUpload() {
   const navigate = useNavigate();
@@ -200,7 +201,7 @@ function FileUpload() {
                 </div>
               ) : (
                 <div className={S.uploadBefore}>
-                  <img src="/photoIcon.svg" alt="업로드" className="h-8 w-8" />
+                  <img src={photoIcon} alt="업로드" className="h-8 w-8" />
                 </div>
               )}
             </div>
