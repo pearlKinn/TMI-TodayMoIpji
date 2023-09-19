@@ -187,25 +187,6 @@ function Post() {
             >
               게시
             </button>
-            {/* {authUser ? (
-              <button
-                onClick={handleCommentSubmit}
-                type="submit"
-                aria-label="댓글 게시"
-                className={S.inputBtn}
-              >
-                게시
-              </button>
-            ) : (
-              <button
-                onClick={handleLoginModal}
-                type="button"
-                aria-label="댓글 게시"
-                className={S.inputBtn}
-              >
-                게시
-              </button>
-            )} */}
           </div>
         </div>
       </div>
