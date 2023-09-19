@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
 import S from './Post.module.css';
+import Loading from '@/components/Loading/Loading';
 
 function Post() {
   const { postId } = useParams();
@@ -25,6 +26,7 @@ function Post() {
   const formattedDate = formatDate(inputDateString);
   const [likePost, setLikePost] = useState(true);
   const { storageData } = useStorage('pocketbase_auth');
+  const [loading, setLoading] = useState(true);
   const authUser = storageData?.model;
 
   const handleNextSlide = () => {
@@ -47,6 +49,7 @@ function Post() {
           .getOne(postId, { expand: 'comments.user' });
         const { expand: postExpandData } = post;
         setPostInfo(post);
+        setLoading(false);
         setCommentList(postExpandData.comments);
       } catch (error) {
         if (!(error in DOMException)) {
@@ -57,11 +60,20 @@ function Post() {
     getPost();
   }, [postId]);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
 
     if (!authUser) {
-      console.log('로그인 해주세요');
+      toast.error('로그인이 필요한 작업입니다', {
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
       return;
     }
     if (inputRef.current.value.trim() === '') {
@@ -98,6 +110,8 @@ function Post() {
       console.error(error);
     }
   };
+
+  // const handleLoginModal = () => {};
 
   const handleLikePost = () => {
     setLikePost(!likePost);
@@ -172,6 +186,25 @@ function Post() {
             >
               게시
             </button>
+            {/* {authUser ? (
+              <button
+                onClick={handleCommentSubmit}
+                type="submit"
+                aria-label="댓글 게시"
+                className={S.inputBtn}
+              >
+                게시
+              </button>
+            ) : (
+              <button
+                onClick={handleLoginModal}
+                type="button"
+                aria-label="댓글 게시"
+                className={S.inputBtn}
+              >
+                게시
+              </button>
+            )} */}
           </div>
         </div>
       </div>

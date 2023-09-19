@@ -1,0 +1,7 @@
+.loadingSection {
+  @apply flex justify-center items-center w-[320px] h-[722px] mx-auto bg-primary;
+}
+
+.logoWrapper {
+  @apply flex justify-center items-center flex-col w-[140px];
+}
