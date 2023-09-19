@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 
 const PB = import.meta.env.VITE_PB_URL;
-const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records`;
+const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user`;
 
 async function fetchProducts() {
   const response = await axios(PB_FEED_ENDPOINT);
@@ -20,8 +20,8 @@ function Feed() {
   } = useQuery(['posts'], fetchProducts, {
     retry: 2,
   });
-  let dataItems = postData?.items;
 
+  let dataItems = postData?.items;
   if (isLoading) {
     return <Spinner size={160} title="데이터 가져오는 중이에요." />;
   }
