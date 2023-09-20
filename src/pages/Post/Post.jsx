@@ -4,16 +4,12 @@ import Heart from '@/components/Heart';
 import MoveSlide from '@/components/MoveSlide/MoveSlide';
 import SpeechBubble from '@/components/SpeechBubble/SpeechBubble';
 import useStorage from '@/hooks/useStorage';
-
 import {
   formatDate,
   getNextSlideIndex,
   getPbImageURL,
   getPreviousSlideIndex,
-} from '@/utils';import FormInput from '@/components/FormInput/FormInput';
-import MoveSlide from '@/components/MoveSlide/MoveSlide';
-import SpeechBubble from '@/components/SpeechBubble/SpeechBubble';
-
+} from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
