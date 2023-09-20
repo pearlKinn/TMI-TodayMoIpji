@@ -3,9 +3,11 @@ import useStorage from '@/hooks/useStorage';
 import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
 import debounce from '@/utils/debounce';
 import { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import MoveSlide from '../MoveSlide/MoveSlide';
 import S from './FileUpload.module.css';
+import photoIcon from '/photoIcon.svg';
 
 function FileUpload() {
   const navigate = useNavigate();
@@ -36,7 +38,17 @@ function FileUpload() {
     const statusValue = selectedOption;
     const contentValue = contentRef.current.value;
     const photoValue = photoRef.current.files;
-    if (photoValue.length === 0) {
+
+    if (
+      photoValue.length === 0 ||
+      contentRef.current.value.trim().length === 0
+    ) {
+      toast.error('사진과 내용을 입력해주세요', {
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
       return;
     }
 
@@ -53,6 +65,12 @@ function FileUpload() {
 
     try {
       await pb.collection('posts').create(formData);
+      toast.success('게시물이 성공적으로 올라갔습니다', {
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
       navigate('/');
     } catch (error) {
       console.error(error);
@@ -183,7 +201,7 @@ function FileUpload() {
                 </div>
               ) : (
                 <div className={S.uploadBefore}>
-                  <img src="/photoIcon.svg" alt="업로드" className="h-8 w-8" />
+                  <img src={photoIcon} alt="업로드" className="h-8 w-8" />
                 </div>
               )}
             </div>

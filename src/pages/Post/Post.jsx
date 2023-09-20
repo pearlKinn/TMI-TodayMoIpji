@@ -14,6 +14,8 @@ import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
 import S from './Post.module.css';
+import Loading from '@/components/Loading/Loading';
+import BackIcon from '/BackIcon.svg';
 
 function Post() {
   const { postId } = useParams();
@@ -25,6 +27,7 @@ function Post() {
   const formattedDate = formatDate(inputDateString);
   const [likePost, setLikePost] = useState(true);
   const { storageData } = useStorage('pocketbase_auth');
+  const [loading, setLoading] = useState(true);
   const authUser = storageData?.model;
 
   const handleNextSlide = () => {
@@ -47,6 +50,7 @@ function Post() {
           .getOne(postId, { expand: 'comments.user' });
         const { expand: postExpandData } = post;
         setPostInfo(post);
+        setLoading(false);
         setCommentList(postExpandData.comments);
       } catch (error) {
         if (!(error in DOMException)) {
@@ -57,11 +61,20 @@ function Post() {
     getPost();
   }, [postId]);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
 
     if (!authUser) {
-      console.log('로그인 해주세요');
+      toast.error('로그인이 필요한 작업입니다', {
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
       return;
     }
     if (inputRef.current.value.trim() === '') {
@@ -99,6 +112,8 @@ function Post() {
     }
   };
 
+  // const handleLoginModal = () => {};
+
   const handleLikePost = () => {
     setLikePost(!likePost);
   };
@@ -106,9 +121,9 @@ function Post() {
   if (postInfo) {
     return (
       <div className={S.postWrapper}>
-        <div className="formWrapper w-72 mx-auto">
+        <div className="formWrapper w-72 mx-auto relative">
           <Link to={'/'}>
-            <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5 mt-2" />
+            <img src={BackIcon} alt="뒤로가기" className="w-3 h-5 mt-2" />
           </Link>
           <SpeechBubble text={postInfo.statusEmoji} />
           <div className="relative mx-auto">
@@ -172,6 +187,25 @@ function Post() {
             >
               게시
             </button>
+            {/* {authUser ? (
+              <button
+                onClick={handleCommentSubmit}
+                type="submit"
+                aria-label="댓글 게시"
+                className={S.inputBtn}
+              >
+                게시
+              </button>
+            ) : (
+              <button
+                onClick={handleLoginModal}
+                type="button"
+                aria-label="댓글 게시"
+                className={S.inputBtn}
+              >
+                게시
+              </button>
+            )} */}
           </div>
         </div>
       </div>
