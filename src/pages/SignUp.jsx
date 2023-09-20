@@ -169,152 +169,154 @@ function SignUp() {
 
   return (
     <>
-      <h2 className="sr-only">회원가입 페이지</h2>
-      <form onSubmit={handleSignUp}>
-        <div className="flex items-center justify-center pt-[123px]">
-          <div className="w-[250px] h-[128px] flex flex-col">
-            <p className="text-xs pl-2 pb-1">이메일</p>
-            <div className="flex flex-row w-[265px] space-x-1 items-center justify-center pb-6">
-              <label htmlFor="inputEmail" className="sr-only">
-                이메일 입력 공간
-              </label>
-              <div className="relative flex flex-col">
-                <Input
-                  placeholder="인증 가능한 이메일 주소"
-                  width="w-[186px]"
-                  height="h-[42px]"
-                  name="email"
-                  value={formState.email}
-                  onChange={(e) => {
-                    handleInput(e);
-                    onChangeEmail(e);
-                  }}
-                />
-                <p
-                  className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
-                    isEmailValid && checkEmail
-                      ? 'text-infoCorrect'
-                      : 'text-infoError'
-                  }`}
-                >
-                  {emailMsg}
-                </p>
-              </div>
-              <Button
-                text="중복확인"
-                title="이메일 중복확인 버튼입니다"
-                type="button"
-                width="w-[62px]"
-                height="h-[42px]"
-                fontcolor="text-gray900"
-                fontsize="text-xs"
-                bgcolor="bg-primary"
-                onClick={onCheckEmail}
-              />
-            </div>
-            <div className="relative flex flex-col">
-              <p className="text-xs pl-2 pb-1">닉네임</p>
-              <p className="text-[4px] text-blue-600 pl-2 pb-1">
-                * 닉네임 미입력시 랜덤으로 생성됩니다.
-              </p>
-              <div className="flex flex-row w-[265px] space-x-1 items-center justify-center pb-6">
-                <label htmlFor="inputUserName" className="sr-only">
-                  닉네임 입력 공간
+      <div style={{ height: '585px' }}>
+        <h2 className="sr-only">회원가입 페이지</h2>
+        <form onSubmit={handleSignUp}>
+          <div className="flex items-center justify-center pt-[57px]">
+            <div className="w-[250px] h-[128px] flex flex-col">
+              <p className="text-xs pl-2 pb-1">이메일</p>
+              <div className="flex w-[265px] space-x-1 items-center justify-center pb-6">
+                <label htmlFor="inputEmail" className="sr-only">
+                  이메일 입력 공간
                 </label>
                 <div className="relative flex flex-col">
                   <Input
-                    placeholder="2~10문자 영문, 숫자(특수문자 사용불가)"
-                    width="w-[250px]"
+                    placeholder="인증 가능한 이메일 주소"
+                    width="w-[186px]"
                     height="h-[42px]"
-                    name="userName"
-                    value={formState.userName}
+                    name="email"
+                    value={formState.email}
                     onChange={(e) => {
                       handleInput(e);
-                      onChangeUserName(e);
+                      onChangeEmail(e);
                     }}
                   />
                   <p
                     className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
-                      isUserNameValid ? 'text-infoCorrect' : 'text-infoError'
+                      isEmailValid && checkEmail
+                        ? 'text-infoCorrect'
+                        : 'text-infoError'
                     }`}
                   >
-                    {userNameMsg}
+                    {emailMsg}
+                  </p>
+                </div>
+                <Button
+                  text="중복확인"
+                  title="이메일 중복확인 버튼입니다"
+                  type="button"
+                  width="w-[62px]"
+                  height="h-[42px]"
+                  fontcolor="text-gray900"
+                  fontsize="text-xs"
+                  bgcolor="bg-primary"
+                  onClick={onCheckEmail}
+                />
+              </div>
+              <div className="relative flex flex-col">
+                <p className="text-xs pl-2 pb-1">닉네임</p>
+                <p className="text-[4px] text-blue-600 pl-2 pb-1">
+                  * 닉네임 미입력시 랜덤으로 생성됩니다.
+                </p>
+                <div className="flex w-[265px] space-x-1 items-center justify-center pb-6">
+                  <label htmlFor="inputUserName" className="sr-only">
+                    닉네임 입력 공간
+                  </label>
+                  <div className="relative flex flex-col">
+                    <Input
+                      placeholder="2~10문자 영문, 숫자(특수문자 사용불가)"
+                      width="w-[250px]"
+                      height="h-[42px]"
+                      name="userName"
+                      value={formState.userName}
+                      onChange={(e) => {
+                        handleInput(e);
+                        onChangeUserName(e);
+                      }}
+                    />
+                    <p
+                      className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
+                        isUserNameValid ? 'text-infoCorrect' : 'text-infoError'
+                      }`}
+                    >
+                      {userNameMsg}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs pl-2 pb-1">비밀번호</p>
+              <div className="flex w-[265px] space-x-1 items-center justify-center pb-6">
+                <label htmlFor="inputPassword" className="sr-only">
+                  비밀번호 입력 공간
+                </label>
+                <div className="relative flex flex-col">
+                  <Input
+                    placeholder="비밀번호를 입력해주세요"
+                    width="w-[250px]"
+                    height="h-[42px]"
+                    type="password"
+                    name="password"
+                    value={formState.password}
+                    onChange={(e) => {
+                      handleInput(e);
+                      onChangePassword(e);
+                    }}
+                  />
+                  <p
+                    className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
+                      isPasswordValid ? 'text-infoCorrect' : 'text-infoError'
+                    }`}
+                  >
+                    {passwordMsg}
                   </p>
                 </div>
               </div>
-            </div>
-            <p className="text-xs pl-2 pb-1">비밀번호</p>
-            <div className="flex flex-row w-[265px] space-x-1 items-center justify-center pb-6">
-              <label htmlFor="inputPassword" className="sr-only">
-                비밀번호 입력 공간
-              </label>
-              <div className="relative flex flex-col">
-                <Input
-                  placeholder="비밀번호를 입력해주세요"
-                  width="w-[250px]"
-                  height="h-[42px]"
-                  type="password"
-                  name="password"
-                  value={formState.password}
-                  onChange={(e) => {
-                    handleInput(e);
-                    onChangePassword(e);
-                  }}
-                />
-                <p
-                  className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
-                    isPasswordValid ? 'text-infoCorrect' : 'text-infoError'
-                  }`}
-                >
-                  {passwordMsg}
-                </p>
+              <p className="text-xs pl-2 pb-1">비밀번호 확인</p>
+              <div className="flex w-[265px] space-x-1 items-center justify-center pb-6">
+                <label htmlFor="inputPasswordConfirm" className="sr-only">
+                  비밀번호 재입력 공간
+                </label>
+                <div className="relative flex flex-col">
+                  <Input
+                    placeholder="비밀번호를 다시 입력해주세요"
+                    width="w-[250px]"
+                    height="h-[42px]"
+                    type="password"
+                    name="passwordConfirm"
+                    value={formState.passwordConfirm}
+                    onChange={(e) => {
+                      handleInput(e);
+                      onChangeConfirmPassword(e);
+                    }}
+                  />
+                  <p
+                    className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
+                      isConfirmPasswordValid
+                        ? 'text-infoCorrect'
+                        : 'text-infoError'
+                    }`}
+                  >
+                    {confirmPasswordMsg}
+                  </p>
+                </div>
               </div>
-            </div>
-            <p className="text-xs pl-2 pb-1">비밀번호 확인</p>
-            <div className="flex flex-row w-[265px] space-x-1 items-center justify-center pb-6">
-              <label htmlFor="inputPasswordConfirm" className="sr-only">
-                비밀번호 재입력 공간
-              </label>
-              <div className="relative flex flex-col">
-                <Input
-                  placeholder="비밀번호를 다시 입력해주세요"
+              <div className="flex w-[265px] items-center justify-center pt-6">
+                <Button
+                  text="회원가입 하기"
+                  title="회원가입 버튼입니다"
+                  type="submit"
                   width="w-[250px]"
-                  height="h-[42px]"
-                  type="password"
-                  name="passwordConfirm"
-                  value={formState.passwordConfirm}
-                  onChange={(e) => {
-                    handleInput(e);
-                    onChangeConfirmPassword(e);
-                  }}
+                  height="h-[54px]"
+                  fontsize="text-base"
+                  fontcolor={isValidForm ? 'text-gray900' : 'text-white'}
+                  bgcolor={isValidForm ? 'bg-primary' : 'bg-gray750'}
+                  disabled={!isValidForm}
                 />
-                <p
-                  className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
-                    isConfirmPasswordValid
-                      ? 'text-infoCorrect'
-                      : 'text-infoError'
-                  }`}
-                >
-                  {confirmPasswordMsg}
-                </p>
               </div>
-            </div>
-            <div className="flex w-[265px] items-center justify-center pt-6">
-              <Button
-                text="회원가입 하기"
-                title="회원가입 버튼입니다"
-                type="submit"
-                width="w-[250px]"
-                height="h-[54px]"
-                fontsize="text-base"
-                fontcolor={isValidForm ? 'text-gray900' : 'text-white'}
-                bgcolor={isValidForm ? 'bg-primary' : 'bg-gray750'}
-                disabled={!isValidForm}
-              />
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </>
   );
 }
