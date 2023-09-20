@@ -14,11 +14,12 @@ function SignIn() {
 
   const navigate = useNavigate();
 
-  /* 회원가입 페이지로 이동 */
+  // 회원가입 페이지로 이동
   const handleSignUp = () => {
     navigate('/signup');
   };
 
+  // signIn(로그인) 기능
   const signIn = useAuthStore((state) => state.signIn);
   const isValidForm = formState.email !== '' && formState.password !== '';
 
@@ -97,7 +98,7 @@ function SignIn() {
         </div>
         <div className="flex items-center justify-center py-[10px]">
           <button
-            type="submit"
+            type="button"
             className="flex w-[230px] h-[34px] bg-yellow rounded-xl text-[15px] pl-2 py-[5px]"
             title="카카오 계정으로 로그인하는 버튼"
           >
@@ -121,6 +122,7 @@ function SignIn() {
           <Button
             text="회원가입"
             title="회원가입 버튼"
+            type="button"
             width="w-[250px]"
             height="h-[54px]"
             fontcolor="text-primary"
