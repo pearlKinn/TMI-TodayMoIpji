@@ -1,5 +1,5 @@
 .searchWrapper {
-  @apply flex justify-between border border-2 border-gray-900 rounded-[15px] bg-white;
+  @apply flex justify-between border border-gray-900 rounded-[15px] bg-white;
   @apply w-72 h-12  mt-3 p-2 items-center;
 }
 

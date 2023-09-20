@@ -1,13 +1,18 @@
 import pb from '@/api/pocketbase';
+import useStorage from '@/hooks/useStorage';
+import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
 import debounce from '@/utils/debounce';
 import { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import S from './FileUpload.module.css';
-import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
 import MoveSlide from '../MoveSlide/MoveSlide';
+import S from './FileUpload.module.css';
+import photoIcon from '/photoIcon.svg';
 
 function FileUpload() {
   const navigate = useNavigate();
+  const { storageData } = useStorage('pocketbase_auth');
+  const authUser = storageData?.model;
 
   const [isShowOptions, setIsShowOptions] = useState(true);
   const [selectedOption, setSelectedOption] = useState('');
@@ -33,7 +38,17 @@ function FileUpload() {
     const statusValue = selectedOption;
     const contentValue = contentRef.current.value;
     const photoValue = photoRef.current.files;
-    if (photoValue.length === 0) {
+
+    if (
+      photoValue.length === 0 ||
+      contentRef.current.value.trim().length === 0
+    ) {
+      toast.error('사진과 내용을 입력해주세요', {
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
       return;
     }
 
@@ -41,6 +56,7 @@ function FileUpload() {
 
     formData.append('statusEmoji', statusValue);
     formData.append('content', contentValue);
+    formData.append('user', authUser.id);
     if (photoValue) {
       for (let i = 0; i < photoValue.length; i++) {
         formData.append('photo', photoValue[i]);
@@ -49,9 +65,14 @@ function FileUpload() {
 
     try {
       await pb.collection('posts').create(formData);
+      toast.success('게시물이 성공적으로 올라갔습니다', {
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
       navigate('/');
     } catch (error) {
-      console.log('에러!');
       console.error(error);
     }
   };
@@ -92,7 +113,11 @@ function FileUpload() {
       >
         {/* 이모지 선택 */}
         <div className={S.selectEmojiWrapper}>
-          <button className={S.speechBubbleBody} onClick={toggleOptions}>
+          <button
+            type="button"
+            className={S.speechBubbleBody}
+            onClick={toggleOptions}
+          >
             <div className={S.speechBubbleHead}></div>
             {isShowOptions && (
               <div title="상태 선택"> {selectedOption || '🫥'}</div>
@@ -176,7 +201,7 @@ function FileUpload() {
                 </div>
               ) : (
                 <div className={S.uploadBefore}>
-                  <img src="/photoIcon.svg" alt="업로드" className="h-8 w-8" />
+                  <img src={photoIcon} alt="업로드" className="h-8 w-8" />
                 </div>
               )}
             </div>

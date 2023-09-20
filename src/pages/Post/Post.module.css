@@ -1,5 +1,5 @@
 .postWrapper {
-  @apply flex flex-col w-[320px] mt-5  mx-auto border-red-300 border;
+  @apply w-[320px] h-[545px] mb-10 mx-auto overflow-y-scroll;
 }
 
 .photoWrapper {
@@ -15,9 +15,14 @@
 }
 
 .inputWrapper {
-  @apply flex justify-between border-2 border-gray-900 rounded-[15px] w-72 h-7 p-4 items-center gap-2;
+  @apply flex justify-between items-center gap-2 fixed bottom-[205px];
+  @apply border-2 border-gray-900 rounded-[15px] w-72 h-7 p-4 bg-white;
 }
 
 .inputBtn {
   @apply bg-transparent w-7 h-5 whitespace-nowrap disabled:cursor-not-allowed;
+}
+
+.formWrapper {
+  @apply w-72 mx-auto relative;
 }

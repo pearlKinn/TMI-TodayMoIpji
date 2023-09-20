@@ -1,7 +1,9 @@
 import pb from '@/api/pocketbase';
 import FormInput from '@/components/FormInput/FormInput';
+import Heart from '@/components/Heart';
 import MoveSlide from '@/components/MoveSlide/MoveSlide';
 import SpeechBubble from '@/components/SpeechBubble/SpeechBubble';
+import useStorage from '@/hooks/useStorage';
 import {
   formatDate,
   getNextSlideIndex,
@@ -10,10 +12,10 @@ import {
 } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import S from './Post.module.css';
-import { Link } from 'react-router-dom';
-import Heart from '@/components/Heart';
+import Loading from '@/components/Loading/Loading';
+import BackIcon from '/BackIcon.svg';
 
 function Post() {
   const { postId } = useParams();
@@ -24,6 +26,9 @@ function Post() {
   const inputDateString = postInfo?.created;
   const formattedDate = formatDate(inputDateString);
   const [likePost, setLikePost] = useState(true);
+  const { storageData } = useStorage('pocketbase_auth');
+  const [loading, setLoading] = useState(true);
+  const authUser = storageData?.model;
 
   const handleNextSlide = () => {
     setCurrentIndex(
@@ -45,7 +50,8 @@ function Post() {
           .getOne(postId, { expand: 'comments.user' });
         const { expand: postExpandData } = post;
         setPostInfo(post);
-        setCommentList(postExpandData.comments); // 댓글 리스트
+        setLoading(false);
+        setCommentList(postExpandData.comments);
       } catch (error) {
         if (!(error in DOMException)) {
           console.error();
@@ -55,21 +61,36 @@ function Post() {
     getPost();
   }, [postId]);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
 
-    if (inputRef.current.value.replace(/\s+/g, '') === '') {
-      console.log('댓글을 입력해주세요');
-      toast('Here is your toast.');
-      // toast.error('댓글을 입력해주세요', {
-      //   ariaProps: {
-      //     role: 'status',
-      //     ariaLive: 'polite',
-      //   },
-      // });
+    if (!authUser) {
+      toast.error('로그인이 필요한 작업입니다', {
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
       return;
     }
-    const newComment = { message: inputRef.current.value, post: postId };
+    if (inputRef.current.value.trim() === '') {
+      toast.error('댓글을 입력해주세요', {
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
+      return;
+    }
+    const newComment = {
+      message: inputRef.current.value,
+      post: postId,
+      user: authUser.id,
+    };
     try {
       const commentRecord = await pb.collection('comments').create(newComment);
 
@@ -79,7 +100,6 @@ function Post() {
 
       setCommentList([...commentList, newComment]);
       inputRef.current.value = '';
-      // ! 왜 안뜨지?????
       toast.success('댓글이 성공적으로 달렸습니다', {
         position: 'top-center',
         ariaProps: {
@@ -91,6 +111,9 @@ function Post() {
       console.error(error);
     }
   };
+
+  // const handleLoginModal = () => {};
+
   const handleLikePost = () => {
     setLikePost(!likePost);
   };
@@ -98,9 +121,9 @@ function Post() {
   if (postInfo) {
     return (
       <div className={S.postWrapper}>
-        <div className="formWrapper w-72 mx-auto">
+        <div className="formWrapper w-72 mx-auto relative">
           <Link to={'/'}>
-            <img src="/BackIcon.svg" alt="뒤로가기" className="w-3 h-5" />
+            <img src={BackIcon} alt="뒤로가기" className="w-3 h-5 mt-2" />
           </Link>
           <SpeechBubble text={postInfo.statusEmoji} />
           <div className="relative mx-auto">
@@ -141,7 +164,7 @@ function Post() {
               <div className={`${S.colLayout} gap-1`}>
                 {commentList?.map((item, index) => (
                   <li key={index} className="flex gap-4">
-                    {/* {<span>{item.expand.user.username}</span> } //! {인증되면  주석 풀기!!!!} */}
+                    <span>{item.expand.user.username}</span>
                     <span>{item.message}</span>
                   </li>
                 ))}
@@ -164,6 +187,25 @@ function Post() {
             >
               게시
             </button>
+            {/* {authUser ? (
+              <button
+                onClick={handleCommentSubmit}
+                type="submit"
+                aria-label="댓글 게시"
+                className={S.inputBtn}
+              >
+                게시
+              </button>
+            ) : (
+              <button
+                onClick={handleLoginModal}
+                type="button"
+                aria-label="댓글 게시"
+                className={S.inputBtn}
+              >
+                게시
+              </button>
+            )} */}
           </div>
         </div>
       </div>
