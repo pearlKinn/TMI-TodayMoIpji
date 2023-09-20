@@ -10,7 +10,7 @@ function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center dark:bg-black w-[320px] h-[585px] mx-auto md:w-[768px] overflow-y-scroll box-content">
+    <div className="flex flex-col items-center dark:bg-black max-w-4xl h-[585px] mx-auto md:min-w-[768px] overflow-y-scroll box-content">
       <SearchBar onSearch={handleSearch} />
       <Feed filter={filter} />
     </div>
