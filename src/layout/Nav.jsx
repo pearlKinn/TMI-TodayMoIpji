@@ -2,6 +2,7 @@ import { WritingIcon } from '@/assets/WritingIcon';
 import { HomeIcon } from '@/assets/HomeIcon';
 import { MypageIcon } from '@/assets/MypageIcon';
 import { Link } from 'react-router-dom';
+// import { node, string } from 'prop-types';
 
 function Nav() {
   return (
@@ -29,3 +30,8 @@ function Nav() {
 }
 
 export default Nav;
+
+// Link.propTypes = {
+//   href: string.isRequired,
+//   children: node.isRequired,
+// };
