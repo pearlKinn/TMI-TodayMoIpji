@@ -14,11 +14,11 @@ function FeedItem({ item }) {
 
   useEffect(() => {
     if (searchValue === postUserData?.region) {
-      searchData.some((data) => console.log(data.id));
+      searchData.some((data) => console.log(data));
       // 중복된 id가 없는 경우에만 추가
       if (!searchData.some((data) => data.id === postUserData?.id)) {
         setSearchData([...searchData, postUserData]);
-        // console.log(searchData);
+        console.log(searchData);
       }
     }
   }, [searchValue]);
@@ -71,6 +71,7 @@ FeedItem.propTypes = {
         id: PropTypes.string,
         name: PropTypes.string,
         region: PropTypes.string,
+        avatar: PropTypes.string,
       }),
     }),
   }).isRequired,

@@ -28,6 +28,7 @@ function Post() {
   const [likePost, setLikePost] = useState(true);
   const { storageData } = useStorage('pocketbase_auth');
   const [loading, setLoading] = useState(true);
+  const [postUser, setPostUser] = useState(null);
   const authUser = storageData?.model;
 
   const handleNextSlide = () => {
@@ -47,10 +48,12 @@ function Post() {
       try {
         const post = await pb
           .collection('posts')
-          .getOne(postId, { expand: 'comments.user', requestKey: null });
+          .getOne(postId, { expand: 'comments.user, user', requestKey: null });
+
         const { expand: postExpandData } = post;
         setPostInfo(post);
         setLoading(false);
+        setPostUser(postExpandData.user);
         if (post.comments.length !== 0) setCommentList(postExpandData.comments);
       } catch (error) {
         if (!(error in DOMException)) {
@@ -160,26 +163,63 @@ function Post() {
             nextFunc={handleNextSlide}
             disabled={postInfo.photo.length <= 1 ? true : false}
           />
-          <div className="text-xs">{formattedDate}</div>
+          <div className="text-xs my-2">📆 {formattedDate}</div>
           <hr />
-          <span>{postInfo.content}</span>
-          <hr className="mt-2" />
+          <p className="py-3">{postInfo.content}</p>
+          <hr />
           <div className={S.colLayout}>
-            <span className="font-semibold">comment</span>
+            <h3 className="font-semibold uppercase my-2">comments</h3>
             <ul className={S.colLayout}>
-              <div className={`${S.colLayout} gap-1`}>
-                {commentList
-                  ? commentList?.toReversed().map((item, index) => (
-                      <li key={index} className="flex gap-4">
-                        <span>{item.expand.user.username}</span>
-                        <span>{item.message}</span>
-                      </li>
-                    ))
-                  : ''}
+              <div className={`${S.colLayout} gap-1 mb-2`}>
+                {commentList.length !== 0 ? (
+                  commentList?.toReversed().map((item, index) => (
+                    <li key={index} className="flex gap-2">
+                      <span className="bg-primary rounded-lg h-5 px-1 text-sm text-center">
+                        {item.expand.user.username}
+                      </span>
+                      <span>{item.message}</span>
+                    </li>
+                  ))
+                ) : (
+                  <span className="text-sm text-gray800">
+                    {'댓글이 아직 없어요 (┬┬﹏┬┬)'}
+                  </span>
+                )}
               </div>
             </ul>
           </div>
           <hr />
+          <section>
+            <h3 className="font-semibold my-2">
+              <span className="text-gray800 font-semibold underline">
+                {postUser.username}
+              </span>{' '}
+              님의 Info
+            </h3>
+            <div className="infoWrapper flex flex-col gap-3">
+              <div className="flex flex-col text-sm gap-1">
+                <span className="font-semibold text-gray900">º 체형</span>
+                <span className="font-semibold text-gray900 bg-primary rounded-xl w-20 text-center">
+                  {postUser?.bodyType}
+                </span>
+              </div>
+              <div className="flex flex-col text-sm gap-1 mt-1">
+                <span className=" whitespace-nowrap font-semibold">
+                  º 스타일
+                </span>
+                <span className="flex gap-2">
+                  {postUser?.style.map((item, index) => (
+                    <span
+                      key={index}
+                      className="bg-primary rounded-xl text-xs px-1 py-1 font-semibold"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </span>
+              </div>
+            </div>
+          </section>
           <div className={S.inputWrapper}>
             <FormInput
               type="text"
