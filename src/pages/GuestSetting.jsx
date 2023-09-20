@@ -15,7 +15,7 @@ function GuestSetting() {
           <span>설정</span>
         </div>
         <DarkModeButton></DarkModeButton>
-        <LoginButton></LoginButton>
+        <LoginButton buttonText={'로그인 하기'}></LoginButton>
       </div>
     </>
   );

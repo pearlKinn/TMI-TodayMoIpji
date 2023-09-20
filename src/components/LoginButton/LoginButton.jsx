@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-function LoginButton() {
+function LoginButton(props) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -14,7 +14,7 @@ function LoginButton() {
         onClick={handleClick}
         style={{ cursor: 'pointer' }}
       >
-        로그인 하기
+        {props.buttonText}
       </div>
     </>
   );
