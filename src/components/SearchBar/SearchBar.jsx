@@ -1,8 +1,8 @@
 import debounce from '@/utils/debounce';
-import { useState } from 'react';
 import FormInput from '../FormInput/formInput';
 import S from './SearchBar.module.css';
 import useSearchStore from '@/store/useSearchStore';
+import Search from '/Search.svg';
 
 function SearchBar() {
   const searchValue = useSearchStore((state) => state.searchValue);
@@ -42,7 +42,7 @@ function SearchBar() {
         aria-label="검색하기"
         className={S.searchButton}
       >
-        <img src="/public/Search.svg" alt="search" />
+        <img src={Search} alt="search" />
       </button>
     </div>
   );

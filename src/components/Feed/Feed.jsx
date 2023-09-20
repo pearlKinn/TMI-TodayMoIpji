@@ -4,6 +4,7 @@ import FeedItem from '../FeedItem.jsx/FeedItem';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { data } from 'autoprefixer';
+import Filter from '/Filter.svg';
 
 const PB = import.meta.env.VITE_PB_URL;
 const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user`;
@@ -44,7 +45,7 @@ function Feed() {
         <div className={S.headerSection}>
           <h3 className={S.newLabel}>NEW</h3>
           <button type="button" aria-label="필터">
-            <img src="/Filter.svg" alt="필터" />
+            <img src={Filter} alt="필터" />
           </button>
         </div>
         <div className={S.feedWrapper}>

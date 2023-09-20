@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import useStorage from '@/hooks/useStorage';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getPbImageURL } from '@/utils';
 import S from './MyItem.module.css';
 
@@ -9,7 +9,11 @@ function MyItem({ item }) {
   const { storageData } = useStorage('pocketbase_auth');
   const [token, setToken] = useState(storageData?.token);
   const [authUserData, setAuthUserData] = useState(storageData?.model);
-  
+  useEffect(() => {
+      setToken(storageData?.token);
+      setAuthUserData(storageData?.model);
+  });
+
   console.log('storageData:', storageData);
   console.log('token:', token);
   console.log('authUserData:', authUserData);
@@ -19,7 +23,7 @@ function MyItem({ item }) {
   const { expand: postExpandData } = item;
   const postUserData = postExpandData.user;
   console.log('postUserData:', postUserData);
-  const postUserDataId = postUserData?.id;
+  const postUserDataId = postUserData.id;
   console.log('postUserDataID:', postUserDataId);
 
   if (token) {
@@ -54,18 +58,19 @@ function MyItem({ item }) {
         </>
       );
     }
-  }
+  } 
 }
 
   export default MyItem;
 
 MyItem.propTypes = {
-  authUser: PropTypes.shape({
+  item: PropTypes.shape({
     id: PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
     statusEmoji: PropTypes.string,
     expand: PropTypes.shape({
       user: PropTypes.shape({
+        id: PropTypes.string,
         name: PropTypes.string,
         region: PropTypes.string,
       }),

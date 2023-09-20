@@ -21,5 +21,5 @@
 }
 .speechBubbleBody {
   @apply absolute inset-0 transform translate-x-1/2 -translate-y-1/2 -rotate-45;
-  @apply bg-white border border-t-black border-r-black border-l-white border-b-white  w-2 h-2;
+  @apply bg-white border border-t-black border-r-black border-l-white border-b-white w-2 h-2;
 }
