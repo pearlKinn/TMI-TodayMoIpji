@@ -1,6 +1,7 @@
 import pb from '@/api/pocketbase';
 import FormInput from '@/components/FormInput/FormInput';
 import Heart from '@/components/Heart';
+import Loading from '@/components/Loading/Loading';
 import MoveSlide from '@/components/MoveSlide/MoveSlide';
 import SpeechBubble from '@/components/SpeechBubble/SpeechBubble';
 import useStorage from '@/hooks/useStorage';
@@ -14,7 +15,6 @@ import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
 import S from './Post.module.css';
-import Loading from '@/components/Loading/Loading';
 import BackIcon from '/BackIcon.svg';
 
 function Post() {
@@ -47,14 +47,14 @@ function Post() {
       try {
         const post = await pb
           .collection('posts')
-          .getOne(postId, { expand: 'comments.user' });
+          .getOne(postId, { expand: 'comments.user', requestKey: null });
         const { expand: postExpandData } = post;
         setPostInfo(post);
         setLoading(false);
-        setCommentList(postExpandData.comments);
+        if (post.comments.length !== 0) setCommentList(postExpandData.comments);
       } catch (error) {
         if (!(error in DOMException)) {
-          console.error();
+          console.error(error);
         }
       }
     }
@@ -98,7 +98,13 @@ function Post() {
         'comments+': commentRecord.id,
       });
 
-      setCommentList([...commentList, newComment]);
+      const commentUser = await pb.collection('users').getOne(authUser.id);
+
+      commentRecord.expand = {
+        user: commentUser,
+      };
+
+      setCommentList([...commentList, commentRecord]);
       inputRef.current.value = '';
       toast.success('댓글이 성공적으로 달렸습니다', {
         position: 'top-center',
@@ -108,7 +114,7 @@ function Post() {
         },
       });
     } catch (error) {
-      console.error(error);
+      console.error(error.isAbort);
     }
   };
 
@@ -162,12 +168,14 @@ function Post() {
             <span className="font-semibold">comment</span>
             <ul className={S.colLayout}>
               <div className={`${S.colLayout} gap-1`}>
-                {commentList?.map((item, index) => (
-                  <li key={index} className="flex gap-4">
-                    <span>{item.expand.user.username}</span>
-                    <span>{item.message}</span>
-                  </li>
-                ))}
+                {commentList
+                  ? commentList?.toReversed().map((item, index) => (
+                      <li key={index} className="flex gap-4">
+                        <span>{item.expand.user.username}</span>
+                        <span>{item.message}</span>
+                      </li>
+                    ))
+                  : ''}
               </div>
             </ul>
           </div>
@@ -187,25 +195,6 @@ function Post() {
             >
               게시
             </button>
-            {/* {authUser ? (
-              <button
-                onClick={handleCommentSubmit}
-                type="submit"
-                aria-label="댓글 게시"
-                className={S.inputBtn}
-              >
-                게시
-              </button>
-            ) : (
-              <button
-                onClick={handleLoginModal}
-                type="button"
-                aria-label="댓글 게시"
-                className={S.inputBtn}
-              >
-                게시
-              </button>
-            )} */}
           </div>
         </div>
       </div>

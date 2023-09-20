@@ -47,7 +47,7 @@ function Feed() {
           </button>
         </div>
         <div className={S.feedWrapper}>
-          {dataItems?.map((item) => (
+          {dataItems?.toReversed().map((item) => (
             <FeedItem key={item.id} item={item} />
           ))}
         </div>
