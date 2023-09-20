@@ -15,7 +15,7 @@
 }
 
 .inputWrapper {
-  @apply flex justify-between items-center gap-2 fixed bottom-[205px];
+  @apply flex justify-between items-center gap-2 fixed bottom-[298px];
   @apply border-2 border-gray-900 rounded-[15px] w-72 h-7 p-4 bg-white;
 }
 
