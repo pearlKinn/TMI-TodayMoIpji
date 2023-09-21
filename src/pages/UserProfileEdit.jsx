@@ -5,9 +5,9 @@ import ProfileUpload from '@/components/ProfileUpload/ProfileUpload';
 
 function UserProfileEdit() {
   return (
-    <div className=" md:mx-auto md:w-[768px]  pt-[25px] items-center flex flex-col">
+    <div className="mx-auto md:w-[768px] pt-[25px] items-center flex flex-col h-[calc(100vh-132px)]">
       <UserProfilePicture></UserProfilePicture>
-      <div className="my-auto h-[90px] flex">
+      <div className="h-[90px] flex">
         <UserNickname userNickname={'분당에바람이분당'}></UserNickname>
       </div>
       <div className="w-full flex justify-center border-t-2 border-black"></div>

@@ -1,14 +1,15 @@
 import { createHashRouter } from 'react-router-dom';
-import RootLayout from './layout/RootLayout';
-import Home from './pages/Home';
-import Post from './pages/Post/Post';
-import Writing from './pages/Writing';
+import ProtectRoute from './components/ProtectRoute';
+import RootLayout from './layout/RootLayout/RootLayout';
+import Home from './pages/Home/Home';
 import { Mypage } from './pages/Mypage';
-import UserProfileEdit from './pages/UserProfileEdit';
+import Post from './pages/Post/Post';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import Suggestion from './pages/Suggestion/Suggestion';
+import UserProfileEdit from './pages/UserProfileEdit';
 import Welcome from './pages/Welcome';
-import ProtectRoute from './components/ProtectRoute';
+import Writing from './pages/Writing';
 
 const router = createHashRouter([
   {
@@ -29,6 +30,7 @@ const router = createHashRouter([
       { path: 'signup', element: <SignUp /> },
       { path: 'welcome', element: <Welcome /> },
       { path: 'mypage', element: <Mypage /> },
+      { path: 'suggestion', element: <Suggestion /> },
       { path: 'userprofileedit', element: <UserProfileEdit /> },
     ],
   },
