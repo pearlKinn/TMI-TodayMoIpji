@@ -16,6 +16,7 @@ import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
 import S from './Post.module.css';
 import BackIcon from '/BackIcon.svg';
+import { useMutation } from '@tanstack/react-query';
 
 function Post() {
   const { postId } = useParams();
@@ -49,7 +50,6 @@ function Post() {
         const post = await pb
           .collection('posts')
           .getOne(postId, { expand: 'comments.user, user', requestKey: null });
-
         const { expand: postExpandData } = post;
         setPostInfo(post);
         setLoading(false);
@@ -64,9 +64,47 @@ function Post() {
     getPost();
   }, [postId]);
 
-  if (loading) {
-    return <Loading />;
-  }
+  const commentMutation = useMutation(
+    async (newComment) => {
+      try {
+        const commentRecord = await pb
+          .collection('comments')
+          .create(newComment);
+
+        await pb.collection('posts').update(postId, {
+          'comments+': commentRecord.id,
+        });
+
+        const commentUser = await pb.collection('users').getOne(authUser.id);
+
+        commentRecord.expand = {
+          user: commentUser,
+        };
+
+        return commentRecord;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+    {
+      onSuccess: (commentRecord) => {
+        setCommentList((prevCommentList) => [
+          ...prevCommentList,
+          commentRecord,
+        ]);
+        inputRef.current.value = '';
+
+        toast.success('댓글이 성공적으로 달렸습니다', {
+          position: 'top-center',
+          ariaProps: {
+            role: 'status',
+            'aria-live': 'polite',
+          },
+        });
+      },
+    }
+  );
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -80,6 +118,7 @@ function Post() {
       });
       return;
     }
+
     if (inputRef.current.value.trim() === '') {
       toast.error('댓글을 입력해주세요', {
         ariaProps: {
@@ -89,43 +128,23 @@ function Post() {
       });
       return;
     }
+
     const newComment = {
       message: inputRef.current.value,
       post: postId,
       user: authUser.id,
     };
-    try {
-      const commentRecord = await pb.collection('comments').create(newComment);
 
-      await pb.collection('posts').update(postId, {
-        'comments+': commentRecord.id,
-      });
-
-      const commentUser = await pb.collection('users').getOne(authUser.id);
-
-      commentRecord.expand = {
-        user: commentUser,
-      };
-
-      setCommentList([...commentList, commentRecord]);
-      inputRef.current.value = '';
-      toast.success('댓글이 성공적으로 달렸습니다', {
-        position: 'top-center',
-        ariaProps: {
-          role: 'status',
-          'aria-live': 'polite',
-        },
-      });
-    } catch (error) {
-      console.error(error.isAbort);
-    }
+    commentMutation.mutateAsync(newComment);
   };
-
-  // const handleLoginModal = () => {};
 
   const handleLikePost = () => {
     setLikePost(!likePost);
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   if (postInfo) {
     return (
