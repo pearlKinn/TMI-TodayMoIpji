@@ -130,12 +130,12 @@ function Post() {
   if (postInfo) {
     return (
       <div className={S.postWrapper}>
-        <div className="formWrapper w-72 mx-auto relative">
-          <Link to={'/'}>
-            <img src={BackIcon} alt="뒤로가기" className="w-3 h-5 mt-2" />
-          </Link>
+        <Link to={'/'}>
+          <img src={BackIcon} alt="뒤로가기" className="w-3 h-5 mt-2 ml-2" />
+        </Link>
+        <div className={S.formWrapper}>
           <SpeechBubble text={postInfo.statusEmoji} />
-          <div className="relative mx-auto">
+          <div className={S.postInnerWrapper}>
             <div className={S.photoWrapper}>
               {postInfo.photo?.map((_, index) => (
                 <div
@@ -152,7 +152,7 @@ function Post() {
             </div>
             <button
               type="button"
-              className="absolute right-2 top-64 text-white flex text-outline-black"
+              className={S.heartBtn}
               onClick={handleLikePost}
             >
               {likePost ? <Heart /> : <Heart color="#FF3A3A" />}
@@ -163,25 +163,25 @@ function Post() {
             nextFunc={handleNextSlide}
             disabled={postInfo.photo.length <= 1 ? true : false}
           />
-          <div className="text-xs my-2">📆 {formattedDate}</div>
+          <div className={S.postingDate}>📆 {formattedDate}</div>
           <hr />
-          <p className="py-3">{postInfo.content}</p>
+          <p className={S.title}>{postInfo.content}</p>
           <hr />
           <div className={S.colLayout}>
-            <h3 className="font-semibold uppercase my-2">comments</h3>
+            <h3 className={S.title}>COMMENTS</h3>
             <ul className={S.colLayout}>
-              <div className={`${S.colLayout} gap-1 mb-2`}>
+              <div className={`${S.colLayout} gap-1 pb-3`}>
                 {commentList.length !== 0 ? (
                   commentList?.toReversed().map((item, index) => (
-                    <li key={index} className="flex gap-2">
-                      <span className="bg-primary rounded-lg h-5 px-1 text-sm text-center">
+                    <li key={index} className={S.commentWrapper}>
+                      <span className={S.commentUser}>
                         {item.expand.user.username}
                       </span>
                       <span>{item.message}</span>
                     </li>
                   ))
                 ) : (
-                  <span className="text-sm text-gray800">
+                  <span className={S.noneComment}>
                     {'댓글이 아직 없어요 (┬┬﹏┬┬)'}
                   </span>
                 )}
@@ -190,29 +190,22 @@ function Post() {
           </div>
           <hr />
           <section>
-            <h3 className="font-semibold my-2">
+            <h3 className={S.title}>
               <span className="text-gray800 font-semibold underline">
                 {postUser.username}
               </span>{' '}
               님의 Info
             </h3>
-            <div className="infoWrapper flex flex-col gap-3">
-              <div className="flex flex-col text-sm gap-1">
-                <span className="font-semibold text-gray900">º 체형</span>
-                <span className="font-semibold text-gray900 bg-primary rounded-xl w-20 text-center">
-                  {postUser?.bodyType}
-                </span>
+            <div className={S.postingUserInfoWrapper}>
+              <div className={S.postingUserItemWrapper}>
+                <span className={S.postingItemTitle}>º 체형</span>
+                <span className={S.bodyType}>{postUser?.bodyType}</span>
               </div>
-              <div className="flex flex-col text-sm gap-1 mt-1">
-                <span className=" whitespace-nowrap font-semibold">
-                  º 스타일
-                </span>
-                <span className="flex gap-2">
+              <div className={S.postingUserItemWrapper}>
+                <span className={S.postingItemTitle}>º 스타일</span>
+                <span className={S.styleWrapper}>
                   {postUser?.style.map((item, index) => (
-                    <span
-                      key={index}
-                      className="bg-primary rounded-xl text-xs px-1 py-1 font-semibold"
-                    >
+                    <span key={index} className={S.styleItem}>
                       {item}
                     </span>
                   ))}

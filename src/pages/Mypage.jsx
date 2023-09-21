@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { MypageIcon } from '@/assets/MypageIcon';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import MypageStyleSlide from '../swiper/MypageStyleSlide';
-import MypageSievingSlide from '../swiper/MypageSievingSlide';
 import MypageBodyTypeSlide from '../swiper/MypageBodyTypeSlide';
+import MypageSievingSlide from '../swiper/MypageSievingSlide';
+import MypageStyleSlide from '../swiper/MypageStyleSlide';
 import S from './Mypage.module.css';
 
 export function Mypage() {
@@ -17,7 +17,7 @@ export function Mypage() {
   }
 
   return (
-    <div className={`flex flex-col pt-5 pb-5`}>
+    <div className={`flex flex-col py-5 h-[calc(100vh-132px)]`}>
       <div className="w-full flex flex-col items-center ">
         <div className="flex justify-center w-[3.75rem] h-[3.75rem] border-2 border-black rounded-full">
           <MypageIcon size={50} />

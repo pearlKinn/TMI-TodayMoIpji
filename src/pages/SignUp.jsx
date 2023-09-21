@@ -169,7 +169,7 @@ function SignUp() {
 
   return (
     <>
-      <div style={{ height: '585px' }}>
+      <div className="h-[calc(100vh-132px)]">
         <h2 className="sr-only">회원가입 페이지</h2>
         <form onSubmit={handleSignUp}>
           <div className="flex items-center justify-center pt-[57px]">

@@ -51,7 +51,7 @@ function SignIn() {
 
   return (
     <>
-      <div style={{ height: '585px' }}>
+      <div className="h-[calc(100vh-132px)]">
         {/* <Helmet>
         <title>Sign In - TMI</title>
       </Helmet> */}
