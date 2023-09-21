@@ -10,7 +10,7 @@ function Heading() {
       <Link to="/">
         <Logo size={60} />
       </Link>
-      <Link to="/">
+      <Link to="/suggestion">
         <img src={Degree} alt="온도" />
       </Link>
     </div>

@@ -130,10 +130,10 @@ function Post() {
   if (postInfo) {
     return (
       <div className={S.postWrapper}>
+        <Link to={'/'}>
+          <img src={BackIcon} alt="뒤로가기" className="w-3 h-5 mt-2 ml-2" />
+        </Link>
         <div className={S.formWrapper}>
-          <Link to={'/'}>
-            <img src={BackIcon} alt="뒤로가기" className="w-3 h-5 mt-2" />
-          </Link>
           <SpeechBubble text={postInfo.statusEmoji} />
           <div className={S.postInnerWrapper}>
             <div className={S.photoWrapper}>

@@ -15,7 +15,7 @@ function Welcome() {
 
   return (
     <>
-      <div style={{ height: '585px' }}>
+      <div className="h-[calc(100vh-132px)]">
         <div className="flex items-center justify-center pt-[57px] pb-8">
           <img className="mx-auto" src="/public/celebration-icon.svg" />
         </div>

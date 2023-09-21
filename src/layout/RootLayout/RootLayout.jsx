@@ -11,8 +11,8 @@ function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <HeaderBar />
-      <main className={`flex`}>
-        <div className="flex-1">
+      <main>
+        <div>
           <Outlet />
         </div>
       </main>
