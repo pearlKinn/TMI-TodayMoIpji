@@ -1,6 +1,6 @@
 import { createHashRouter } from 'react-router-dom';
-import RootLayout from './layout/RootLayout';
-import Home from './pages/Home';
+import RootLayout from './layout/RootLayout/RootLayout';
+import Home from './pages/Home/Home';
 import Post from './pages/Post/Post';
 import Writing from './pages/Writing';
 import User from './pages/User';
