@@ -6,7 +6,12 @@ export function emailReg(text) {
 }
 
 export function pwReg(text) {
-  const RegExr = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{8,}$/;
+  const RegExr = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{8,25}$/;
+  return RegExr.test(String(text).toLowerCase());
+}
+
+export function userNameReg(text) {
+  const RegExr = /^[a-zA-Z0-9].{1,9}$/;
   return RegExr.test(String(text).toLowerCase());
 }
 

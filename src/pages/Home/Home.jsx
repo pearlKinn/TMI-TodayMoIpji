@@ -1,6 +1,7 @@
 import Feed from '@/components/Feed/Feed';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import { useState } from 'react';
+import S from './Home.module.css';
 
 function Home() {
   const [filter, setFilter] = useState('');
@@ -10,10 +11,10 @@ function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center dark:bg-black w-[320px] h-[585px] mx-auto md:w-[768px] overflow-y-scroll box-content">
+    <section className={S.homeWrapper}>
       <SearchBar onSearch={handleSearch} />
       <Feed filter={filter} />
-    </div>
+    </section>
   );
 }
 

@@ -38,7 +38,7 @@
   @apply flex justify-end gap-2 w-72 mt-4 mb-6;
 }
 button.postBtn {
-  @apply py-1 px-3.5  rounded-xl absolute top-6 bg-primary dark:bg-gray700;
+  @apply py-1 px-3.5  rounded-xl relative bottom-[calc(100vh-116px)] bg-primary dark:bg-gray700;
 }
 
 .textareaWrapper {

@@ -1,5 +1,5 @@
 .postWrapper {
-  @apply w-[320px] h-[545px] mb-10 mx-auto overflow-y-scroll;
+  @apply h-[calc(100vh-172px)] min-w-[320px] mb-10 mx-auto overflow-y-scroll;
 }
 
 .photoWrapper {
@@ -15,7 +15,7 @@
 }
 
 .inputWrapper {
-  @apply flex justify-between items-center gap-2 fixed bottom-[205px];
+  @apply flex justify-between items-center gap-2 fixed top-[calc(100vh-106px)];
   @apply border-2 border-gray-900 rounded-[15px] w-72 h-7 p-4 bg-white;
 }
 
@@ -25,4 +25,57 @@
 
 .formWrapper {
   @apply w-72 mx-auto relative;
+}
+
+.postInnerWrapper {
+  @apply relative mx-auto;
+}
+
+button.heartBtn {
+  @apply absolute right-2 top-64 text-white flex;
+  @layer text-outline-black;
+}
+
+.postingDate {
+  @apply text-xs py-3;
+}
+
+.title {
+  @apply font-semibold py-3;
+}
+
+.commentWrapper {
+  @apply flex gap-2;
+}
+
+.commentUser {
+  @apply bg-primary rounded-lg h-5 px-1 text-sm text-center;
+}
+
+.noneComment {
+  @apply text-sm text-gray800;
+}
+
+.postingUserInfoWrapper {
+  @apply flex flex-col gap-5;
+}
+
+.postingUserItemWrapper {
+  @apply flex flex-col text-sm gap-1;
+}
+
+.postingItemTitle {
+  @apply font-semibold text-gray900;
+}
+
+.bodyType {
+  @apply font-semibold text-gray900 bg-primary rounded-xl w-20 text-center;
+}
+
+.styleWrapper {
+  @apply flex gap-2;
+}
+
+.styleItem {
+  @apply bg-primary rounded-xl text-xs px-1 py-1 font-semibold;
 }

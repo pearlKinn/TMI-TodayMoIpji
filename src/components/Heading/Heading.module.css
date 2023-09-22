@@ -1,5 +1,8 @@
 .headingWrapper {
-  @apply min-w-[320px] w-full;
-  @apply h-[4.5rem] flex items-center pl-20 bg-secondary;
+  @apply min-w-[320px] h-[66px] md:min-w-[768px];
+  @apply flex justify-between items-center bg-secondary px-4 mx-auto;
 }
 
+.headerBar {
+  @apply sr-only;
+}
