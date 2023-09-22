@@ -12,6 +12,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Suggestion from './pages/Suggestion/Suggestion';
 import Welcome from './pages/Welcome';
+import GuestOnlyRoutes from './components/GuestOnlyRoute';
 
 const router = createHashRouter([
   {
@@ -28,10 +29,24 @@ const router = createHashRouter([
           </ProtectRoute>
         ),
       },
-      { path: 'signin', element: <SignIn /> },
-      { path: 'signup', element: <SignUp /> },
+      {
+        path: 'signin',
+        element: (
+          <GuestOnlyRoutes>
+            <SignIn />
+          </GuestOnlyRoutes>
+        ),
+      },
+      {
+        path: 'signup',
+        element: (
+          <GuestOnlyRoutes>
+            <SignUp />
+          </GuestOnlyRoutes>
+        ),
+      },
       { path: 'welcome', element: <Welcome /> },
-      { path: 'mypage', element: <Mypage /> },
+      { path: 'mypage/:userId', element: <Mypage /> },
       { path: 'suggestion', element: <Suggestion /> },
       { path: 'userprofileedit', element: <UserProfileEdit /> },
       { path: 'user', element: <User /> },

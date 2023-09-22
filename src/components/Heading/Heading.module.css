@@ -6,3 +6,7 @@
 .headerBar {
   @apply sr-only;
 }
+
+.temperature {
+  @apply w-[33px] h-[31px] text-3xl font-semibold text-white;
+}
