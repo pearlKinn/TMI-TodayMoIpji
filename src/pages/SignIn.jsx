@@ -6,11 +6,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '/logo.svg';
 import ChatIcon from '/mdi-chat.svg';
-import useStorage from '@/hooks/useStorage';
 import toast from 'react-hot-toast';
 
 function SignIn() {
-  const { update: setLoggedInUser } = useStorage('loggedInUser');
   const [formState, setFormState] = useState({
     email: '',
     password: '',
@@ -34,9 +32,6 @@ function SignIn() {
 
     try {
       await signIn(email, password);
-      const user = await signIn(email, password);
-      console.log('로그인 성공');
-      setLoggedInUser(user); // 로그인 성공 시 사용자 정보를 저장
       navigate('/');
     } catch (error) {
       toast.error('아이디 혹은 비밀번호를 확인해주세요', {

@@ -1,6 +1,4 @@
 import UserProfilePicture from '@/components/UserProfilePicture/UserProfilePicture';
-// import UserNickname from '@/components/UserNickname/UserNickname';
-// import EditPageButton from '@/components/EditPageButton/EditPageButton';
 import ProfileUpload from '@/components/ProfileUpload/ProfileUpload';
 import { useState, useEffect } from 'react';
 import useFetchData from '@/hooks/useFetchData';
@@ -15,7 +13,8 @@ function UserProfileEdit() {
   const [nickname, setNickname] = useState('');
   const [validationResult, setValidationResult] = useState('');
   const [usernames, setUsername] = useState([]);
-  const { storageData: loggedInUser } = useStorage('loggedInUser');
+  const { storageData: pocketbaseAuthData } = useStorage('pocketbase_auth');
+
   useEffect(() => {
     if (userData.items) {
       const usernames = userData.items.map((user) =>
@@ -24,13 +23,13 @@ function UserProfileEdit() {
       setUsername(usernames);
     }
   }, [userData.items]);
-  console.log(userData.items);
+
   const handleCheckDuplicate = () => {
     if (isLoading) {
       return;
     }
 
-    // const avatar = loggedInUser?.avatar || '사용자 아바타 이미지 URL이 없습니다'; // 아바타 이미지가 없는 경우 기본값 사용
+    // 닉네임 유효성 검사
     if (
       nickname.length >= 2 &&
       nickname.length <= 10 &&
@@ -69,11 +68,12 @@ function UserProfileEdit() {
       handleCheckDuplicate();
     }
   };
+
   const updateUsernameOnServer = async () => {
     try {
       const response = await pb
         .collection('users')
-        .update(loggedInUser.record.id, {
+        .update(pocketbaseAuthData.id, {
           username: nickname,
         });
 
@@ -88,9 +88,11 @@ function UserProfileEdit() {
     }
   };
 
-  const username = loggedInUser?.record?.username || '사용자 이름이 없습니다';
+  // pocketbase_auth에서 username 값을 가져옵니다.
+  const username =
+    pocketbaseAuthData?.model?.username || '사용자 이름이 없습니다';
   return (
-    <div className=" md:mx-auto md:w-[768px]  pt-[25px] items-center flex flex-col">
+    <div className="md:mx-auto md:w-[768px] pt-[25px] items-center flex flex-col">
       <UserProfilePicture />
       <div className="my-auto h-[90px] flex">
         <span>{username}</span>
@@ -154,7 +156,8 @@ function UserProfileEdit() {
           if (!isLoading && validationResult === '사용가능') {
             const isUsernameUpdated = await updateUsernameOnServer();
             if (isUsernameUpdated) {
-              setUsername(nickname);
+              // 서버에서 업데이트 성공하면 로컬 스토리지의 username도 업데이트
+              pocketbaseAuthData.username = nickname;
               // 성공 메시지를 표시할 수도 있습니다.
             } else {
               console.error('서버에서 username 업데이트 실패');
