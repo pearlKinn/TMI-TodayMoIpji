@@ -18,7 +18,7 @@ function FeedItem({ item }) {
       // 중복된 id가 없는 경우에만 추가
       if (!searchData.some((data) => data.id === postUserData?.id)) {
         setSearchData([...searchData, postUserData]);
-        console.log(searchData);
+        // console.log(searchData);
       }
     }
   }, [searchValue]);
