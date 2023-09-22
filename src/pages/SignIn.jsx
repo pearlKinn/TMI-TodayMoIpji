@@ -3,10 +3,10 @@ import Input from '@/components/Input/Input';
 import useAuthStore from '@/store/auth';
 import debounce from '@/utils/debounce';
 import { useState } from 'react';
-// import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import logo from '/logo.svg';
 import ChatIcon from '/mdi-chat.svg';
+import toast from 'react-hot-toast';
 
 function SignIn() {
   const [formState, setFormState] = useState({
@@ -32,17 +32,19 @@ function SignIn() {
 
     try {
       await signIn(email, password);
-      console.log('로그인 성공');
       navigate('/');
     } catch (error) {
-      console.error(error.message);
-      alert('아이디나 비밀번호를 확인해주세요.');
+      toast.error('아이디 혹은 비밀번호를 확인해주세요', {
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
     }
   };
 
   const handleInput = debounce((e) => {
     const { name, value } = e.target;
-    console.log(name);
     setFormState({
       ...formState,
       [name]: value,
@@ -52,9 +54,6 @@ function SignIn() {
   return (
     <>
       <div className="h-[calc(100vh-132px)]">
-        {/* <Helmet>
-        <title>Sign In - TMI</title>
-      </Helmet> */}
         <h2 className="sr-only">로그인 페이지</h2>
         <div className="flex items-center justify-center pt-[57px] pb-[22px]">
           <img className="mx-auto" src={logo} />
