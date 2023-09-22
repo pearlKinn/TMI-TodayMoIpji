@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MypageIcon } from '@/assets/MypageIcon';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading/Loading';
@@ -10,6 +10,7 @@ import S from './Mypage.module.css';
 import MyItem from '../../components/MyItem/MyItem';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
 
 const PB = import.meta.env.VITE_PB_URL;
 const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user`;
@@ -19,15 +20,25 @@ async function fetchProducts() {
   return await response.data;
 }
 function Mypage() {
+  const { userId } = useParams();
+  console.log(userId);
+
   const [showPosts, setShowPosts] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const { storageData } = useStorage('pocketbase_auth');
-  const token = storageData?.token;
-  const authUser = storageData?.model;
+  const [authUserData, setAuthUserData] = useState(storageData?.model);
+   useEffect(() => {
+     setAuthUserData(storageData?.model);
+   });
+  
+  
 
+  const authUserDataId = authUserData?.id;
+  console.log('authUserDataId:', authUserDataId);
+  
   function toggleDarkModeHandler() {
     setIsDarkMode((prevMode) => !prevMode);
   }
@@ -58,7 +69,7 @@ function Mypage() {
     );
   }
 
-    if (!authUser) {
+    if (!authUserData) {
       return (
         <>
           <div className={`flex flex-col pt-5 pb-5`}>
@@ -144,8 +155,9 @@ function Mypage() {
             </div>
             <div className="w-full h-[1.5rem] flex items-center mb-3 border-t-2 border-black">
               <button
-                className={`w-1/2 flex justify-center ${showPosts ? 'bg-secondary text-white' : 'bg-white'
-                  }`}
+                className={`w-1/2 flex justify-center ${
+                  showPosts ? 'bg-secondary text-white' : 'bg-white'
+                }`}
                 onClick={() => {
                   setShowPosts(true);
                   setShowSettings(false);
@@ -155,8 +167,9 @@ function Mypage() {
               </button>
 
               <button
-                className={`w-1/2 flex justify-center ${showSettings ? 'bg-secondary text-white' : 'bg-white'
-                  }`}
+                className={`w-1/2 flex justify-center ${
+                  showSettings ? 'bg-secondary text-white' : 'bg-white'
+                }`}
                 onClick={() => {
                   setShowSettings(true);
                   setShowPosts(false);
@@ -181,7 +194,9 @@ function Mypage() {
                         다크모드
                       </span>
                       <div
-                        className={`${S.toggleBtn} ${isDarkMode ? S.on : S.off}`}
+                        className={`${S.toggleBtn} ${
+                          isDarkMode ? S.on : S.off
+                        }`}
                       >
                         <div
                           className={`${S.circle}`}
@@ -190,15 +205,15 @@ function Mypage() {
                       </div>
                     </div>
                     <div className="mb-[1.6rem]">
-                      <MypageStyleSlide />
+                      <MypageStyleSlide item={userId} />
                     </div>
                     <div className="w-full flex justify-between items-center mb-[1.6rem]">
                       <span className="font-bold">체질</span>
-                      <MypageSievingSlide />
+                      <MypageSievingSlide item={userId} />
                     </div>
                     <div className="w-full flex justify-between items-center mb-[7rem]">
                       <div className="font-bold">체형</div>
-                      <MypageBodyTypeSlide />
+                      <MypageBodyTypeSlide item={userId} />
                     </div>
                     <button className="w-[17.5rem] h-[3.375rem] flex justify-center items-center bg-secondary rounded-md">
                       저장하기

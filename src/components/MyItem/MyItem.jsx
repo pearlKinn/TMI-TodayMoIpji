@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { getPbImageURL } from '@/utils';
 import S from './MyItem.module.css';
+import { useParams } from 'react-router-dom';
 
 function MyItem({ item }) {
+  const { userId } = useParams();
+  console.log('userId:',userId);
   const { storageData } = useStorage('pocketbase_auth');
   const [token, setToken] = useState(storageData?.token);
   const [authUserData, setAuthUserData] = useState(storageData?.model);

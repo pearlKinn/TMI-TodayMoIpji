@@ -29,7 +29,7 @@ const router = createHashRouter([
       { path: 'signin', element: <SignIn /> },
       { path: 'signup', element: <SignUp /> },
       { path: 'welcome', element: <Welcome /> },
-      { path: 'mypage', element: <Mypage /> },
+      { path: 'mypage/:userId', element: <Mypage /> },
       { path: 'userprofileedit', element: <UserProfileEdit /> },
     ],
   },

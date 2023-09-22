@@ -19,6 +19,7 @@ import BackIcon from '/BackIcon.svg';
 
 function Post() {
   const { postId } = useParams();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [postInfo, setPostInfo] = useState(null);
   const [commentList, setCommentList] = useState([]);
@@ -60,6 +61,8 @@ function Post() {
     }
     getPost();
   }, [postId]);
+
+
 
   if (loading) {
     return <Loading />;

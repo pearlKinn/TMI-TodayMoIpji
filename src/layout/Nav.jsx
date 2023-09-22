@@ -1,9 +1,13 @@
 import { WritingIcon } from '@/assets/WritingIcon';
 import { HomeIcon } from '@/assets/HomeIcon';
 import { MypageIcon } from '@/assets/MypageIcon';
+import useStorage from '@/hooks/useStorage';
 import { Link } from 'react-router-dom';
 
 function Nav() {
+  const { storageData } = useStorage('pocketbase_auth');
+  const authInfo = storageData?.model;
+
   return (
     <nav className="w-full">
       <ul className="flex justify-around">
@@ -19,7 +23,7 @@ function Nav() {
         </li>
 
         <li>
-          <Link to="/mypage">
+          <Link to={`/mypage/${authInfo?.id}`}>
             <MypageIcon size={50} />
           </Link>
         </li>
