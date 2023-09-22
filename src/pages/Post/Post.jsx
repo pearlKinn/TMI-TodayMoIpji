@@ -182,7 +182,12 @@ function Post() {
             nextFunc={handleNextSlide}
             disabled={postInfo.photo.length <= 1 ? true : false}
           />
-          <div className={S.postingDate}>📆 {formattedDate}</div>
+          <div className="flex justify-between">
+            <div className={S.postingDate}>📆 {formattedDate}</div>
+            <div className={S.postingDate}>
+              지역정보📍[{postInfo.expand.user.region}]
+            </div>
+          </div>
           <hr />
           <p className={S.title}>{postInfo.content}</p>
           <hr />
@@ -224,6 +229,16 @@ function Post() {
                 <span className={S.postingItemTitle}>º 스타일</span>
                 <span className={S.styleWrapper}>
                   {postUser?.style.map((item, index) => (
+                    <span key={index} className={S.styleItem}>
+                      {item}
+                    </span>
+                  ))}
+                </span>
+              </div>
+              <div className={S.postingUserItemWrapper}>
+                <span className={S.postingItemTitle}>º 체질</span>
+                <span className={S.styleWrapper}>
+                  {postUser?.sieving.map((item, index) => (
                     <span key={index} className={S.styleItem}>
                       {item}
                     </span>
