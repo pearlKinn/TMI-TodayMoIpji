@@ -2,22 +2,19 @@ import S from './Feed.module.css';
 import Spinner from '../Spinner';
 import FeedItem from '../FeedItem.jsx/FeedItem';
 import axios from 'axios';
-import { useInfiniteQuery } from '@tanstack/react-query'; // useQuery 제거
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import Filter from '/Filter.svg';
 import { useEffect } from 'react';
-import { useState } from 'react';
 
 const PB = import.meta.env.VITE_PB_URL;
-const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user`;
+const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user?page=1&perPage=30`;
 
-async function fetchProducts({ pageParam = 1 }) {
-  // pageParam 매개변수 추가
-  const response = await axios(`${PB_FEED_ENDPOINT}&page=${pageParam}`); // pageParam 사용
+async function fetchProducts() {
+  const response = await axios(PB_FEED_ENDPOINT);
   return await response.data;
 }
 
 function Feed() {
-  const [loading, setLoading] = useState(true);
   const {
     isLoading,
     error,
@@ -26,13 +23,20 @@ function Feed() {
     hasNextPage,
     isFetching,
   } = useInfiniteQuery(['posts'], fetchProducts, {
-    getNextPageParam: (lastPage) => lastPage.nextPage,
+    getNextPageParam: (lastPage) => lastPage.nextPage, // 서버 응답에서 nextPage 값으로 설정
     retry: 2,
   });
+  // const { isLoading, error } = useQuery(['posts'], fetchProducts, );
 
-  const dataItems = postData?.pages.flatMap((page) => page.items); // 데이터 합치기
+  // let dataItems = postData?.pages[0].items;
+  // let dataItems = postData?.pages[0];
+  console.log('dataItems', dataItems.items);
+  // const dataItem = dataItems?.items
+  let dataItems = postData?.pages[0].items;
+  console.log(dataItems);
 
   useEffect(() => {
+    // 스크롤 이벤트 리스너 등록
     const handleScroll = () => {
       if (
         window.innerHeight + window.scrollY >=
@@ -45,13 +49,12 @@ function Feed() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    setLoading(false);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [fetchNextPage, hasNextPage, isFetching]);
-
-  if (isLoading || loading) {
+  if (isLoading) {
     return <Spinner size={160} title="데이터 가져오는 중이에요." />;
   }
 
@@ -64,7 +67,7 @@ function Feed() {
     );
   }
 
-  if (dataItems) {
+  if (dataItem) {
     return (
       <div>
         <h2 className={S.feedTitle}>Feeds</h2>
@@ -75,7 +78,7 @@ function Feed() {
           </button>
         </div>
         <div className={S.feedWrapper}>
-          {dataItems?.reverse().map((item) => (
+          {dataItem?.toReversed().map((item) => (
             <FeedItem key={item.id} item={item} />
           ))}
         </div>

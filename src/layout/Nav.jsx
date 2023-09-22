@@ -8,7 +8,6 @@ import useStorage from '@/hooks/useStorage';
 function Nav() {
   const { storageData } = useStorage('pocketbase_auth');
   const authInfo = storageData?.model;
-  console.log(authInfo);
 
   return (
     <nav className="w-full">
