@@ -2,6 +2,7 @@ import UserProfilePicture from '@/components/UserProfilePicture/UserProfilePictu
 import UserNickname from '@/components/UserNickname/UserNickname';
 import LoginButton from '@/components/LoginButton/LoginButton';
 import DarkModeButton from '@/components/DarkModeButton/DarkModeButton';
+
 function GuestSetting() {
   return (
     <>
@@ -14,7 +15,7 @@ function GuestSetting() {
           <span>설정</span>
         </div>
         <DarkModeButton></DarkModeButton>
-        <LoginButton></LoginButton>
+        <LoginButton buttonText={'로그인 하기'}></LoginButton>
       </div>
     </>
   );
