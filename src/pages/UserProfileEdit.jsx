@@ -93,7 +93,7 @@ function UserProfileEdit() {
     pocketbaseAuthData?.model?.username || '사용자 이름이 없습니다';
   return (
     <div className="md:mx-auto md:w-[768px] pt-[25px] items-center flex flex-col">
-      <UserProfilePicture />
+      <UserProfilePicture avatar={pocketbaseAuthData?.model?.avatar} />
       <div className="my-auto h-[90px] flex">
         <span>{username}</span>
       </div>
