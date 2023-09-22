@@ -1,12 +1,11 @@
 import { success } from '@/api/openweathermap';
 import Loading from '@/components/Loading/Loading';
-import { useQuery } from '@tanstack/react-query';
+import { getPbImageURL } from '@/utils';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import DownArrow from '/BackIcon.svg';
 import toast from 'react-hot-toast';
-import pb from '@/api/pocketbase';
-import { getPbImageURL } from '@/utils';
+import S from './Suggestion.module.css';
+import DownArrow from '/BackIcon.svg';
 
 const suggestClothingByTemperature = (temperature) => {
   let tempId = '';
@@ -42,7 +41,6 @@ const suggestClothingByTemperature = (temperature) => {
 };
 
 const PB = import.meta.env.VITE_PB_URL;
-// const PB_TEMP_ENDPOINT = `${PB}/api/collections/temperature/records/?expand=clothes`;
 
 async function fetchProducts(tempId) {
   const response = await axios(
@@ -104,100 +102,87 @@ function Suggestion() {
     const clothesList = suggestClothes?.clothes.description.split(',');
 
     return (
-      <div className=" dark:bg-black h-[calc(100vh-132px)] mx-auto overflow-y-scroll box-content relative min-w-[320px] ">
-        <section className="absolute right-3 top-5">
+      <div className={S.suggestWrapper}>
+        <section className={S.selectRegionWrapper}>
           <h2 className="sr-only">온도별 의상 제안</h2>
           <button
             ref={dropdownRef}
-            className="dropdownBtn relative border-2 rounded-xl w-52 p-3 text-gray900 text-start"
+            className={S.dropdownBtn}
             onClick={toggleDropdown}
           >
             <img
               src={DownArrow}
-              className={
-                isActive
-                  ? 'absolute w-3 h-3 -rotate-90 right-4 bottom-4'
-                  : 'absolute w-3 h-3 rotate-90 right-4 bottom-4'
-              }
+              className={isActive ? `${S.downArrow}` : `${S.upArrow}`}
             />
             {!selectRegion ? '지역을 선택해주세요' : selectRegion}
           </button>
 
-          <ul
-            id="myDropdown"
-            className={
-              isActive
-                ? 'hidden'
-                : 'border rounded-xl w-52 p-3 mt-2 overflow-y-scroll bg-white'
-            }
-          >
-            <li className="h-12 border-b">
-              <div className="">
-                <label htmlFor="seoul" className="relative">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="seoul"
-                    value="서울"
-                    onChange={handleOptionChange}
-                    className="focus-within:bg-gray300   w-44 h-12 appearance-none"
-                  />
-                  <span className="absolute bottom-5">서울</span>
-                </label>
-              </div>
-            </li>
-            <li className="h-12 border-b">
-              <label htmlFor="2" className="relative">
+          <ul id="myDropdown" className={isActive ? 'hidden' : S.regionList}>
+            <li className={S.regionItem}>
+              <label htmlFor="seoul" className="relative">
                 <input
                   type="radio"
                   name="options"
-                  id="2"
+                  id="seoul"
+                  value="서울"
+                  onChange={handleOptionChange}
+                  className={S.regionItemInput}
+                />
+                <span className="absolute bottom-5">서울</span>
+              </label>
+            </li>
+            <li className={S.regionItem}>
+              <label htmlFor="DaeGu" className="relative">
+                <input
+                  type="radio"
+                  name="options"
+                  id="DaeGu"
                   value="대구"
                   onChange={handleOptionChange}
-                  className="focus-within:bg-gray300 w-44 h-12 appearance-none"
+                  className={S.regionItemInput}
                 />
                 <span className="absolute bottom-5">대구</span>
               </label>
             </li>
-            <li className="h-12 border-b">
-              <label htmlFor="3" className="relative">
+            <li className={S.regionItem}>
+              <label htmlFor="InCheon" className="relative">
                 <input
                   type="radio"
                   name="options"
-                  id="3"
+                  id="InCheon"
                   value="인천"
                   onChange={handleOptionChange}
-                  className="focus-within:bg-gray300 w-44 h-12 appearance-none"
+                  className={S.regionItemInput}
                 />
                 <span className="absolute bottom-5">인천</span>
               </label>
             </li>
           </ul>
         </section>
-        <section className="mt-24 flex flex-col items-center">
-          <div className="">
+        <section className={S.suggestClothesWrapper}>
+          <div>
             <img
               src={regionWeather.iconURL}
               alt={regionWeather.description}
-              className="w-32 mx-auto"
+              className={S.nowWeather}
             />
-            <span className="relative bottom-[20px] left-[170px]">
-              오늘 날씨는{' '}
-              <span className="bg-primary rounded-xl px-1">
+            <span className={S.nowWeatherDescription}>
+              오늘 날씨는
+              <span className={S.nowWeatherPoint}>
                 {regionWeather.description}
               </span>
             </span>
 
-            <div className="box-border min-w-[310px] mx-auto border-[4px] border-secondary rounded-xl px-1 py-5 ">
+            <div className={S.nowWeatherInfoWrapper}>
               현재 지역
               <span className="text-xs text-gray750">
                 ({regionWeather.place})
               </span>
               의{' '}
-              <div className=" flex justify-end ">
+              <div className="flex justify-end">
                 <span>
                   온도는
-                  <span className="bg-primary rounded-xl px-2">
+                  <span className={S.nowWeatherPoint}>
                     {Math.floor(regionWeather.temperature)}℃
                   </span>
                   입니다
@@ -210,22 +195,17 @@ function Suggestion() {
           <div className="flex flex-col">
             <img
               src={getPbImageURL(suggestClothes.clothes, 'image')}
-              alt=""
-              className="w-60 mx-auto"
+              alt={suggestClothes.description}
+              className={S.clothesImg}
             />
-            <div className="grid grid-cols-3 gap-x-3 gap-y-3">
+            <div className={S.clothesWrapper}>
               {clothesList.map((item, index) => (
-                <span
-                  className="bg-primary rounded-3xl px-1 whitespace-nowrap text-center"
-                  key={index}
-                >
+                <span className={S.clothesItem} key={index}>
                   {item.trim()}
                 </span>
               ))}
             </div>
-            <span className="text-center text-lg mt-3">
-              이런 옷을 추천👍해드려요!
-            </span>
+            <span className="text-center mt-3">이런 옷을 추천👍해드려요!</span>
           </div>
         </section>
       </div>
