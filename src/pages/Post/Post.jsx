@@ -189,7 +189,7 @@ function Post() {
             </div>
           </div>
           <hr />
-          <p className={S.title}>{postInfo.content}</p>
+          <p className={S.content}>{postInfo.content}</p>
           <hr />
           <div className={S.colLayout}>
             <h3 className={S.title}>COMMENTS</h3>

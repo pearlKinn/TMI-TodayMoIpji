@@ -15,7 +15,7 @@
 }
 
 .inputWrapper {
-  @apply flex justify-between items-center gap-2 fixed top-[calc(100vh-106px)];
+  @apply flex justify-between items-center gap-2 fixed top-[calc(100vh-105px)];
   @apply border-2 border-gray-900 rounded-[15px] w-72 h-7 p-4 bg-white;
 }
 
@@ -44,12 +44,16 @@ button.heartBtn {
   @apply font-semibold py-3;
 }
 
+.content {
+  @apply py-3 font-semibold  leading-7;
+}
+
 .commentWrapper {
   @apply flex gap-2;
 }
 
 .commentUser {
-  @apply bg-primary rounded-lg h-5 px-1 text-sm text-center;
+  @apply bg-primary rounded-lg h-5 text-sm leading-[8px] px-2 py-[5px] font-semibold;
 }
 
 .noneComment {
@@ -69,7 +73,7 @@ button.heartBtn {
 }
 
 .bodyType {
-  @apply font-semibold text-gray900 bg-primary rounded-xl w-20 text-center;
+  @apply font-semibold text-gray900 bg-primary rounded-xl w-20 px-2 py-[5px] text-center;
 }
 
 .styleWrapper {
@@ -77,5 +81,5 @@ button.heartBtn {
 }
 
 .styleItem {
-  @apply bg-primary rounded-xl text-xs px-1 py-1 font-semibold;
+  @apply bg-primary rounded-xl text-xs px-2 py-[5px] font-semibold;
 }
