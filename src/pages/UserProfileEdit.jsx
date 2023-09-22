@@ -1,9 +1,11 @@
 import UserProfilePicture from '@/components/UserProfilePicture/UserProfilePicture';
-import UserNickname from '@/components/UserNickname/UserNickname';
-import EditPageButton from '@/components/EditPageButton/EditPageButton';
+// import UserNickname from '@/components/UserNickname/UserNickname';
+// import EditPageButton from '@/components/EditPageButton/EditPageButton';
 import ProfileUpload from '@/components/ProfileUpload/ProfileUpload';
 import { useState, useEffect } from 'react';
 import useFetchData from '@/hooks/useFetchData';
+import useStorage from '@/hooks/useStorage';
+import pb from '@/api/pocketbase';
 
 const PB = import.meta.env.VITE_PB_URL;
 const PB_USER_ENDPOINT = `${PB}/api/collections/users/records`;
@@ -12,14 +14,14 @@ function UserProfileEdit() {
   const { error, data: userData, isLoading } = useFetchData(PB_USER_ENDPOINT);
   const [nickname, setNickname] = useState('');
   const [validationResult, setValidationResult] = useState('');
-  const [usernames, setUsernames] = useState([]);
-
+  const [usernames, setUsername] = useState([]);
+  const { storageData: loggedInUser } = useStorage('loggedInUser');
   useEffect(() => {
     if (userData.items) {
       const usernames = userData.items.map((user) =>
         user.username.toLowerCase()
       );
-      setUsernames(usernames);
+      setUsername(usernames);
     }
   }, [userData.items]);
   console.log(userData.items);
@@ -28,6 +30,7 @@ function UserProfileEdit() {
       return;
     }
 
+    // const avatar = loggedInUser?.avatar || '사용자 아바타 이미지 URL이 없습니다'; // 아바타 이미지가 없는 경우 기본값 사용
     if (
       nickname.length >= 2 &&
       nickname.length <= 10 &&
@@ -66,13 +69,33 @@ function UserProfileEdit() {
       handleCheckDuplicate();
     }
   };
+  const updateUsernameOnServer = async () => {
+    try {
+      const response = await pb
+        .collection('users')
+        .update(loggedInUser.record.id, {
+          username: nickname,
+        });
 
+      if (response.status === 200) {
+        return true; // 업데이트 성공
+      } else {
+        return false; // 업데이트 실패
+      }
+    } catch (error) {
+      console.error('서버 요청 오류:', error);
+      return false;
+    }
+  };
+
+  const username = loggedInUser?.record?.username || '사용자 이름이 없습니다';
   return (
     <div className=" md:mx-auto md:w-[768px]  pt-[25px] items-center flex flex-col">
       <UserProfilePicture />
       <div className="my-auto h-[90px] flex">
-        <UserNickname userNickname={'분당에바람이분당'} />
+        <span>{username}</span>
       </div>
+
       <div className="w-full flex justify-center border-t-2 border-black"></div>
       <div className="flex flex-col gap-6 mt-10">
         <div className="flex gap-4 items-end">
@@ -126,7 +149,22 @@ function UserProfileEdit() {
         </div>
         <ProfileUpload />
       </div>
-      <button className="bg-primary w-1/2 mt-20 h-10 px-1 text-gray-900 rounded">
+      <button
+        onClick={async () => {
+          if (!isLoading && validationResult === '사용가능') {
+            const isUsernameUpdated = await updateUsernameOnServer();
+            if (isUsernameUpdated) {
+              setUsername(nickname);
+              // 성공 메시지를 표시할 수도 있습니다.
+            } else {
+              console.error('서버에서 username 업데이트 실패');
+              // 오류 메시지를 표시할 수도 있습니다.
+            }
+          }
+        }}
+        className={`bg-primary w-1/2 mt-20 h-10 px-1 text-gray-900 rounded`}
+        disabled={isLoading || validationResult !== '사용가능'}
+      >
         저장하기
       </button>
     </div>
