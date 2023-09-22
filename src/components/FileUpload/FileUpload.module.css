@@ -6,7 +6,7 @@
   @apply flex flex-col gap-2 w-full focus:ring-2 focus:ring-gray900 focus:ring-offset-2;
 }
 .photo {
-  @apply absolute z-10 w-full h-64 opacity-0 cursor-pointer  border border-black;
+  @apply absolute z-10 w-full h-64 opacity-0 cursor-pointer border border-black;
 }
 
 .carouselWrapper {
@@ -46,7 +46,7 @@ button.postBtn {
 }
 
 .textarea {
-  @apply py-1.5 px-4  w-[280px] h-[108px] min-h-[108px] max-h-[240px] rounded-xl bg-secondary text-sm;
+  @apply py-1.5 px-4  w-[280px] h-[108px] min-h-[108px] max-h-[108px] rounded-xl bg-secondary text-sm;
   @apply focus:outline-none focus:ring-2 focus:ring-gray600 focus:ring-offset-2;
   @apply text-gray900 placeholder:text-gray900;
   @apply dark:bg-gray700;
