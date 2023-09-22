@@ -6,6 +6,7 @@ import debounce from '@/utils/debounce';
 import { useNavigate } from 'react-router-dom';
 import { emailReg, pwReg, userNameReg } from '@/utils/validation';
 import pb from '@/api/pocketbase';
+import { toast } from 'react-hot-toast';
 
 function SignUp() {
   // signUp(회원가입) 기능
@@ -25,8 +26,19 @@ function SignUp() {
 
     const { email, userName, password, passwordConfirm } = formState;
 
+    if (!validateEmail(email)) {
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      return;
+    }
+
     if (password !== passwordConfirm) {
-      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    if (!userNameEnglish || !validateUserName(userName)) {
       return;
     }
 
@@ -37,18 +49,15 @@ function SignUp() {
         password: password,
         passwordConfirm: passwordConfirm,
       });
-      console.log('회원가입 성공');
       navigate('/welcome');
     } catch (error) {
-      console.error(error.message);
-      alert('입력한 내용을 확인해주세요');
+      toast.error('입력한 내용을 확인해주세요');
     }
   };
 
   // 성능개선 debounce 기능
   const handleInput = debounce((e) => {
     const { name, value } = e.target;
-    console.log(name);
     setFormState({
       ...formState,
       [name]: value,
@@ -58,12 +67,6 @@ function SignUp() {
   const [checkEmail, setCheckEmail] = useState(false);
 
   // email, password, userName validation기능
-  const isValidForm =
-    formState.email !== '' &&
-    formState.password !== '' &&
-    formState.passwordConfirm !== '' &&
-    formState.password === formState.passwordConfirm &&
-    checkEmail;
 
   const validateEmail = (email) => {
     return emailReg(email);
@@ -79,6 +82,7 @@ function SignUp() {
   const [passwordMsg, setPasswordMsg] = useState('');
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState('');
   const [userNameMsg, setUserNameMsg] = useState('');
+  const [userNameEnglish, setUserNameEnglish] = useState(true);
 
   const isEmailValid = validateEmail(formState.email);
   const isPasswordValid = validatePassword(formState.password);
@@ -105,7 +109,7 @@ function SignUp() {
       if (!validatePassword(currentPassword)) {
         setPasswordMsg('영문, 숫자, 특수기호 조합으로 8자이상 입력해주세요.');
       } else {
-        setPasswordMsg('안전한 비밀번호입니다.');
+        setPasswordMsg('사용 가능한 비밀번호입니다.');
       }
       if (currentPassword !== formState.passwordConfirm) {
         setConfirmPasswordMsg('비밀번호가 일치하지 않습니다.');
@@ -136,13 +140,17 @@ function SignUp() {
 
   const onChangeUserName = useCallback((e) => {
     const currentUserName = e.target.value;
+    const userNameKoreanCheck = /[가-힣]/;
 
-    if (/[가-힣ㄱ-ㅎㅏ-ㅣ]/.test(currentUserName)) {
-      setUserNameMsg('한글 입력은 불가능합니다.');
+    if (userNameKoreanCheck.test(currentUserName)) {
+      setUserNameMsg('한글 닉네임은 불가능합니다.');
+      setUserNameEnglish(false);
     } else if (!validateUserName(currentUserName)) {
       setUserNameMsg('2자 이상 10자 이하로 입력해주세요.');
+      setUserNameEnglish(false);
     } else {
       setUserNameMsg('올바른 닉네임 형식입니다.');
+      setUserNameEnglish(true);
     }
   }, []);
 
@@ -166,6 +174,14 @@ function SignUp() {
       console.log(`이메일 중복검사 에러 내용: ${err}`);
     }
   };
+
+  const isValidForm =
+    formState.email !== '' &&
+    formState.password !== '' &&
+    formState.passwordConfirm !== '' &&
+    formState.password === formState.passwordConfirm &&
+    checkEmail &&
+    userNameEnglish;
 
   return (
     <>
