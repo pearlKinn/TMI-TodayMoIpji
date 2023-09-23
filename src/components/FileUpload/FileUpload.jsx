@@ -33,6 +33,8 @@ function FileUpload() {
   const formRef = useRef(null);
   const photoRef = useRef(null);
 
+  /* 게시물 업로드  --------------------------------------------------------------------- */
+
   const handlePost = async (e) => {
     e.preventDefault();
     const statusValue = selectedOption;
@@ -120,7 +122,7 @@ function FileUpload() {
           >
             <div className={S.speechBubbleHead}></div>
             {isShowOptions && (
-              <div title="상태 선택"> {selectedOption || '🫥'}</div>
+              <div title="상태 선택"> {selectedOption || '상태 선택'}</div>
             )}
           </button>
           {!isShowOptions && (

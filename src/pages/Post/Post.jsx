@@ -1,6 +1,7 @@
 import pb from '@/api/pocketbase';
 import FormInput from '@/components/FormInput/FormInput';
 import Heart from '@/components/Heart';
+import Loading from '@/components/Loading/Loading';
 import MoveSlide from '@/components/MoveSlide/MoveSlide';
 import SpeechBubble from '@/components/SpeechBubble/SpeechBubble';
 import useStorage from '@/hooks/useStorage';
@@ -14,8 +15,8 @@ import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
 import S from './Post.module.css';
-import Loading from '@/components/Loading/Loading';
 import BackIcon from '/BackIcon.svg';
+import { useMutation } from '@tanstack/react-query';
 
 function Post() {
   const { postId } = useParams();
@@ -29,6 +30,7 @@ function Post() {
   const [likePost, setLikePost] = useState(true);
   const { storageData } = useStorage('pocketbase_auth');
   const [loading, setLoading] = useState(true);
+  const [postUser, setPostUser] = useState(null);
   const authUser = storageData?.model;
 
   const handleNextSlide = () => {
@@ -48,25 +50,66 @@ function Post() {
       try {
         const post = await pb
           .collection('posts')
-          .getOne(postId, { expand: 'comments.user' });
+          .getOne(postId, { expand: 'comments.user, user', requestKey: null });
         const { expand: postExpandData } = post;
         setPostInfo(post);
         setLoading(false);
-        setCommentList(postExpandData.comments);
+        setPostUser(postExpandData.user);
+        if (post.comments.length !== 0) setCommentList(postExpandData.comments);
       } catch (error) {
         if (!(error in DOMException)) {
-          console.error();
+          console.error(error);
         }
       }
     }
     getPost();
   }, [postId]);
 
-
-
   if (loading) {
     return <Loading />;
   }
+
+  const commentMutation = useMutation(
+    async (newComment) => {
+      try {
+        const commentRecord = await pb
+          .collection('comments')
+          .create(newComment);
+
+        await pb.collection('posts').update(postId, {
+          'comments+': commentRecord.id,
+        });
+
+        const commentUser = await pb.collection('users').getOne(authUser.id);
+
+        commentRecord.expand = {
+          user: commentUser,
+        };
+
+        return commentRecord;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+    {
+      onSuccess: (commentRecord) => {
+        setCommentList((prevCommentList) => [
+          ...prevCommentList,
+          commentRecord,
+        ]);
+        inputRef.current.value = '';
+
+        toast.success('댓글이 성공적으로 달렸습니다', {
+          position: 'top-center',
+          ariaProps: {
+            role: 'status',
+            'aria-live': 'polite',
+          },
+        });
+      },
+    }
+  );
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -80,6 +123,7 @@ function Post() {
       });
       return;
     }
+
     if (inputRef.current.value.trim() === '') {
       toast.error('댓글을 입력해주세요', {
         ariaProps: {
@@ -89,47 +133,33 @@ function Post() {
       });
       return;
     }
+
     const newComment = {
       message: inputRef.current.value,
       post: postId,
       user: authUser.id,
     };
-    try {
-      const commentRecord = await pb.collection('comments').create(newComment);
 
-      await pb.collection('posts').update(postId, {
-        'comments+': commentRecord.id,
-      });
-
-      setCommentList([...commentList, newComment]);
-      inputRef.current.value = '';
-      toast.success('댓글이 성공적으로 달렸습니다', {
-        position: 'top-center',
-        ariaProps: {
-          role: 'status',
-          'aria-live': 'polite',
-        },
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    commentMutation.mutateAsync(newComment);
   };
-
-  // const handleLoginModal = () => {};
 
   const handleLikePost = () => {
     setLikePost(!likePost);
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   if (postInfo) {
     return (
       <div className={S.postWrapper}>
-        <div className="formWrapper w-72 mx-auto relative">
-          <Link to={'/'}>
-            <img src={BackIcon} alt="뒤로가기" className="w-3 h-5 mt-2" />
-          </Link>
+        <Link to={'/'}>
+          <img src={BackIcon} alt="뒤로가기" className="w-3 h-5 mt-2 ml-2" />
+        </Link>
+        <div className={S.formWrapper}>
           <SpeechBubble text={postInfo.statusEmoji} />
-          <div className="relative mx-auto">
+          <div className={S.postInnerWrapper}>
             <div className={S.photoWrapper}>
               {postInfo.photo?.map((_, index) => (
                 <div
@@ -146,7 +176,7 @@ function Post() {
             </div>
             <button
               type="button"
-              className="absolute right-2 top-64 text-white flex text-outline-black"
+              className={S.heartBtn}
               onClick={handleLikePost}
             >
               {likePost ? <Heart /> : <Heart color="#FF3A3A" />}
@@ -157,24 +187,56 @@ function Post() {
             nextFunc={handleNextSlide}
             disabled={postInfo.photo.length <= 1 ? true : false}
           />
-          <div className="text-xs">{formattedDate}</div>
+          <div className={S.postingDate}>📆 {formattedDate}</div>
           <hr />
-          <span>{postInfo.content}</span>
-          <hr className="mt-2" />
+          <p className={S.title}>{postInfo.content}</p>
+          <hr />
           <div className={S.colLayout}>
-            <span className="font-semibold">comment</span>
+            <h3 className={S.title}>COMMENTS</h3>
             <ul className={S.colLayout}>
-              <div className={`${S.colLayout} gap-1`}>
-                {commentList?.map((item, index) => (
-                  <li key={index} className="flex gap-4">
-                    <span>{item.expand.user.username}</span>
-                    <span>{item.message}</span>
-                  </li>
-                ))}
+              <div className={`${S.colLayout} gap-1 pb-3`}>
+                {commentList.length !== 0 ? (
+                  commentList?.toReversed().map((item, index) => (
+                    <li key={index} className={S.commentWrapper}>
+                      <span className={S.commentUser}>
+                        {item.expand.user.username}
+                      </span>
+                      <span>{item.message}</span>
+                    </li>
+                  ))
+                ) : (
+                  <span className={S.noneComment}>
+                    {'댓글이 아직 없어요 (┬┬﹏┬┬)'}
+                  </span>
+                )}
               </div>
             </ul>
           </div>
           <hr />
+          <section>
+            <h3 className={S.title}>
+              <span className="text-gray800 font-semibold underline">
+                {postUser.username}
+              </span>{' '}
+              님의 Info
+            </h3>
+            <div className={S.postingUserInfoWrapper}>
+              <div className={S.postingUserItemWrapper}>
+                <span className={S.postingItemTitle}>º 체형</span>
+                <span className={S.bodyType}>{postUser?.bodyType}</span>
+              </div>
+              <div className={S.postingUserItemWrapper}>
+                <span className={S.postingItemTitle}>º 스타일</span>
+                <span className={S.styleWrapper}>
+                  {postUser?.style.map((item, index) => (
+                    <span key={index} className={S.styleItem}>
+                      {item}
+                    </span>
+                  ))}
+                </span>
+              </div>
+            </div>
+          </section>
           <div className={S.inputWrapper}>
             <FormInput
               type="text"
@@ -190,25 +252,6 @@ function Post() {
             >
               게시
             </button>
-            {/* {authUser ? (
-              <button
-                onClick={handleCommentSubmit}
-                type="submit"
-                aria-label="댓글 게시"
-                className={S.inputBtn}
-              >
-                게시
-              </button>
-            ) : (
-              <button
-                onClick={handleLoginModal}
-                type="button"
-                aria-label="댓글 게시"
-                className={S.inputBtn}
-              >
-                게시
-              </button>
-            )} */}
           </div>
         </div>
       </div>

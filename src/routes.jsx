@@ -1,14 +1,13 @@
 import { createHashRouter } from 'react-router-dom';
-import RootLayout from './layout/RootLayout';
-import Home from './pages/Home';
+import RootLayout from './layout/RootLayout/RootLayout';
+import Home from './pages/Home/Home';
 import Post from './pages/Post/Post';
 import Writing from './pages/Writing';
-// import ProtectRoute from './components/ProtectRoute';
-import SignUp from './pages/SignUp';
-import SignIn from './pages/SignIn';
-import Welcome from './pages/Welcome';
-import Mypage from './pages/Mypage/Mypage';
+import { Mypage } from './pages/Mypage';
 import UserProfileEdit from './pages/UserProfileEdit';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Welcome from './pages/Welcome';
 import ProtectRoute from './components/ProtectRoute';
 
 const router = createHashRouter([
@@ -26,11 +25,27 @@ const router = createHashRouter([
           </ProtectRoute>
         ),
       },
-      { path: 'signin', element: <SignIn /> },
-      { path: 'signup', element: <SignUp /> },
+      {
+        path: 'signin',
+        element: (
+          <GuestOnlyRoutes>
+            <SignIn />
+          </GuestOnlyRoutes>
+        ),
+      },
+      {
+        path: 'signup',
+        element: (
+          <GuestOnlyRoutes>
+            <SignUp />
+          </GuestOnlyRoutes>
+        ),
+      },
       { path: 'welcome', element: <Welcome /> },
-      { path: 'mypage/:userId', element: <Mypage /> },
+      { path: 'mypage', element: <Mypage /> },
       { path: 'userprofileedit', element: <UserProfileEdit /> },
+      { path: 'user', element: <User /> },
+      { path: 'guestsetting', element: <GuestSetting /> },
     ],
   },
 ]);
