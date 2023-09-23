@@ -3,5 +3,5 @@
 }
 
 button.moveSlideBtn {
-  @apply font-semibold uppercase disabled:cursor-not-allowed bg-primary rounded-xl  px-3;
+  @apply font-semibold uppercase disabled:cursor-not-allowed disabled:bg-secondary disabled:text-gray700 bg-primary rounded-xl  px-3;
 }
