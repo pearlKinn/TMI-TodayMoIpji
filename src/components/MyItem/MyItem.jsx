@@ -20,13 +20,18 @@ function MyItem({ item }) {
   console.log('storageData:', storageData);
   console.log('token:', token);
   console.log('authUserData:', authUserData);
+
   const authUserDataId = authUserData?.id;
+  
   console.log('authUserDataId:', authUserDataId);
 
   const { expand: postExpandData } = item;
   const postUserData = postExpandData.user;
+
   console.log('postUserData:', postUserData);
+  
   const postUserDataId = postUserData.id;
+  
   console.log('postUserDataID:', postUserDataId);
 
   if (token) {

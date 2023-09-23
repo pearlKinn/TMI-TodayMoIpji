@@ -7,7 +7,7 @@ import useStorage from '@/hooks/useStorage';
 import MypageStyleSlide from '../../swiper/MypageStyleSlide';
 import MypageSievingSlide from '../../swiper/MypageSievingSlide';
 import MypageBodyTypeSlide from '../../swiper/MypageBodyTypeSlide';
-import MyItem from '../../components/MyItem/MyItem';
+// import MyItem from '../../components/MyItem/MyItem';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -31,6 +31,7 @@ function Mypage() {
 
   const { storageData } = useStorage('pocketbase_auth');
   const [authUserData, setAuthUserData] = useState(storageData?.model);
+
   useEffect(() => {
     setAuthUserData(storageData?.model);
   });
@@ -180,9 +181,9 @@ function Mypage() {
           </div>
           {showPosts && (
             <div className={S.mypageInfo}>
-              {dataItems?.map((item) => (
+             {/*  {dataItems?.map((item) => (
                 <MyItem key={item.id} item={item} />
-              ))}
+              ))} */}
             </div>
           )}
           {showSettings && (
@@ -225,4 +226,5 @@ function Mypage() {
     }
   }
 }
+
 export default Mypage;

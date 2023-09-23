@@ -3,15 +3,16 @@ import RootLayout from './layout/RootLayout/RootLayout';
 import Home from './pages/Home/Home';
 import Post from './pages/Post/Post';
 import Writing from './pages/Writing';
-import { Mypage } from './pages/Mypage';
-import UserProfileEdit from './pages/UserProfileEdit';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import Welcome from './pages/Welcome';
-import ProtectRoute from './components/ProtectRoute';
-import GuestOnlyRoutes from './components/GuestOnlyRoute';
 import User from './pages/User';
 import GuestSetting from './pages/GuestSetting';
+import UserProfileEdit from './pages/UserProfileEdit';
+import ProtectRoute from './components/ProtectRoute';
+import Mypage from './pages/Mypage/Mypage';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Suggestion from './pages/Suggestion/Suggestion';
+import Welcome from './pages/Welcome';
+import GuestOnlyRoutes from './components/GuestOnlyRoute';
 
 const router = createHashRouter([
   {
@@ -45,7 +46,8 @@ const router = createHashRouter([
         ),
       },
       { path: 'welcome', element: <Welcome /> },
-      { path: 'mypage', element: <Mypage /> },
+      { path: 'mypage/:userId', element: <Mypage /> },
+      { path: 'suggestion', element: <Suggestion /> },
       { path: 'userprofileedit', element: <UserProfileEdit /> },
       { path: 'user', element: <User /> },
       { path: 'guestsetting', element: <GuestSetting /> },
