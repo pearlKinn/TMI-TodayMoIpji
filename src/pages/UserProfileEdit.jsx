@@ -91,87 +91,90 @@ function UserProfileEdit() {
   // pocketbase_auth에서 username 값을 가져옵니다.
   const username =
     pocketbaseAuthData?.model?.username || '사용자 이름이 없습니다';
-  return (
-    <div className="md:mx-auto md:w-[768px] pt-[25px] items-center flex flex-col">
-      <UserProfilePicture avatar={pocketbaseAuthData?.model?.avatar} />
-      <div className="my-auto h-[90px] flex">
-        <span>{username}</span>
-      </div>
 
-      <div className="w-full flex justify-center border-t-2 border-black"></div>
-      <div className="flex flex-col gap-6 mt-10">
-        <div className="flex gap-4 items-end">
-          <div className="flex flex-col gap-1">
-            <label htmlFor="" className="text-sm">
-              닉네임
-            </label>
-            <input
-              type="text"
-              id="nickname"
-              name="nickname"
-              placeholder="2 ~ 10문자(특수문자 사용불가)"
-              className="w-30 h-10 rounded border border-primary text-sm p-2"
-              value={nickname}
-              onChange={(e) => handleNicknameChange(e.target.value)}
-            />
-            {validationResult && (
-              <div
-                className={
-                  validationResult === '중복'
-                    ? 'text-red-500'
-                    : 'text-green-500'
-                }
-              >
-                {validationResult}
-              </div>
-            )}
-          </div>
-          <button
-            onClick={() => {
-              handleButtonClick();
-            }}
-            className={`h-10 text-gray-900 border rounded px-2 ${
-              nickname.length >= 2 &&
-              nickname.length <= 10 &&
-              /^[a-zA-Z0-9]+$/.test(nickname) // 영문 대소문자와 숫자만 허용
-                ? 'bg-primary'
-                : 'bg-gray-300 cursor-not-allowed'
-            }`}
-            disabled={
-              isLoading ||
-              !(
+  if (pocketbaseAuthData?.model) {
+    return (
+      <div className="md:mx-auto md:w-[768px] pt-[25px] items-center flex flex-col h-[calc(100vh-132px)]">
+        <UserProfilePicture avatar={pocketbaseAuthData?.model} />
+        <div className="h-[90px] flex">
+          <span>{username}</span>
+        </div>
+
+        <div className="w-full flex justify-center border-t-2 border-black"></div>
+        <div className="flex flex-col gap-6 mt-10">
+          <div className="flex gap-4 items-end">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="" className="text-sm">
+                닉네임
+              </label>
+              <input
+                type="text"
+                id="nickname"
+                name="nickname"
+                placeholder="2 ~ 10문자(특수문자 사용불가)"
+                className="w-30 h-10 rounded border border-primary text-sm p-2"
+                value={nickname}
+                onChange={(e) => handleNicknameChange(e.target.value)}
+              />
+              {validationResult && (
+                <div
+                  className={
+                    validationResult === '중복'
+                      ? 'text-red-500'
+                      : 'text-green-500'
+                  }
+                >
+                  {validationResult}
+                </div>
+              )}
+            </div>
+            <button
+              onClick={() => {
+                handleButtonClick();
+              }}
+              className={`h-10 text-gray-900 border rounded px-2 ${
                 nickname.length >= 2 &&
                 nickname.length <= 10 &&
-                /^[a-zA-Z0-9]+$/.test(nickname)
-              ) // 영문 대소문자와 숫자만 허용
-            }
-          >
-            중복확인
-          </button>
+                /^[a-zA-Z0-9]+$/.test(nickname) // 영문 대소문자와 숫자만 허용
+                  ? 'bg-primary'
+                  : 'bg-gray-300 cursor-not-allowed'
+              }`}
+              disabled={
+                isLoading ||
+                !(
+                  nickname.length >= 2 &&
+                  nickname.length <= 10 &&
+                  /^[a-zA-Z0-9]+$/.test(nickname)
+                ) // 영문 대소문자와 숫자만 허용
+              }
+            >
+              중복확인
+            </button>
+          </div>
+          <ProfileUpload />
         </div>
-        <ProfileUpload />
-      </div>
-      <button
-        onClick={async () => {
-          if (!isLoading && validationResult === '사용가능') {
-            const isUsernameUpdated = await updateUsernameOnServer();
-            if (isUsernameUpdated) {
-              // 서버에서 업데이트 성공하면 로컬 스토리지의 username도 업데이트
-              pocketbaseAuthData.username = nickname;
-              // 성공 메시지를 표시할 수도 있습니다.
-            } else {
-              console.error('서버에서 username 업데이트 실패');
-              // 오류 메시지를 표시할 수도 있습니다.
+        <button
+          onClick={async () => {
+            if (!isLoading && validationResult === '사용가능') {
+              const isUsernameUpdated = await updateUsernameOnServer();
+              if (isUsernameUpdated) {
+                // 서버에서 업데이트 성공하면 로컬 스토리지의 username도 업데이트
+                pocketbaseAuthData.username = nickname;
+                // 성공 메시지를 표시할 수도 있습니다.
+              } else {
+                console.error('서버에서 username 업데이트 실패');
+                // 오류 메시지를 표시할 수도 있습니다.
+              }
             }
-          }
-        }}
-        className={`bg-primary w-1/2 mt-20 h-10 px-1 text-gray-900 rounded`}
-        disabled={isLoading || validationResult !== '사용가능'}
-      >
-        저장하기
-      </button>
-    </div>
-  );
+          }}
+          className={`bg-primary w-1/2 mt-20 h-10 px-1 text-gray-900 rounded`}
+          disabled={isLoading || validationResult !== '사용가능'}
+        >
+          저장하기
+        </button>
+      </div>
+    );
+  }
 }
 
 export default UserProfileEdit;
