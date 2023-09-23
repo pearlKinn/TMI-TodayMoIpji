@@ -1,9 +1,10 @@
-import pb from '@/api/pocketbase';
 import FormInput from '@/components/FormInput/FormInput';
 import Heart from '@/components/Heart';
 import Loading from '@/components/Loading/Loading';
 import MoveSlide from '@/components/MoveSlide/MoveSlide';
 import SpeechBubble from '@/components/SpeechBubble/SpeechBubble';
+import { useCommentsMutation } from '@/hooks/useCommentsMutation';
+import { usePostQuery } from '@/hooks/usePostQuery';
 import useStorage from '@/hooks/useStorage';
 import {
   formatDate,
@@ -11,26 +12,36 @@ import {
   getPbImageURL,
   getPreviousSlideIndex,
 } from '@/utils';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
 import S from './Post.module.css';
 import BackIcon from '/BackIcon.svg';
-import { useMutation } from '@tanstack/react-query';
 
 function Post() {
   const { postId } = useParams();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [postInfo, setPostInfo] = useState(null);
-  const [commentList, setCommentList] = useState([]);
-  const inputRef = useRef(null);
-  const inputDateString = postInfo?.created;
-  const formattedDate = formatDate(inputDateString);
   const [likePost, setLikePost] = useState(true);
   const { storageData } = useStorage('pocketbase_auth');
-  const [loading, setLoading] = useState(true);
-  const [postUser, setPostUser] = useState(null);
+  const [formInputValue, setFormInputValue] = useState('');
   const authUser = storageData?.model;
+
+  const { data: postInfo, error, isLoading } = usePostQuery(postId);
+  const { mutate } = useCommentsMutation(() => setFormInputValue(''));
+  const inputDateString = postInfo?.created;
+  const formattedDate = formatDate(inputDateString);
+  const postExpandData = postInfo?.expand;
+  const postUser = postExpandData?.user;
+
+  const newComment = {
+    message: formInputValue,
+    post: postId,
+    user: authUser,
+  };
+
+  const handleFormInputValue = (e) => {
+    setFormInputValue(e.target.value);
+  };
 
   const handleNextSlide = () => {
     setCurrentIndex(
@@ -44,71 +55,10 @@ function Post() {
     );
   };
 
-  useEffect(() => {
-    async function getPost() {
-      try {
-        const post = await pb
-          .collection('posts')
-          .getOne(postId, { expand: 'comments.user, user', requestKey: null });
-        const { expand: postExpandData } = post;
-        setPostInfo(post);
-        setLoading(false);
-        setPostUser(postExpandData.user);
-        if (post.comments.length !== 0) setCommentList(postExpandData.comments);
-      } catch (error) {
-        if (!(error in DOMException)) {
-          console.error(error);
-        }
-      }
-    }
-    getPost();
-  }, [postId]);
-
-  const commentMutation = useMutation(
-    async (newComment) => {
-      try {
-        const commentRecord = await pb
-          .collection('comments')
-          .create(newComment);
-
-        await pb.collection('posts').update(postId, {
-          'comments+': commentRecord.id,
-        });
-
-        const commentUser = await pb.collection('users').getOne(authUser.id);
-
-        commentRecord.expand = {
-          user: commentUser,
-        };
-
-        return commentRecord;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    },
-    {
-      onSuccess: (commentRecord) => {
-        setCommentList((prevCommentList) => [
-          ...prevCommentList,
-          commentRecord,
-        ]);
-        inputRef.current.value = '';
-
-        toast.success('댓글이 성공적으로 달렸습니다', {
-          position: 'top-center',
-          ariaProps: {
-            role: 'status',
-            'aria-live': 'polite',
-          },
-        });
-      },
-    }
-  );
-
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-
+    mutate(newComment);
+    setFormInputValue('');
     if (!authUser) {
       toast.error('로그인이 필요한 작업입니다', {
         ariaProps: {
@@ -119,7 +69,7 @@ function Post() {
       return;
     }
 
-    if (inputRef.current.value.trim() === '') {
+    if (formInputValue.trim() === '') {
       toast.error('댓글을 입력해주세요', {
         ariaProps: {
           role: 'status',
@@ -128,22 +78,18 @@ function Post() {
       });
       return;
     }
-
-    const newComment = {
-      message: inputRef.current.value,
-      post: postId,
-      user: authUser.id,
-    };
-
-    commentMutation.mutateAsync(newComment);
   };
 
   const handleLikePost = () => {
     setLikePost(!likePost);
   };
 
-  if (loading) {
+  if (isLoading) {
     return <Loading />;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   if (postInfo) {
@@ -195,11 +141,11 @@ function Post() {
             <h3 className={S.title}>COMMENTS</h3>
             <ul className={S.colLayout}>
               <div className={`${S.colLayout} gap-1 pb-3`}>
-                {commentList.length !== 0 ? (
-                  commentList?.toReversed().map((item, index) => (
+                {postExpandData.comments.length !== 0 ? (
+                  postExpandData.comments?.toReversed().map((item, index) => (
                     <li key={index} className={S.commentWrapper}>
                       <span className={S.commentUser}>
-                        {item.expand.user.username}
+                        {item.expand?.user.username}
                       </span>
                       <span>{item.message}</span>
                     </li>
@@ -252,7 +198,8 @@ function Post() {
               type="text"
               name="comment"
               label="댓글창"
-              ref={inputRef}
+              onChange={handleFormInputValue}
+              value={formInputValue}
             />
             <button
               onClick={handleCommentSubmit}
