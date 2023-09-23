@@ -12,18 +12,30 @@ export function useCommentsMutation(emptyFormInputValue) {
       await queryClient.cancelQueries({ queryKey: ['post', post] });
       const previousPost = queryClient.getQueryData(['post', post]);
       queryClient.setQueryData(['post', post], (old) => {
-        console.log(old.expand);
-        old.expand.comments = [
-          ...old.expand.comments,
-          {
-            message,
-            expand: {
-              user: {
-                username: user.username,
+        if (!old.expand.comments) {
+          old.expand.comments = [
+            {
+              message,
+              expand: {
+                user: {
+                  username: user.username,
+                },
               },
             },
-          },
-        ];
+          ];
+        } else {
+          old.expand.comments = [
+            ...old.expand.comments,
+            {
+              message,
+              expand: {
+                user: {
+                  username: user.username,
+                },
+              },
+            },
+          ];
+        }
         return old;
       });
 

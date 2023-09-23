@@ -57,18 +57,6 @@ function Post() {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    mutate(newComment);
-    setFormInputValue('');
-    if (!authUser) {
-      toast.error('로그인이 필요한 작업입니다', {
-        ariaProps: {
-          role: 'status',
-          'aria-live': 'polite',
-        },
-      });
-      return;
-    }
-
     if (formInputValue.trim() === '') {
       toast.error('댓글을 입력해주세요', {
         ariaProps: {
@@ -78,6 +66,17 @@ function Post() {
       });
       return;
     }
+    if (!authUser) {
+      toast.error('로그인이 필요한 작업입니다', {
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
+      return;
+    }
+    mutate(newComment);
+    setFormInputValue('');
   };
 
   const handleLikePost = () => {
@@ -141,7 +140,7 @@ function Post() {
             <h3 className={S.title}>COMMENTS</h3>
             <ul className={S.colLayout}>
               <div className={`${S.colLayout} gap-1 pb-3`}>
-                {postExpandData.comments.length !== 0 ? (
+                {postExpandData.comments ? (
                   postExpandData.comments?.toReversed().map((item, index) => (
                     <li key={index} className={S.commentWrapper}>
                       <span className={S.commentUser}>
