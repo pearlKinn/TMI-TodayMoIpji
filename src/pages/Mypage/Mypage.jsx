@@ -19,6 +19,7 @@ async function fetchProducts() {
   const response = await axios(PB_FEED_ENDPOINT);
   return await response.data;
 }
+
 function Mypage() {
   const { userId } = useParams();
   console.log(userId);

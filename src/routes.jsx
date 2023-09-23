@@ -9,6 +9,9 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Welcome from './pages/Welcome';
 import ProtectRoute from './components/ProtectRoute';
+import GuestOnlyRoutes from './components/GuestOnlyRoute';
+import User from './pages/User';
+import GuestSetting from './pages/GuestSetting';
 
 const router = createHashRouter([
   {
