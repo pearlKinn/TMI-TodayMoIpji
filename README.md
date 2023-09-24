@@ -37,6 +37,7 @@ TMI는 외출시 온도/날씨에 따라 어떤 옷을 입어야 할지 고민�
 
 ## 폴더 구조
 
+```
 📦src
 ┣ 📂api
 ┃ ┣ 📜comment.js
@@ -108,3 +109,4 @@ TMI는 외출시 온도/날씨에 따라 어떤 옷을 입어야 할지 고민�
 ┃ ┣ 📜MypageSievingSlide.jsx
 ┃ ┣ 📜MypageStyleSlide.jsx
 ┃ ┗ 📜swiper-bundle.css
+```
