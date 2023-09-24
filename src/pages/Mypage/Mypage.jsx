@@ -33,6 +33,10 @@ function Mypage() {
   const { storageData } = useStorage('pocketbase_auth');
   const [authUserData, setAuthUserData] = useState(storageData?.model);
 
+  const [sievingValue, setSievingValue] = useState({});
+  const [styleValue, setStyleValue] = useState({});
+  const [bodyTypeValue, setBodyTypeValue] = useState({});
+
   useEffect(() => {
     setAuthUserData(storageData?.model);
   });
@@ -60,17 +64,28 @@ function Mypage() {
     const storedUserStyleValue = localStorage.getItem('userStyleValue');
     const storedBodyTypeValue = localStorage.getItem('userBodyTypeValue');
 
+    if (storedUserSievingValue !== null) {
+      setSievingValue(storedUserSievingValue);
+    } else if (authUserData?.sieving) {
+      setSievingValue(authUserData.sieving);
+    }
+
+    if (storedUserStyleValue !== null) {
+      setStyleValue(storedUserStyleValue);
+    } else if (authUserData?.style) {
+      setStyleValue(authUserData.style);
+    }
+
+    if (storedBodyTypeValue !== null) {
+      setBodyTypeValue(storedBodyTypeValue);
+    } else if (authUserData?.bodyType) {
+      setBodyTypeValue(authUserData.bodyType);
+    }
+    console.log('auth:', authUserData);
     await pb.collection('users').update(userId, {
-      sieving:
-        storedUserSievingValue !== null
-          ? storedUserSievingValue
-          : authUserData?.sieving,
-      style: storedUserStyleValue !== null
-          ? storedUserStyleValue
-          : authUserData?.style,
-      bodyType: storedBodyTypeValue !== null
-          ? storedBodyTypeValue
-          : authUserData?.bodyType,
+      sieving: sievingValue,
+      style: styleValue,
+      bodyType: bodyTypeValue,
       requestKey: null,
     });
   };
@@ -131,9 +146,12 @@ function Mypage() {
           </div>
         </div>
         {showPosts && (
-          <span className="flex justify-center mb-6">
-            게시물을 보기위해서는 로그인이 필요해요!
-          </span>
+          <>
+            <span className="flex justify-center mb-6">
+              게시물을 보기위해서는 로그인이 필요해요!
+            </span>
+            <Link to="/signIn">로그인하러가기</Link>
+          </>
         )}
         {showSettings && (
           <div className={`flex flex-col p-8`}>
@@ -164,7 +182,10 @@ function Mypage() {
         <div className={`flex flex-col pt-5 pb-5`}>
           <div className="w-full flex flex-col items-center ">
             <div className="flex justify-center w-[3.75rem] h-[3.75rem] border-2 border-black rounded-full">
-              <UserProfilePicture avatar={authUserData?.avatar} name={authUserData?.name} />
+              <UserProfilePicture
+                avatar={authUserData?.avatar}
+                name={authUserData?.name}
+              />
             </div>
             <span>닉네임</span>
             <Link
