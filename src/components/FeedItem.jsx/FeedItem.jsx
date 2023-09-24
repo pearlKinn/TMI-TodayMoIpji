@@ -1,10 +1,9 @@
-import { Link } from 'react-router-dom';
+import useSearchStore from '@/store/useSearchStore';
 import { getPbImageURL } from '@/utils';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import S from './FeedItem.module.css';
-import useSearchStore from '@/store/useSearchStore';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
 function FeedItem({ item }) {
   const searchValue = useSearchStore((state) => state.searchValue);
@@ -14,11 +13,9 @@ function FeedItem({ item }) {
 
   useEffect(() => {
     if (searchValue === postUserData?.region) {
-      searchData.some((data) => console.log(data));
       // 중복된 id가 없는 경우에만 추가
       if (!searchData.some((data) => data.id === postUserData?.id)) {
         setSearchData([...searchData, postUserData]);
-        // console.log(searchData);
       }
     }
   }, [searchValue]);
