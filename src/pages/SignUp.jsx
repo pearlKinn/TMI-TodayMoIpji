@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { emailReg, pwReg, userNameReg } from '@/utils/validation';
 import pb from '@/api/pocketbase';
 import { toast } from 'react-hot-toast';
+import S from './SignUp.module.css';
 
 function SignUp() {
   // signUp(회원가입) 기능
@@ -38,14 +39,10 @@ function SignUp() {
       return;
     }
 
-    if (!userNameEnglish || !validateUserName(userName)) {
-      return;
-    }
-
     try {
       await signUp({
         email: email,
-        nickname: userName,
+        username: userName,
         password: password,
         passwordConfirm: passwordConfirm,
       });
@@ -171,7 +168,7 @@ function SignUp() {
         setCheckEmail(true);
       }
     } catch (err) {
-      console.log(`이메일 중복검사 에러 내용: ${err}`);
+      console.error(`이메일 중복검사 에러 내용: ${err}`);
     }
   };
 
@@ -188,14 +185,14 @@ function SignUp() {
       <div className="h-[calc(100vh-132px)]">
         <h2 className="sr-only">회원가입 페이지</h2>
         <form onSubmit={handleSignUp}>
-          <div className="flex items-center justify-center pt-[57px]">
-            <div className="w-[250px] h-[128px] flex flex-col">
-              <p className="text-xs pl-2 pb-1">이메일</p>
-              <div className="flex w-[265px] space-x-1 items-center justify-center pb-6">
+          <div className={S.signUpInputWrapper}>
+            <div className={S.signUpInputFieldWrapper}>
+              <p className={S.signUpInputFieldTitle}>이메일</p>
+              <div className={`${S.signUpInputField} ${'space-x-1'} ${'pb-6'}`}>
                 <label htmlFor="inputEmail" className="sr-only">
                   이메일 입력 공간
                 </label>
-                <div className="relative flex flex-col">
+                <div className={S.signUpRelativeField}>
                   <Input
                     placeholder="인증 가능한 이메일 주소"
                     width="w-[186px]"
@@ -208,7 +205,7 @@ function SignUp() {
                     }}
                   />
                   <p
-                    className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
+                    className={`${S.validationFontStyle} ${
                       isEmailValid && checkEmail
                         ? 'text-infoCorrect'
                         : 'text-infoError'
@@ -229,16 +226,16 @@ function SignUp() {
                   onClick={onCheckEmail}
                 />
               </div>
-              <div className="relative flex flex-col">
-                <p className="text-xs pl-2 pb-1">닉네임</p>
-                <p className="text-[4px] text-blue-600 pl-2 pb-1">
+              <div className={S.signUpRelativeField}>
+                <p className={S.signUpInputFieldTitle}>닉네임</p>
+                <p className={S.nickNameInputInformation}>
                   * 닉네임 미입력시 랜덤으로 생성됩니다.
                 </p>
-                <div className="flex w-[265px] space-x-1 items-center justify-center pb-6">
+                <div className={`${S.signUpInputField} ${'pb-6'}`}>
                   <label htmlFor="inputUserName" className="sr-only">
                     닉네임 입력 공간
                   </label>
-                  <div className="relative flex flex-col">
+                  <div className={S.signUpRelativeField}>
                     <Input
                       placeholder="2~10문자 영문, 숫자(특수문자 사용불가)"
                       width="w-[250px]"
@@ -251,7 +248,7 @@ function SignUp() {
                       }}
                     />
                     <p
-                      className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
+                      className={`${S.validationFontStyle} ${
                         isUserNameValid ? 'text-infoCorrect' : 'text-infoError'
                       }`}
                     >
@@ -260,12 +257,12 @@ function SignUp() {
                   </div>
                 </div>
               </div>
-              <p className="text-xs pl-2 pb-1">비밀번호</p>
-              <div className="flex w-[265px] space-x-1 items-center justify-center pb-6">
+              <p className={S.signUpInputFieldTitle}>비밀번호</p>
+              <div className={`${S.signUpInputField} ${'pb-6'}`}>
                 <label htmlFor="inputPassword" className="sr-only">
                   비밀번호 입력 공간
                 </label>
-                <div className="relative flex flex-col">
+                <div className={S.signUpRelativeField}>
                   <Input
                     placeholder="비밀번호를 입력해주세요"
                     width="w-[250px]"
@@ -279,7 +276,7 @@ function SignUp() {
                     }}
                   />
                   <p
-                    className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
+                    className={`${S.validationFontStyle} ${
                       isPasswordValid ? 'text-infoCorrect' : 'text-infoError'
                     }`}
                   >
@@ -287,12 +284,12 @@ function SignUp() {
                   </p>
                 </div>
               </div>
-              <p className="text-xs pl-2 pb-1">비밀번호 확인</p>
-              <div className="flex w-[265px] space-x-1 items-center justify-center pb-6">
+              <p className={S.signUpInputFieldTitle}>비밀번호 확인</p>
+              <div className={`${S.signUpInputField} ${'pb-6'}`}>
                 <label htmlFor="inputPasswordConfirm" className="sr-only">
                   비밀번호 재입력 공간
                 </label>
-                <div className="relative flex flex-col">
+                <div className={S.signUpRelativeField}>
                   <Input
                     placeholder="비밀번호를 다시 입력해주세요"
                     width="w-[250px]"
@@ -306,7 +303,7 @@ function SignUp() {
                     }}
                   />
                   <p
-                    className={`absolute pointer-events-none pt-11 text-[10px] font-bold ${
+                    className={`${S.validationFontStyle} ${
                       isConfirmPasswordValid
                         ? 'text-infoCorrect'
                         : 'text-infoError'
@@ -316,7 +313,7 @@ function SignUp() {
                   </p>
                 </div>
               </div>
-              <div className="flex w-[265px] items-center justify-center pt-6">
+              <div className={`${S.signUpInputField} ${'pt-6'}`}>
                 <Button
                   text="회원가입 하기"
                   title="회원가입 버튼입니다"
