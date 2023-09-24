@@ -1,0 +1,7 @@
+.darkkMode {
+  @apply bg-black text-white;
+}
+
+.lightMode {
+  @apply bg-white text-black;
+}

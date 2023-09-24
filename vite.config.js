@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { resolve } from "node:path"; // Node.js 런타임이 기본 제공하는 모듈 (파일 경로)
-import { env } from "node:process";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'node:path'; // Node.js 런타임이 기본 제공하는 모듈 (파일 경로)
+import { env } from 'node:process';
 import viteImagemin from '@vheemstra/vite-plugin-imagemin';
 import imageminGifSicle from 'imagemin-gifsicle';
 import imageminMozjpeg from 'imagemin-mozjpeg';
@@ -9,11 +9,11 @@ import imageminPngQuant from 'imagemin-pngquant';
 import imageminSvgo from 'imagemin-svgo';
 import imageminWebp from 'imagemin-webp';
 
-const isDev = env.NODE_ENV
+const isDev = env.NODE_ENV;
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base:'/learn-react/',
+  base: '/TMI-TodayMoIpji/',
   plugins: [
     react(),
     viteImagemin({
@@ -55,5 +55,9 @@ export default defineConfig({
         },
       },
     },
+  },
+  server: {
+    // 캐시 무효화를 활성화합니다.
+    force: true,
   },
 });

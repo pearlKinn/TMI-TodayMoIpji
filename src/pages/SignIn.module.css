@@ -1,0 +1,19 @@
+.signInInputWrapper {
+  @apply flex items-center justify-center pt-[57px] pb-[22px];
+}
+
+.signInInputFieldWrapper {
+  @apply flex items-center justify-center;
+}
+
+.signInInputField {
+  @apply w-[250px] h-[128px] flex flex-col items-center justify-center;
+}
+
+.kakaoButton {
+  @apply flex w-[230px] h-[34px] rounded-xl text-[15px] pl-2 py-[5px];
+}
+
+.signUpFindText {
+  @apply flex justify-end pt-3 w-[250px] h-5 text-xs text-gray700;
+}

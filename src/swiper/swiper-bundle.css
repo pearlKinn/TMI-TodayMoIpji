@@ -1,0 +1,27 @@
+.swiper-wrapper {
+  @apply relative w-[18.75rem] h-full flex transition-transform box-content;
+}
+
+  @media (min-width: 1210px) {
+    .swiper-wrapper {
+      @apply w-full h-full flex transition-transform box-content;
+    }
+  }
+
+  @media (max-width: 392px) {
+    .swiper-wrapper {
+      @apply w-[14rem] h-full flex transition-transform box-content;
+    }
+  }
+
+.swiper-container {
+  @apply flex-shrink-0 w-full h-full relative transition-transform block;
+}
+.swiper-custom-slide {
+  @apply w-[5.25rem] !important;
+  @apply h-[2.75rem] !important;
+}
+.swiper-custom-slide-holder {
+  @apply w-[7.625rem] !important;
+  @apply h-[2.75rem] !important;
+}

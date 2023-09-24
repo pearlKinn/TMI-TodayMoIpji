@@ -1,0 +1,7 @@
+.buttonWrapper {
+  @apply flex items-center justify-center;
+}
+
+.button {
+  @apply rounded border;
+}

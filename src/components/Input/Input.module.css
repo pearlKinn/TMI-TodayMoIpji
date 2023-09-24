@@ -1,0 +1,7 @@
+.inputWrapper {
+  @apply flex flex-col items-center justify-center;
+}
+
+.input {
+  @apply h-[42px] border-primary border-solid border rounded placeholder:text-xs pl-2 text-gray-700;
+}
