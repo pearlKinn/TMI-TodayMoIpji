@@ -1,0 +1,27 @@
+.signUpInputWrapper {
+  @apply flex items-center justify-center pt-[57px];
+}
+
+.signUpInputFieldWrapper {
+  @apply w-[250px] h-[128px] flex flex-col;
+}
+
+.signUpInputField {
+  @apply flex w-[265px] items-center justify-center;
+}
+
+.signUpRelativeField {
+  @apply relative flex flex-col;
+}
+
+.validationFontStyle {
+  @apply absolute pointer-events-none pt-11 text-[9px] font-bold;
+}
+
+.signUpInputFieldTitle {
+  @apply text-sm pl-2 pb-1;
+}
+
+.nickNameInputInformation {
+  @apply text-[4px] text-blue-600 pl-2 pb-1;
+}
