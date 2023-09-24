@@ -95,7 +95,7 @@ function Mypage() {
   } else {
     if (postData) {
       return (
-        <div className={`flex flex-col pt-5 pb-5`}>
+        <div className={`flex flex-col pt-5 pb-5 h-[calc(100vh-132px)]`}>
           <div className="w-full flex flex-col items-center ">
             <div className="flex justify-center">
               <UserProfilePicture avatar={authUserData} name={authUserData} />
