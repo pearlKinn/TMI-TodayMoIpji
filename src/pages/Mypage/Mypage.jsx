@@ -60,33 +60,27 @@ function Mypage() {
   const handleSaveClick = async () => {
     const userId = localStorage.getItem('userId');
     console.log('Mypage userId:', userId);
-    const storedUserSievingValue = localStorage.getItem('userSievingValue');
-    const storedUserStyleValue = localStorage.getItem('userStyleValue');
+    const storedUserSievingValue = localStorage
+      .getItem('userSievingValue')
+      .replace(/\s/g, '');
+    const storedUserStyleValue = JSON.parse(
+      localStorage.getItem('userStyleValue')
+    );
     const storedBodyTypeValue = localStorage.getItem('userBodyTypeValue');
 
-    if (storedUserSievingValue !== null) {
-      setSievingValue(storedUserSievingValue);
-    } else if (authUserData?.sieving) {
-      setSievingValue(authUserData.sieving);
-    }
-
-    if (storedUserStyleValue !== null) {
-      setStyleValue(storedUserStyleValue);
-    } else if (authUserData?.style) {
-      setStyleValue(authUserData.style);
-    }
-
-    if (storedBodyTypeValue !== null) {
-      setBodyTypeValue(storedBodyTypeValue);
-    } else if (authUserData?.bodyType) {
-      setBodyTypeValue(authUserData.bodyType);
-    }
-    console.log('auth:', authUserData);
     await pb.collection('users').update(userId, {
-      sieving: sievingValue,
-      style: styleValue,
-      bodyType: bodyTypeValue,
-      requestKey: null,
+      sieving:
+        storedUserSievingValue !== null
+          ? storedUserSievingValue
+          : authUserData?.sieving,
+      style:
+        storedUserStyleValue !== null
+          ? storedUserStyleValue
+          : authUserData?.style,
+      bodyType:
+        storedBodyTypeValue !== null
+          ? storedBodyTypeValue
+          : authUserData?.bodyType,
     });
   };
 
