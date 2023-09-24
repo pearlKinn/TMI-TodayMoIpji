@@ -1,9 +1,26 @@
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, A11y } from 'swiper/modules';
 import 'swiper/css';
 import './swiper-bundle.css';
 
-function MypageStyleSlide() {
+function MypageStyleSlide(userId) {
+  const mypageUserId = userId.item;
+  const [selectedStylesValue, setSelectedStylesValue] = useState([]);
+
+  const handleStyleClick = (userId, value) => {
+    setSelectedStylesValue((prevSelectedStyles) => {
+      const updatedStyles = [...prevSelectedStyles, value];
+      console.log('selectedStylesValue:', updatedStyles);
+      return updatedStyles;
+    });
+     // setSelectedStyles((prevSelectedStyles) => [...prevSelectedStyles, value]);
+    
+    localStorage.setItem('userId', userId);
+      localStorage.setItem('userStyleValue', selectedStylesValue);
+
+  };
+
   return (
     <Swiper
       modules={[Navigation, A11y]}
@@ -15,7 +32,7 @@ function MypageStyleSlide() {
         clickable: true,
       }}
       mousewheelControl={true}
-      className='w-full'
+      className="w-full"
     >
       <div className="flex items-center w-[90%] mx-auto">
         <div className="flex flex-col justify-center w-[90%] mx-auto">
@@ -25,61 +42,121 @@ function MypageStyleSlide() {
                 tabIndex="0"
                 className="swiper-custom-slide keyword flex justify-center items-center px-3 py-1.5 rounded-3xl bg-white border border-solid border-black"
               >
-                <span className="text-sm leading-base">hip</span>
+                <button
+                  type="button"
+                  className="text-sm leading-base"
+                  onClick={() => handleStyleClick(mypageUserId, 'hip')}
+                >
+                  hip
+                </button>
               </SwiperSlide>
               <SwiperSlide
                 tabIndex="0"
                 className="swiper-custom-slide-holder keyword flex justify-center items-center px-3 py-1.5 w-[7.625rem] rounded-3xl bg-white border border-solid border-black"
               >
-                <span className="text-sm leading-base">lovely</span>
+                <button
+                  type="button"
+                  className="text-sm leading-base"
+                  onClick={() => handleStyleClick(mypageUserId, 'lovely')}
+                >
+                  lovely
+                </button>
               </SwiperSlide>
               <SwiperSlide
                 tabIndex="0"
                 className="swiper-custom-slide keyword flex justify-center items-center px-3 py-1.5 rounded-3xl bg-white border border-solid border-black"
               >
-                <span className="text-sm leading-base">vintage</span>
+                <button
+                  type="button"
+                  className="text-sm leading-base"
+                  onClick={() => handleStyleClick(mypageUserId, 'vintage')}
+                >
+                  vintage
+                </button>
               </SwiperSlide>
               <SwiperSlide
                 tabIndex="0"
                 className="swiper-custom-slide keyword flex justify-center items-center px-3 py-1.5 rounded-3xl bg-white border border-solid border-black"
               >
-                <span className="text-sm leading-base">casual</span>
+                <button
+                  type="button"
+                  className="text-sm leading-base"
+                  onClick={() => handleStyleClick(mypageUserId, 'casual')}
+                >
+                  casual
+                </button>
               </SwiperSlide>
               <SwiperSlide
                 tabIndex="0"
                 className="swiper-custom-slide keyword flex justify-center items-center px-3 py-1.5 rounded-3xl bg-white border border-solid border-black"
               >
-                <span className="text-sm leading-base">classic</span>
+                <button
+                  type="button"
+                  className="text-sm leading-base"
+                  onClick={() => handleStyleClick(mypageUserId, 'classic')}
+                >
+                  classic
+                </button>
               </SwiperSlide>
               <SwiperSlide
                 tabIndex="0"
                 className="swiper-custom-slide keyword flex justify-center items-center px-3 py-1.5 rounded-3xl bg-white border border-solid border-black"
               >
-                <span className="text-sm leading-base">funk</span>
+                <button
+                  type="button"
+                  className="text-sm leading-base"
+                  onClick={() => handleStyleClick(mypageUserId, 'funk')}
+                >
+                  funk
+                </button>
               </SwiperSlide>
               <SwiperSlide
                 tabIndex="0"
                 className="swiper-custom-slide keyword flex justify-center items-center px-3 py-1.5 rounded-3xl bg-white border border-solid border-black"
               >
-                <span className="text-sm leading-base">preppy</span>
+                <button
+                  type="button"
+                  className="text-sm leading-base"
+                  onClick={() => handleStyleClick(mypageUserId, 'preppy')}
+                >
+                  preppy
+                </button>
               </SwiperSlide>
               <SwiperSlide
                 tabIndex="0"
                 className="swiper-custom-slide keyword flex justify-center items-center px-3 py-1.5 rounded-3xl bg-white border border-solid border-black"
               >
-                <span className="text-sm leading-base">amekaji</span>
+                <button
+                  type="button"
+                  className="text-sm leading-base"
+                  onClick={() => handleStyleClick(mypageUserId, 'amekaji')}
+                >
+                  amekaji
+                </button>
               </SwiperSlide>
               <SwiperSlide
                 tabIndex="0"
                 className="swiper-custom-slide keyword flex justify-center items-center px-3 py-1.5 rounded-3xl bg-white border border-solid border-black"
               >
-                <span className="text-sm leading-base">cityboy</span>
+                <button
+                  type="button"
+                  className="text-sm leading-base"
+                  onClick={() => handleStyleClick(mypageUserId, 'cityboy')}
+                >
+                  cityboy
+                </button>
               </SwiperSlide>
               <SwiperSlide
                 tabIndex="0"
                 className="swiper-custom-slide keyword flex justify-center items-center px-3 py-1.5 rounded-3xl bg-white border border-solid border-black"
               >
-                <span className="text-sm leading-base">athleisure</span>
+                <button
+                  type="button"
+                  className="text-sm leading-base"
+                  onClick={() => handleStyleClick(mypageUserId, 'athleisure')}
+                >
+                  athleisure
+                </button>
               </SwiperSlide>
             </div>
           </div>

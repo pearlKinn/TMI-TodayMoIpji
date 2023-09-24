@@ -1,4 +1,8 @@
+.beforeActive {
+  @apply w-[150px] h-[66px] flex justify-center items-center;
+}
+
 .active {
-  @apply w-[86px] h-[55px] flex justify-center items-center;
+  @apply w-[150px] h-[60px] flex justify-center items-center;
   @apply border-t-[6px] border-secondary;
 }

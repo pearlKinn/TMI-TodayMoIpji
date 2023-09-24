@@ -1,3 +1,4 @@
+import pb from '@/api/pocketbase';
 import axios from 'axios';
 import useStorage from '@/hooks/useStorage';
 import S from './Mypage.module.css';
@@ -56,6 +57,32 @@ function Mypage() {
   let dataItems = postData?.items;
 
   console.log('Mypage dataItems:', dataItems);
+
+  const handleSaveClick = async () => {
+    const userId = localStorage.getItem('userId');
+    console.log('Mypage userId:', userId);
+    const storedUserSievingValue = localStorage.getItem('userSievingValue');
+    console.log('Mypage  storedUserSievingValue:', storedUserSievingValue);
+    const storedUserStyleValue = localStorage.getItem('userStyleValue');
+    console.log('Mypage storedUserStyleValue:', storedUserStyleValue);
+    const storedBodyTypeValue = localStorage.getItem('userBodyTypeValue');
+    console.log('Mypage storedBodyTypeValue:', storedBodyTypeValue);
+
+    console.log('Mypage authUserData Update:', authUserData);
+    await pb.collection('users').update(userId, {
+      sieving:
+        storedUserSievingValue !== null
+          ? storedUserSievingValue
+          : authUserData?.sieving,
+      style: storedUserStyleValue !== null
+          ? storedUserStyleValue
+          : authUserData?.style,
+      bodyType: storedBodyTypeValue !== null
+          ? storedBodyTypeValue
+          : authUserData?.bodyType,
+      requestKey: null,
+    });
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -216,7 +243,10 @@ function Mypage() {
                     <div className="font-bold">체형</div>
                     <MypageBodyTypeSlide item={userId} />
                   </div>
-                  <button className="w-[17.5rem] h-[3.375rem] flex justify-center items-center bg-secondary rounded-md">
+                  <button
+                    className="w-[17.5rem] h-[3.375rem] flex justify-center items-center bg-secondary rounded-md"
+                    onClick={() => handleSaveClick()}
+                  >
                     저장하기
                   </button>
                 </div>

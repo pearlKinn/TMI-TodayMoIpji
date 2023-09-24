@@ -27,26 +27,26 @@ function Nav() {
         <ul className="flex justify-around">
           <li
             onClick={() => handleTabClick('writing')}
-            className={activeTab === 'writing' ? S.active : {}}
+            className={activeTab === 'writing' ? S.active : S.beforeActive}
           >
             <Link to="/writing">
-              <WritingIcon size={86} />
+              <WritingIcon size={50} />
             </Link>
           </li>
           <li
             onClick={() => handleTabClick('home')}
-            className={`${activeTab === 'home' ? S.active : {}}`}
+            className={activeTab === 'home' ? S.active : S.beforeActive}
           >
             <Link to="/">
-              <HomeIcon size={86} />
+              <HomeIcon size={50} />
             </Link>
           </li>
           <li
             onClick={() => handleTabClick('mypage')}
-            className={activeTab === 'mypage' ? S.active : {}}
+            className={activeTab === 'mypage' ? S.active : S.beforeActive}
           >
             <Link to={`/mypage/${authUserData?.id}`}>
-              <MypageIcon size={86} />
+              <MypageIcon size={50} />
             </Link>
           </li>
         </ul>
@@ -58,29 +58,29 @@ function Nav() {
         <ul className="flex justify-around">
           <li
             onClick={() => handleTabClick('writing')}
-            className={activeTab === 'writing' ? S.active : {}}
+            className={activeTab === 'writing' ? S.active : S.beforeActive}
           >
             <Link to="/writing">
-              <WritingIcon size={86} />
+              <WritingIcon size={50} />
             </Link>
           </li>
           <li
             onClick={() => handleTabClick('home')}
-            className={`${activeTab === 'home' ? S.active : {}}`}
+            className={activeTab === 'home' ? S.active : S.beforeActive}
           >
             <Link to="/">
-              <HomeIcon size={86} />
+              <HomeIcon size={50} />
             </Link>
           </li>
 
           <li
             onClick={() => handleTabClick('mypage')}
-            className={`${activeTab === 'mypage' ? S.active : {}}`}
+            className={activeTab === 'mypage' ? S.active : S.beforeActive}
           >
             <Link to={`/mypage/${authUserData?.id}`}>
               <img
                 src={getPbImageURL(authUserData, 'avatar')}
-                className="w-[50px] h-[50px] rounded-full"
+                className="w-[50px] h-[50px] mt-1 rounded-full"
               />
             </Link>
           </li>

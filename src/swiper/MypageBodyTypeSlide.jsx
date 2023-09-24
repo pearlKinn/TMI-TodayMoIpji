@@ -2,7 +2,6 @@ import { Navigation, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useState, useEffect } from 'react';
 import useStorage from '@/hooks/useStorage';
-import pb from '@/api/pocketbase';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -11,19 +10,23 @@ import './swiper-bundle.css';
 function MypageSievingSlide(userId) {
   const { storageData } = useStorage('pocketbase_auth');
   const [token, setToken] = useState(storageData?.token);
+  const [authUserData, setAuthUserData] = useState(storageData?.model);
   useEffect(() => {
     setToken(storageData?.token);
+    setAuthUserData(storageData?.model);
   });
 
   const mypageUserId = userId.item;
   console.log('mypageUserId:', mypageUserId);
   console.log('token:', token);
 
-  const handleButtonClick = async (userId, value) => {
-    await pb.collection('users').update(userId, {
-      bodyType: value,
-    });
+  const handleBodyTypeClick = async (userId, value) => {
+    console.log('userBodyTypeId:', userId);
+    console.log('userBodyTypeValue:', value);
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('userBodyTypeValue', value);
   };
+
   if (token) {
     return (
       <Swiper
@@ -48,7 +51,7 @@ function MypageSievingSlide(userId) {
                   <button
                     type="button"
                     className="text-sm leading-base"
-                    onClick={() => handleButtonClick(mypageUserId, '하체발달')}
+                    onClick={() => handleBodyTypeClick(mypageUserId, '하체발달')}
                   >
                     하체발달
                   </button>
@@ -60,7 +63,7 @@ function MypageSievingSlide(userId) {
                   <button
                     type="button"
                     className="text-sm leading-base"
-                    onClick={() => handleButtonClick(mypageUserId, '상체발달')}
+                    onClick={() => handleBodyTypeClick(mypageUserId, '상체발달')}
                   >
                     상체발달
                   </button>
