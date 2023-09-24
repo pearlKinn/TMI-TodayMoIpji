@@ -5,8 +5,10 @@ import MypageBodyTypeSlide from '../swiper/MypageBodyTypeSlide';
 import MypageSievingSlide from '../swiper/MypageSievingSlide';
 import MypageStyleSlide from '../swiper/MypageStyleSlide';
 import S from './Mypage.module.css';
+import { useParams } from 'react-router-dom';
 
 export function Mypage() {
+  const { userId } = useParams();
   const [showPosts, setShowPosts] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -24,7 +26,7 @@ export function Mypage() {
         </div>
         <span>닉네임</span>
         <Link
-          to="/profileEdit"
+          to="/userprofileEdit"
           className="w-[6.625rem] h-[2.875rem] flex justify-center items-center rounded-lg bg-primary mb-8"
         >
           프로필 수정
@@ -118,3 +120,5 @@ export function Mypage() {
     </div>
   );
 }
+
+export default Mypage;
