@@ -3,6 +3,7 @@ import Spinner from '../Spinner';
 import FeedItem from '../FeedItem.jsx/FeedItem';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { data } from 'autoprefixer';
 import Filter from '/Filter.svg';
 
 const PB = import.meta.env.VITE_PB_URL;
@@ -23,6 +24,7 @@ function Feed() {
   });
 
   let dataItems = postData?.items;
+  
   if (isLoading) {
     return <Spinner size={160} title="데이터 가져오는 중이에요." />;
   }

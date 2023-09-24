@@ -7,7 +7,7 @@ import User from './pages/User';
 import GuestSetting from './pages/GuestSetting';
 import UserProfileEdit from './pages/UserProfileEdit/UserProfileEdit';
 import ProtectRoute from './components/ProtectRoute';
-import { Mypage } from './pages/Mypage';
+import Mypage from './pages/Mypage/Mypage';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Suggestion from './pages/Suggestion/Suggestion';

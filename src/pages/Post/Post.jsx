@@ -20,6 +20,7 @@ import { useMutation } from '@tanstack/react-query';
 
 function Post() {
   const { postId } = useParams();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [postInfo, setPostInfo] = useState(null);
   const [commentList, setCommentList] = useState([]);
@@ -63,6 +64,10 @@ function Post() {
     }
     getPost();
   }, [postId]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const commentMutation = useMutation(
     async (newComment) => {

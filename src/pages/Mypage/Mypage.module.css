@@ -2,10 +2,8 @@
   @apply w-[6.125rem] h-[6.125rem];
 }
 .mypageInfo {
-  @apply flex justify-between mt-2 mr-3 w-24;
-}
-.mypageUserWrapper {
-  @apply flex gap-1 justify-between;
+  @apply grid  grid-cols-3 gap-x-2 gap-y-6 md:grid-cols-4;
+  @apply min-w-[320px] w-full  mt-4 mx-auto;
 }
 .mypageUserImg {
   @apply bg-gray-300 rounded-full w-5 h-5 self-center;
