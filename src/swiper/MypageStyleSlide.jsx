@@ -23,7 +23,6 @@ function MypageStyleSlide(userId) {
 
 
       if (!parsedStoredUserStyleValue.has(value)) {
-        // 중복되지 않는 경우에만 localStorage에 저장
         parsedStoredUserStyleValue.add(value);
         localStorage.setItem(
           'userStyleValue',
