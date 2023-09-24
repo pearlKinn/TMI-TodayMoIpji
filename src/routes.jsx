@@ -5,7 +5,7 @@ import Post from './pages/Post/Post';
 import Writing from './pages/Writing';
 import User from './pages/User';
 import GuestSetting from './pages/GuestSetting';
-import UserProfileEdit from './pages/UserProfileEdit';
+import UserProfileEdit from './pages/UserProfileEdit/UserProfileEdit';
 import ProtectRoute from './components/ProtectRoute';
 import { Mypage } from './pages/Mypage';
 import SignIn from './pages/SignIn';
@@ -48,7 +48,14 @@ const router = createHashRouter([
       { path: 'welcome', element: <Welcome /> },
       { path: 'mypage/:userId', element: <Mypage /> },
       { path: 'suggestion', element: <Suggestion /> },
-      { path: 'userprofileedit', element: <UserProfileEdit /> },
+      {
+        path: 'userprofileedit',
+        element: (
+          <ProtectRoute>
+            <UserProfileEdit />
+          </ProtectRoute>
+        ),
+      },
       { path: 'user', element: <User /> },
       { path: 'guestsetting', element: <GuestSetting /> },
     ],

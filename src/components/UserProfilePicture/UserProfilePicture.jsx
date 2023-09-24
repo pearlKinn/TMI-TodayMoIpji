@@ -6,7 +6,7 @@ function UserProfilePicture(props) {
       <div className="border-2 border-black rounded-full">
         <img
           src={
-            getPbImageURL(props.avatar, 'avatar') ||
+            getPbImageURL(props?.avatar, 'avatar') ||
             '/src/assets/defalutProfilePic.png'
           }
           alt="유저프로필"

@@ -57,8 +57,8 @@ function Post() {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (formInputValue.trim() === '') {
-      toast.error('댓글을 입력해주세요', {
+    if (!authUser) {
+      toast.error('로그인이 필요한 작업입니다', {
         ariaProps: {
           role: 'status',
           'aria-live': 'polite',
@@ -66,8 +66,9 @@ function Post() {
       });
       return;
     }
-    if (!authUser) {
-      toast.error('로그인이 필요한 작업입니다', {
+
+    if (formInputValue.trim() === '') {
+      toast.error('댓글을 입력해주세요', {
         ariaProps: {
           role: 'status',
           'aria-live': 'polite',
@@ -168,7 +169,11 @@ function Post() {
             <div className={S.postingUserInfoWrapper}>
               <div className={S.postingUserItemWrapper}>
                 <span className={S.postingItemTitle}>º 체형</span>
-                <span className={S.bodyType}>{postUser?.bodyType}</span>
+                {postUser?.bodyType ? (
+                  <span className={S.bodyType}>{postUser?.bodyType}</span>
+                ) : (
+                  ''
+                )}
               </div>
               <div className={S.postingUserItemWrapper}>
                 <span className={S.postingItemTitle}>º 스타일</span>

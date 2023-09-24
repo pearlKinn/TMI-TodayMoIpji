@@ -1,15 +1,16 @@
-import UserProfilePicture from '@/components/UserProfilePicture/UserProfilePicture';
+import pb from '@/api/pocketbase';
 import ProfileUpload from '@/components/ProfileUpload/ProfileUpload';
-import { useState, useEffect } from 'react';
+import UserProfilePicture from '@/components/UserProfilePicture/UserProfilePicture';
 import useFetchData from '@/hooks/useFetchData';
 import useStorage from '@/hooks/useStorage';
-import pb from '@/api/pocketbase';
+import { useEffect, useState } from 'react';
+import S from './UserProfileEdit.module.css';
 
 const PB = import.meta.env.VITE_PB_URL;
 const PB_USER_ENDPOINT = `${PB}/api/collections/users/records`;
 
 function UserProfileEdit() {
-  const { error, data: userData, isLoading } = useFetchData(PB_USER_ENDPOINT);
+  const { data: userData, isLoading } = useFetchData(PB_USER_ENDPOINT);
   const [nickname, setNickname] = useState('');
   const [validationResult, setValidationResult] = useState('');
   const [usernames, setUsername] = useState([]);
@@ -29,11 +30,10 @@ function UserProfileEdit() {
       return;
     }
 
-    // 닉네임 유효성 검사
     if (
       nickname.length >= 2 &&
       nickname.length <= 10 &&
-      /^[a-zA-Z0-9]+$/.test(nickname) // 영문 대소문자와 숫자만 허용
+      /^[a-zA-Z0-9]+$/.test(nickname)
     ) {
       const isDuplicate = usernames.includes(nickname.toLowerCase());
 
@@ -48,14 +48,13 @@ function UserProfileEdit() {
   };
 
   const handleNicknameChange = (value) => {
-    // 닉네임 입력값 길이 검사
     if (
       value.length >= 2 &&
       value.length <= 10 &&
-      /^[a-zA-Z0-9]+$/.test(value) // 영문 대소문자와 숫자만 허용
+      /^[a-zA-Z0-9]+$/.test(value)
     ) {
       setNickname(value);
-      setValidationResult(''); // 길이 조건을 만족하면 경고 메시지를 지움
+      setValidationResult('');
     } else {
       setNickname(value);
       setValidationResult('2 ~ 10글자의 영문 대소문자와 숫자만 입력하세요.');
@@ -64,7 +63,6 @@ function UserProfileEdit() {
 
   const handleButtonClick = () => {
     if (!isLoading) {
-      // 데이터 로딩 중이 아닌 경우에만 중복 확인 실행
       handleCheckDuplicate();
     }
   };
@@ -78,9 +76,9 @@ function UserProfileEdit() {
         });
 
       if (response.status === 200) {
-        return true; // 업데이트 성공
+        return true;
       } else {
-        return false; // 업데이트 실패
+        return false;
       }
     } catch (error) {
       console.error('서버 요청 오류:', error);
@@ -88,19 +86,17 @@ function UserProfileEdit() {
     }
   };
 
-  // pocketbase_auth에서 username 값을 가져옵니다.
   const username =
     pocketbaseAuthData?.model?.username || '사용자 이름이 없습니다';
-
-  if (pocketbaseAuthData?.model) {
+  if (pocketbaseAuthData) {
     return (
-      <div className="md:mx-auto md:w-[768px] pt-[25px] items-center flex flex-col h-[calc(100vh-132px)]">
+      <div className={S.profile}>
         <UserProfilePicture avatar={pocketbaseAuthData?.model} />
         <div className="h-[90px] flex">
-          <span>{username}</span>
+          <span className="mt-5 text-xl font-semibold">{username}</span>
         </div>
 
-        <div className="w-full flex justify-center border-t-2 border-black"></div>
+        <div className={S.editwrapper}></div>
         <div className="flex flex-col gap-6 mt-10">
           <div className="flex gap-4 items-end">
             <div className="flex flex-col gap-1">
@@ -112,7 +108,7 @@ function UserProfileEdit() {
                 id="nickname"
                 name="nickname"
                 placeholder="2 ~ 10문자(특수문자 사용불가)"
-                className="w-30 h-10 rounded border border-primary text-sm p-2"
+                className={S.nick}
                 value={nickname}
                 onChange={(e) => handleNicknameChange(e.target.value)}
               />
@@ -135,7 +131,7 @@ function UserProfileEdit() {
               className={`h-10 text-gray-900 border rounded px-2 ${
                 nickname.length >= 2 &&
                 nickname.length <= 10 &&
-                /^[a-zA-Z0-9]+$/.test(nickname) // 영문 대소문자와 숫자만 허용
+                /^[a-zA-Z0-9]+$/.test(nickname)
                   ? 'bg-primary'
                   : 'bg-gray-300 cursor-not-allowed'
               }`}
@@ -145,7 +141,7 @@ function UserProfileEdit() {
                   nickname.length >= 2 &&
                   nickname.length <= 10 &&
                   /^[a-zA-Z0-9]+$/.test(nickname)
-                ) // 영문 대소문자와 숫자만 허용
+                )
               }
             >
               중복확인
@@ -158,16 +154,13 @@ function UserProfileEdit() {
             if (!isLoading && validationResult === '사용가능') {
               const isUsernameUpdated = await updateUsernameOnServer();
               if (isUsernameUpdated) {
-                // 서버에서 업데이트 성공하면 로컬 스토리지의 username도 업데이트
                 pocketbaseAuthData.username = nickname;
-                // 성공 메시지를 표시할 수도 있습니다.
               } else {
                 console.error('서버에서 username 업데이트 실패');
-                // 오류 메시지를 표시할 수도 있습니다.
               }
             }
           }}
-          className={`bg-primary w-1/2 mt-20 h-10 px-1 text-gray-900 rounded`}
+          className={S.save}
           disabled={isLoading || validationResult !== '사용가능'}
         >
           저장하기

@@ -1,0 +1,7 @@
+.welcomeContainer {
+  @apply flex items-center justify-center pt-[57px] pb-8;
+}
+
+.loginButton {
+  @apply flex justify-center pt-[68px];
+}

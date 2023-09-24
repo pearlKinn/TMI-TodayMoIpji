@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '/logo.svg';
 import ChatIcon from '/mdi-chat.svg';
 import toast from 'react-hot-toast';
+import S from './SignIn.module.css';
 
 function SignIn() {
   const [formState, setFormState] = useState({
@@ -55,12 +56,12 @@ function SignIn() {
     <>
       <div className="h-[calc(100vh-132px)]">
         <h2 className="sr-only">로그인 페이지</h2>
-        <div className="flex items-center justify-center pt-[57px] pb-[22px]">
+        <div className={S.signInInputWrapper}>
           <img className="mx-auto" src={logo} />
         </div>
         <form onSubmit={handleSignIn}>
-          <div className="flex items-center justify-center">
-            <div className="w-[250px] h-[128px] flex flex-col items-center justify-center">
+          <div className={S.signInInputFieldWrapper}>
+            <div className={S.signInInputField}>
               <div>
                 <label htmlFor="inputId" className="sr-only">
                   아이디 입력 공간
@@ -90,7 +91,7 @@ function SignIn() {
                   height="h-[42px]"
                   onChange={handleInput}
                 />
-                <ul className="flex justify-end pt-3 w-[250px] h-5 text-xs text-gray700">
+                <ul className={S.signUpFindText}>
                   <li>아이디 찾기</li>
                   <li className="text-primary">ㅣ</li>
                   <li>비밀번호 찾기</li>
@@ -98,10 +99,10 @@ function SignIn() {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-center py-[10px]">
+          <div className={`${S.signInInputFieldWrapper} ${'py-[10px]'}`}>
             <button
               type="button"
-              className="flex w-[230px] h-[34px] bg-yellow rounded-xl text-[15px] pl-2 py-[5px]"
+              className={`${S.kakaoButton} ${'bg-yellow'}`}
               title="카카오 계정으로 로그인하는 버튼"
             >
               <img className="w-6 h-6" src={ChatIcon} />
