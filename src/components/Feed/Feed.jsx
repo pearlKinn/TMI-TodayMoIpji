@@ -3,7 +3,6 @@ import Spinner from '../Spinner';
 import FeedItem from '../FeedItem/FeedItem';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { data } from 'autoprefixer';
 import Filter from '/Filter.svg';
 
 const PB = import.meta.env.VITE_PB_URL;

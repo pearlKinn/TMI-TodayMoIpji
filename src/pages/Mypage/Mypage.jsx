@@ -13,6 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import UserProfilePicture from '@/components/UserProfilePicture/UserProfilePicture';
 import GuestSetting from '../GuestSetting';
+import { MypageIcon } from '@/assets/MypageIcon';
 
 const PB = import.meta.env.VITE_PB_URL;
 const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user`;
@@ -94,14 +95,21 @@ function Mypage() {
     return <GuestSetting />;
   } else {
     if (postData) {
-      console.log(authUserData);
       return (
         <div className={`flex flex-col pt-5 pb-5 h-[calc(100vh-132px)]`}>
           <div className="w-full flex flex-col items-center ">
             <div className="flex justify-center">
-              <UserProfilePicture avatar={authUserData} name={authUserData} />
+              {authUserData.avatar === '' ? (
+                <span className="border border-gray500 rounded-full">
+                  <MypageIcon size={64} />
+                </span>
+              ) : (
+                <UserProfilePicture avatar={authUserData} name={authUserData} />
+              )}
             </div>
-            <span>닉네임</span>
+            <span>
+              {authUserData.username ? authUserData.username : '닉네임'}
+            </span>
             <Link
               to="/userprofileedit"
               className="w-[6.625rem] h-[2.875rem] flex justify-center items-center rounded-lg bg-primary mb-8"
