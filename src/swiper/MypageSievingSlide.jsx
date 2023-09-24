@@ -8,8 +8,6 @@ import './swiper-bundle.css';
 function MypageSievingSlide(userId) {
 const mypageUserId = userId.item;
   const handleSievingClick = async (userId, value) => {
-    console.log('userSievingId:', userId);
-    console.log('userSievingValue:', value);
     localStorage.setItem('userId', userId);
     localStorage.setItem('userSievingValue', value);
   };

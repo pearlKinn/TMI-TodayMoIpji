@@ -23,7 +23,6 @@ async function fetchProducts() {
 
 function Mypage() {
   const { userId } = useParams();
-  console.log(userId);
 
   const [showPosts, setShowPosts] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
@@ -54,8 +53,6 @@ function Mypage() {
   });
 
   let dataItems = postData?.items;
-
-  console.log('Mypage dataItems:', dataItems);
 
   const handleSaveClick = async () => {
     const userId = localStorage.getItem('userId');

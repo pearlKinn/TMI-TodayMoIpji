@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { getPbImageURL } from '@/utils';
 import S from './MyItem.module.css';
-import { useParams } from 'react-router-dom';
 
 function MyItem({ item }) {
   const { storageData } = useStorage('pocketbase_auth');
@@ -20,11 +19,8 @@ function MyItem({ item }) {
   const { expand: postExpandData } = item;
   const postUserData = postExpandData.user;
 
-  console.log('postUserData:', postUserData);
-
   const postUserDataId = postUserData.id;
 
-  console.log('postUserDataID:', postUserDataId);
 
   if (token) {
     if (authUserDataId === postUserDataId) {

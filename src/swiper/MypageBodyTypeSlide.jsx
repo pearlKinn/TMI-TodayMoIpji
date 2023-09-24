@@ -17,12 +17,8 @@ function MypageSievingSlide(userId) {
   });
 
   const mypageUserId = userId.item;
-  console.log('mypageUserId:', mypageUserId);
-  console.log('token:', token);
 
   const handleBodyTypeClick = async (userId, value) => {
-    console.log('userBodyTypeId:', userId);
-    console.log('userBodyTypeValue:', value);
     localStorage.setItem('userId', userId);
     localStorage.setItem('userBodyTypeValue', value);
   };
