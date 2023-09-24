@@ -17,9 +17,9 @@ function MyItem({ item }) {
   const authUserDataId = authUserData?.id;
 
   const { expand: postExpandData } = item;
-  const postUserData = postExpandData.user;
+  const postUserData = postExpandData?.user;
 
-  const postUserDataId = postUserData.id;
+  const postUserDataId = postUserData?.id;
 
   if (token) {
     if (authUserDataId === postUserDataId) {
