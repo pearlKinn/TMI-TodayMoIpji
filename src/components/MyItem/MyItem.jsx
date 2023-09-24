@@ -7,8 +7,6 @@ import S from './MyItem.module.css';
 import { useParams } from 'react-router-dom';
 
 function MyItem({ item }) {
-  const { userId } = useParams();
-  console.log('userId:', userId);
   const { storageData } = useStorage('pocketbase_auth');
   const [token, setToken] = useState(storageData?.token);
   const [authUserData, setAuthUserData] = useState(storageData?.model);
@@ -17,13 +15,7 @@ function MyItem({ item }) {
     setAuthUserData(storageData?.model);
   });
 
-  console.log('storageData:', storageData);
-  console.log('token:', token);
-  console.log('authUserData:', authUserData);
-
   const authUserDataId = authUserData?.id;
-
-  console.log('authUserDataId:', authUserDataId);
 
   const { expand: postExpandData } = item;
   const postUserData = postExpandData.user;

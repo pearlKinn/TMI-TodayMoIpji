@@ -37,11 +37,6 @@ function Mypage() {
     setAuthUserData(storageData?.model);
   });
 
-  console.log('Mypage authUserData:', authUserData);
-
-  const authUserDataId = authUserData?.id;
-  console.log('authUserDataId:', authUserDataId);
-
   function toggleDarkModeHandler() {
     setIsDarkMode((prevMode) => !prevMode);
   }
@@ -62,13 +57,9 @@ function Mypage() {
     const userId = localStorage.getItem('userId');
     console.log('Mypage userId:', userId);
     const storedUserSievingValue = localStorage.getItem('userSievingValue');
-    console.log('Mypage  storedUserSievingValue:', storedUserSievingValue);
     const storedUserStyleValue = localStorage.getItem('userStyleValue');
-    console.log('Mypage storedUserStyleValue:', storedUserStyleValue);
     const storedBodyTypeValue = localStorage.getItem('userBodyTypeValue');
-    console.log('Mypage storedBodyTypeValue:', storedBodyTypeValue);
 
-    console.log('Mypage authUserData Update:', authUserData);
     await pb.collection('users').update(userId, {
       sieving:
         storedUserSievingValue !== null
@@ -173,7 +164,7 @@ function Mypage() {
         <div className={`flex flex-col pt-5 pb-5`}>
           <div className="w-full flex flex-col items-center ">
             <div className="flex justify-center w-[3.75rem] h-[3.75rem] border-2 border-black rounded-full">
-              <UserProfilePicture avatar={authUserData?.avatar} />
+              <UserProfilePicture avatar={authUserData?.avatar} name={authUserData?.name} />
             </div>
             <span>닉네임</span>
             <Link
@@ -226,10 +217,10 @@ function Mypage() {
                     <div
                       className={`${S.toggleBtn} ${isDarkMode ? S.on : S.off}`}
                     >
-                      <div
+                      <button
                         className={`${S.circle}`}
                         onClick={toggleDarkModeHandler}
-                      ></div>
+                      ></button>
                     </div>
                   </div>
                   <div className="mb-[1.6rem]">
@@ -240,7 +231,7 @@ function Mypage() {
                     <MypageSievingSlide item={userId} />
                   </div>
                   <div className="w-full flex justify-between items-center mb-[7rem]">
-                    <div className="font-bold">체형</div>
+                    <span className="font-bold">체형</span>
                     <MypageBodyTypeSlide item={userId} />
                   </div>
                   <button

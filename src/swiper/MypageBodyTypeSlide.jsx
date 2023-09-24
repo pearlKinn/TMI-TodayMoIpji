@@ -45,7 +45,6 @@ function MypageSievingSlide(userId) {
             <div className="swiper-container flex w-full whitespace-no-wrap overflow-hidden">
               <div className="swiper-wrapper">
                 <SwiperSlide
-                  tabIndex="0"
                   className="swiper-custom-slide keyword flex justify-center items-center px-3 py-1.5 rounded-3xl bg-white border border-solid border-black"
                 >
                   <button
@@ -57,7 +56,6 @@ function MypageSievingSlide(userId) {
                   </button>
                 </SwiperSlide>
                 <SwiperSlide
-                  tabIndex="0"
                   className="swiper-custom-slide-holder keyword flex justify-center items-center px-3 py-1.5 w-[7.625rem] rounded-3xl bg-white border border-solid border-black"
                 >
                   <button
