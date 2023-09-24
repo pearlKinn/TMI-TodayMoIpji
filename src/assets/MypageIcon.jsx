@@ -5,7 +5,7 @@ export function MypageIcon({ size = 100, ...restProps }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
-      height={size}
+      height="66px"
       fill="none"
       viewBox="0 0 50 50"
       {...restProps}

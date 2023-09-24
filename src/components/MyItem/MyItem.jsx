@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import useStorage from '@/hooks/useStorage';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { getPbImageURL } from '@/utils';
@@ -8,13 +8,13 @@ import { useParams } from 'react-router-dom';
 
 function MyItem({ item }) {
   const { userId } = useParams();
-  console.log('userId:',userId);
+  console.log('userId:', userId);
   const { storageData } = useStorage('pocketbase_auth');
   const [token, setToken] = useState(storageData?.token);
   const [authUserData, setAuthUserData] = useState(storageData?.model);
   useEffect(() => {
-      setToken(storageData?.token);
-      setAuthUserData(storageData?.model);
+    setToken(storageData?.token);
+    setAuthUserData(storageData?.model);
   });
 
   console.log('storageData:', storageData);
@@ -22,16 +22,16 @@ function MyItem({ item }) {
   console.log('authUserData:', authUserData);
 
   const authUserDataId = authUserData?.id;
-  
+
   console.log('authUserDataId:', authUserDataId);
 
   const { expand: postExpandData } = item;
   const postUserData = postExpandData.user;
 
   console.log('postUserData:', postUserData);
-  
+
   const postUserDataId = postUserData.id;
-  
+
   console.log('postUserDataID:', postUserDataId);
 
   if (token) {
@@ -66,10 +66,10 @@ function MyItem({ item }) {
         </>
       );
     }
-  } 
+  }
 }
 
-  export default MyItem;
+export default MyItem;
 
 MyItem.propTypes = {
   item: PropTypes.shape({

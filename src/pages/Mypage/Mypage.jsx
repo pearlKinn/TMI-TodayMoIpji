@@ -1,16 +1,16 @@
+import axios from 'axios';
+import useStorage from '@/hooks/useStorage';
 import S from './Mypage.module.css';
 import { useState, useEffect } from 'react';
-import { MypageIcon } from '@/assets/MypageIcon';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading/Loading';
-import useStorage from '@/hooks/useStorage';
 import MypageStyleSlide from '../../swiper/MypageStyleSlide';
 import MypageSievingSlide from '../../swiper/MypageSievingSlide';
 import MypageBodyTypeSlide from '../../swiper/MypageBodyTypeSlide';
-// import MyItem from '../../components/MyItem/MyItem';
-import axios from 'axios';
+import MyItem from '../../components/MyItem/MyItem';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+import UserProfilePicture from '@/components/UserProfilePicture/UserProfilePicture';
 
 const PB = import.meta.env.VITE_PB_URL;
 const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user`;
@@ -35,6 +35,8 @@ function Mypage() {
   useEffect(() => {
     setAuthUserData(storageData?.model);
   });
+
+  console.log('Mypage authUserData:', authUserData);
 
   const authUserDataId = authUserData?.id;
   console.log('authUserDataId:', authUserDataId);
@@ -74,7 +76,7 @@ function Mypage() {
         <div className={`flex flex-col pt-5 pb-5`}>
           <div className="w-full flex flex-col items-center ">
             <div className="flex justify-center w-[3.75rem] h-[3.75rem] border-2 border-black rounded-full">
-              <MypageIcon size={50} />
+              <UserProfilePicture avatar={authUserData?.avatar} />
             </div>
             <span>닉네임</span>
             <Link
@@ -144,7 +146,7 @@ function Mypage() {
         <div className={`flex flex-col pt-5 pb-5`}>
           <div className="w-full flex flex-col items-center ">
             <div className="flex justify-center w-[3.75rem] h-[3.75rem] border-2 border-black rounded-full">
-              <MypageIcon size={50} />
+              <UserProfilePicture avatar={authUserData?.avatar} />
             </div>
             <span>닉네임</span>
             <Link
@@ -181,9 +183,9 @@ function Mypage() {
           </div>
           {showPosts && (
             <div className={S.mypageInfo}>
-             {/*  {dataItems?.map((item) => (
+              {dataItems?.map((item) => (
                 <MyItem key={item.id} item={item} />
-              ))} */}
+              ))}
             </div>
           )}
           {showSettings && (

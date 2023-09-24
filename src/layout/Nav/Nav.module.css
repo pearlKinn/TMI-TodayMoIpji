@@ -1,0 +1,4 @@
+.active {
+  @apply w-[86px] h-[55px] flex justify-center items-center;
+  @apply border-t-[6px] border-secondary;
+}
