@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { getPbImageURL } from '@/utils';
 import { MypageIcon } from '@/assets/MypageIcon';
 import S from './Nav.module.css';
-// import { node, string } from 'prop-types';
 
 function Nav() {
   const [activeTab, setActiveTab] = useState('home');
@@ -78,10 +77,14 @@ function Nav() {
             className={activeTab === 'mypage' ? S.active : S.beforeActive}
           >
             <Link to={`/mypage/${authUserData?.id}`}>
-              <img
-                src={getPbImageURL(authUserData, 'avatar')}
-                className="w-[50px] h-[50px] mt-1 rounded-full"
-              />
+              {authUserData.avatar ? (
+                <img
+                  src={getPbImageURL(authUserData, 'avatar')}
+                  className="w-[50px] h-[50px] mt-1 rounded-full"
+                />
+              ) : (
+                <MypageIcon size={50} />
+              )}
             </Link>
           </li>
         </ul>
