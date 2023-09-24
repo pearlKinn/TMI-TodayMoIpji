@@ -1,13 +1,13 @@
 import S from './Feed.module.css';
 import Spinner from '../Spinner';
-import FeedItem from '../FeedItem.jsx/FeedItem';
+import FeedItem from '../FeedItem/FeedItem';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { data } from 'autoprefixer';
 import Filter from '/Filter.svg';
 
 const PB = import.meta.env.VITE_PB_URL;
-const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user`;
+const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user&page=1&perPage=50`;
 
 async function fetchProducts() {
   const response = await axios(PB_FEED_ENDPOINT);
@@ -24,7 +24,7 @@ function Feed() {
   });
 
   let dataItems = postData?.items;
-  
+
   if (isLoading) {
     return <Spinner size={160} title="데이터 가져오는 중이에요." />;
   }
@@ -57,5 +57,4 @@ function Feed() {
     );
   }
 }
-
 export default Feed;

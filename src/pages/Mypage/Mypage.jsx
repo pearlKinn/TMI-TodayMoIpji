@@ -91,24 +91,18 @@ function Mypage() {
   }
 
   if (!authUserData) {
-    return (
-        <GuestSetting />
-    )
-
+    return <GuestSetting />;
   } else {
     if (postData) {
       return (
         <div className={`flex flex-col pt-5 pb-5`}>
           <div className="w-full flex flex-col items-center ">
-            <div className="flex justify-center w-[3.75rem] h-[3.75rem] border-2 border-black rounded-full">
-              <UserProfilePicture
-                avatar={authUserData?.avatar}
-                name={authUserData?.name}
-              />
+            <div className="flex justify-center">
+              <UserProfilePicture avatar={authUserData} name={authUserData} />
             </div>
             <span>닉네임</span>
             <Link
-              to="/profileEdit"
+              to="/userprofileedit"
               className="w-[6.625rem] h-[2.875rem] flex justify-center items-center rounded-lg bg-primary mb-8"
             >
               프로필 수정
@@ -147,7 +141,7 @@ function Mypage() {
             </div>
           )}
           {showSettings && (
-            <div className={`flex flex-col p-8`}>
+            <div className={`flex flex-col p-8 `}>
               {
                 <div className="flex flex-col items-center">
                   <div className="w-full flex justify-between">

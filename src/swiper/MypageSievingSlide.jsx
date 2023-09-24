@@ -6,7 +6,7 @@ import 'swiper/css/navigation';
 import './swiper-bundle.css';
 
 function MypageSievingSlide(userId) {
-const mypageUserId = userId.item;
+  const mypageUserId = userId.item;
   const handleSievingClick = async (userId, value) => {
     localStorage.setItem('userId', userId);
     localStorage.setItem('userSievingValue', value);
@@ -23,9 +23,7 @@ const mypageUserId = userId.item;
         <div className="flex flex-col justify-center w-[90%] mx-auto">
           <div className="swiper-container flex w-full whitespace-no-wrap overflow-hidden">
             <div className="swiper-wrapper">
-              <SwiperSlide
-                className="swiper-custom-slide-holder keyword flex justify-center items-center px-3 py-1.5 w-[7.625rem] rounded-3xl bg-white border border-solid border-black"
-              >
+              <SwiperSlide className="swiper-custom-slide-holder keyword flex justify-center items-center px-3 py-1.5 w-[7.625rem] rounded-3xl bg-white border border-solid border-black">
                 <button
                   type="button"
                   className="text-sm leading-base"
@@ -36,9 +34,7 @@ const mypageUserId = userId.item;
                   더위 많이 탐
                 </button>
               </SwiperSlide>
-              <SwiperSlide
-                className="swiper-custom-slide-holder keyword flex justify-center items-center px-3 py-1.5 w-[7.625rem] rounded-3xl bg-white border border-solid border-black"
-              >
+              <SwiperSlide className="swiper-custom-slide-holder keyword flex justify-center items-center px-3 py-1.5 w-[7.625rem] rounded-3xl bg-white border border-solid border-black">
                 <button
                   type="button"
                   className="text-sm leading-base"

@@ -5,15 +5,15 @@ const {
   JSON: { stringify: serialize, parse: deserialize },
 } = globalThis;
 
-const setData = (key, nextData) => {
+export const setData = (key, nextData) => {
   storage.setItem(key, serialize(nextData));
 };
 
-const getData = (key) => {
+export const getData = (key) => {
   return deserialize(storage.getItem(key));
 };
 
-const deleteData = (key) => {
+export const deleteData = (key) => {
   storage.removeItem(key);
 };
 

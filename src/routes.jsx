@@ -48,7 +48,14 @@ const router = createHashRouter([
       { path: 'welcome', element: <Welcome /> },
       { path: 'mypage/:userId', element: <Mypage /> },
       { path: 'suggestion', element: <Suggestion /> },
-      { path: 'userprofileedit', element: <UserProfileEdit /> },
+      {
+        path: 'userprofileedit',
+        element: (
+          <ProtectRoute>
+            <UserProfileEdit />
+          </ProtectRoute>
+        ),
+      },
       { path: 'user', element: <User /> },
       { path: 'guestsetting', element: <GuestSetting /> },
     ],

@@ -2,7 +2,7 @@
   @apply w-full flex justify-center border-t-2 border-black;
 }
 .profile {
-  @apply md:mx-auto md:w-[768px] pt-[25px] items-center flex flex-col;
+  @apply h-[calc(100vh-132px)] md:mx-auto md:w-[768px] pt-[25px] items-center flex flex-col;
 }
 
 .save {
@@ -10,7 +10,7 @@
 }
 
 .nick {
-  @apply w-[120px] h-10 rounded border border-primary text-sm p-2;
+  @apply w-full h-10 rounded border border-primary text-sm p-2;
 }
 
 .editwrapper {

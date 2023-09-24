@@ -9,29 +9,26 @@ function MypageStyleSlide(userId) {
   const [selectedStylesValue, setSelectedStylesValue] = useState([]);
 
   const handleStyleClick = (userId, value) => {
+    setSelectedStylesValue((prevSelectedStyles) => {
+      const updatedStyles = [...prevSelectedStyles, value];
+      console.log('selectedStylesValue:', updatedStyles);
+      return updatedStyles;
+    });
 
-      setSelectedStylesValue((prevSelectedStyles) => {
-        const updatedStyles = [...prevSelectedStyles, value];
-        console.log('selectedStylesValue:', updatedStyles);
-        return updatedStyles;
-      });
+    const storedUserStyleValue = localStorage.getItem('userStyleValue');
+    const parsedStoredUserStyleValue = storedUserStyleValue
+      ? new Set(JSON.parse(storedUserStyleValue))
+      : new Set();
 
-      const storedUserStyleValue = localStorage.getItem('userStyleValue');
-      const parsedStoredUserStyleValue = storedUserStyleValue
-        ? new Set(JSON.parse(storedUserStyleValue))
-        : new Set();
-
-
-      if (!parsedStoredUserStyleValue.has(value)) {
-        parsedStoredUserStyleValue.add(value);
-        localStorage.setItem(
-          'userStyleValue',
-          JSON.stringify(Array.from(parsedStoredUserStyleValue))
-        );
-      }
+    if (!parsedStoredUserStyleValue.has(value)) {
+      parsedStoredUserStyleValue.add(value);
+      localStorage.setItem(
+        'userStyleValue',
+        JSON.stringify(Array.from(parsedStoredUserStyleValue))
+      );
+    }
 
     localStorage.setItem('userId', userId);
-    
   };
 
   return (

@@ -21,7 +21,6 @@ function MyItem({ item }) {
 
   const postUserDataId = postUserData.id;
 
-
   if (token) {
     if (authUserDataId === postUserDataId) {
       return (
