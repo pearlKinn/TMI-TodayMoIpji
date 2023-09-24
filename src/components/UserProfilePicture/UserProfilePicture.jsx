@@ -11,7 +11,7 @@ function UserProfilePicture(props) {
               getPbImageURL(avatarImg, 'avatar') ||
               '/src/assets/defalutProfilePic.png'
             }
-            // alt={`${props?.name}님의 프로필 이미지`}
+            alt={`${props?.name}님의 프로필 이미지`}
             className="w-16 h-16 rounded-full"
           />
         </div>

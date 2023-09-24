@@ -6,7 +6,7 @@ import DarkModeButton from '@/components/DarkModeButton/DarkModeButton';
 function GuestSetting() {
   return (
     <>
-      <div className=" md:mx-auto md:w-[768px]  pt-[25px] items-center flex flex-col">
+      <div className=" md:mx-auto pt-[25px] items-center flex flex-col">
         <UserProfilePicture></UserProfilePicture>
         <div className="my-auto h-[90px] flex">
           <UserNickname userNickname={'로그인해주세요'}></UserNickname>

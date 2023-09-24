@@ -12,6 +12,7 @@ import MyItem from '../../components/MyItem/MyItem';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import UserProfilePicture from '@/components/UserProfilePicture/UserProfilePicture';
+import GuestSetting from '../GuestSetting';
 
 const PB = import.meta.env.VITE_PB_URL;
 const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user`;
@@ -90,87 +91,13 @@ function Mypage() {
   }
 
   if (!authUserData) {
-    return (
-      <>
-        <div className={`flex flex-col h-[calc(100vh-205px)]`}>
-          <div className="w-full flex flex-col items-center ">
-            <div className="flex justify-center w-[3.75rem] h-[3.75rem] border-2 border-black rounded-full">
-              <UserProfilePicture avatar={authUserData?.avatar} />
-            </div>
-            <span>닉네임</span>
-            <Link
-              to="/userprofileedit"
-              className="w-[6.625rem] h-[2.875rem] flex justify-center items-center rounded-lg bg-primary mb-8"
-            >
-              프로필 수정
-            </Link>
-          </div>
-          <div className="w-full h-[1.5rem] flex items-center mb-3 border-t-2 border-black">
-            <button
-              className={`w-1/2 flex justify-center ${
-                showPosts ? 'bg-secondary text-white' : 'bg-white'
-              }`}
-              onClick={() => {
-                setShowPosts(true);
-                setShowSettings(false);
-              }}
-            >
-              게시물 보기
-            </button>
-
-            <button
-              className={`w-1/2 flex justify-center ${
-                showSettings ? 'bg-secondary text-white' : 'bg-white'
-              }`}
-              onClick={() => {
-                setShowSettings(true);
-                setShowPosts(false);
-              }}
-            >
-              설정 및 정보수정
-            </button>
-          </div>
-        </div>
-        {showPosts && (
-          <>
-            <span className="flex justify-center mb-6">
-              게시물을 보기위해서는 로그인이 필요해요!
-            </span>
-            <Link to="/signIn" className="flex justify-center text-infoCorrect">
-              로그인하러가기
-            </Link>
-          </>
-        )}
-        {showSettings && (
-          <div className={`flex flex-col p-8`}>
-            {
-              <div className="flex flex-col items-center">
-                <div className="w-full flex justify-between">
-                  <span className="w-[5.25rem] h-[2.75rem] flex justify-center items-center rounded-3xl bg-black text-white mb-[1.6rem] font-bold">
-                    다크모드
-                  </span>
-                  <div
-                    className={`${S.toggleBtn} ${isDarkMode ? S.on : S.off}`}
-                  >
-                    <button
-                      type="button"
-                      className={`${S.circle}`}
-                      onClick={toggleDarkModeHandler}
-                    ></button>
-                  </div>
-                </div>
-              </div>
-            }
-          </div>
-        )}
-      </>
-    );
+    return <GuestSetting />;
   } else {
     if (postData) {
       return (
-        <div className={`flex flex-col pt-5 pb-5 h-[calc(100vh-132px)]`}>
+        <div className={`flex flex-col pt-5 pb-5`}>
           <div className="w-full flex flex-col items-center ">
-            <div className="flex justify-center w-16 h-16 rounded-full">
+            <div className="flex justify-center">
               <UserProfilePicture avatar={authUserData} name={authUserData} />
             </div>
             <span>닉네임</span>
@@ -214,7 +141,7 @@ function Mypage() {
             </div>
           )}
           {showSettings && (
-            <div className={`flex flex-col p-8`}>
+            <div className={`flex flex-col p-8 `}>
               {
                 <div className="flex flex-col items-center">
                   <div className="w-full flex justify-between">

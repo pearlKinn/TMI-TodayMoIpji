@@ -11,6 +11,7 @@ function MypageStyleSlide(userId) {
   const handleStyleClick = (userId, value) => {
     setSelectedStylesValue((prevSelectedStyles) => {
       const updatedStyles = [...prevSelectedStyles, value];
+      console.log('selectedStylesValue:', updatedStyles);
       return updatedStyles;
     });
 
@@ -20,7 +21,6 @@ function MypageStyleSlide(userId) {
       : new Set();
 
     if (!parsedStoredUserStyleValue.has(value)) {
-      // 중복되지 않는 경우에만 localStorage에 저장
       parsedStoredUserStyleValue.add(value);
       localStorage.setItem(
         'userStyleValue',
