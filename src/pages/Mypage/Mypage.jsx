@@ -32,10 +32,6 @@ function Mypage() {
   const { storageData } = useStorage('pocketbase_auth');
   const [authUserData, setAuthUserData] = useState(storageData?.model);
 
-  const [sievingValue, setSievingValue] = useState({});
-  const [styleValue, setStyleValue] = useState({});
-  const [bodyTypeValue, setBodyTypeValue] = useState({});
-
   useEffect(() => {
     setAuthUserData(storageData?.model);
   });
@@ -56,7 +52,6 @@ function Mypage() {
 
   const handleSaveClick = async () => {
     const userId = localStorage.getItem('userId');
-    console.log('Mypage userId:', userId);
     const storedUserSievingValue = localStorage
       .getItem('userSievingValue')
       .replace(/\s/g, '');
@@ -141,7 +136,9 @@ function Mypage() {
             <span className="flex justify-center mb-6">
               게시물을 보기위해서는 로그인이 필요해요!
             </span>
-            <Link to="/signIn">로그인하러가기</Link>
+            <Link to="/signIn" className="flex justify-center text-infoCorrect">
+              로그인하러가기
+            </Link>
           </>
         )}
         {showSettings && (
@@ -155,10 +152,10 @@ function Mypage() {
                   <div
                     className={`${S.toggleBtn} ${isDarkMode ? S.on : S.off}`}
                   >
-                    <div
+                    <button
                       className={`${S.circle}`}
                       onClick={toggleDarkModeHandler}
-                    ></div>
+                    ></button>
                   </div>
                 </div>
               </div>
