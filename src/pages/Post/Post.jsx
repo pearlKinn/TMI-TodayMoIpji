@@ -20,6 +20,7 @@ import BackIcon from '/BackIcon.svg';
 
 function Post() {
   const { postId } = useParams();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [likePost, setLikePost] = useState(true);
   const { storageData } = useStorage('pocketbase_auth');

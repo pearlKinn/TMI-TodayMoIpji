@@ -1,7 +1,7 @@
 import Button from '@/components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import S from './Welcome.module.css';
-
+import celebration from '/celebration-icon.svg';
 function Welcome() {
   const navigate = useNavigate();
 
@@ -13,7 +13,7 @@ function Welcome() {
     <>
       <div className="h-[calc(100vh-132px)]">
         <div className={S.welcomeContainer}>
-          <img className="mx-auto" src="/public/celebration-icon.svg" />
+          <img className="mx-auto" src={celebration} />
         </div>
         <p className="text-base text-center">회원 가입을 축하합니다!</p>
         <div className={S.loginButton}>

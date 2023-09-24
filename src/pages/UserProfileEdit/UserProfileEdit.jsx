@@ -88,6 +88,7 @@ function UserProfileEdit() {
 
   const username =
     pocketbaseAuthData?.model?.username || '사용자 이름이 없습니다';
+
   if (pocketbaseAuthData) {
     return (
       <div className={S.profile}>

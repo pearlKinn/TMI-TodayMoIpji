@@ -9,7 +9,7 @@ function FeedItem({ item }) {
   const searchValue = useSearchStore((state) => state.searchValue);
   const [searchData, setSearchData] = useState([]);
   const { expand: postExpandData } = item;
-  const postUserData = postExpandData.user;
+  const postUserData = postExpandData?.user;
 
   useEffect(() => {
     if (searchValue === postUserData?.region) {
