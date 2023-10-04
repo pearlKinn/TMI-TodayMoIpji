@@ -11,11 +11,7 @@ function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <HeaderBar />
-      <main>
-        <div>
-          <Outlet />
-        </div>
-      </main>
+      <Outlet />
       <FooterBar />
       <Toaster />
       <ReactQueryDevtools initialIsOpen />
