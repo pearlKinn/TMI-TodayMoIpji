@@ -16,10 +16,11 @@
   @apply bg-gray-300 rounded-full w-6 h-6 self-center;
 }
 
-.speechBubbleHead {
-  @apply relative bg-white border border-black;
+.speechBubbleBody { 
+  @apply relative bg-white border border-black px-1;
 }
-.speechBubbleBody {
+.speechBubbleHead {
   @apply absolute inset-0 transform translate-x-1/2 -translate-y-1/2 -rotate-45;
-  @apply bg-white border border-t-black border-r-black border-l-white border-b-white  w-2 h-2;
+  @apply bg-white border border-t-black border-r-black border-l-white border-b-white; 
+  @apply w-2 h-2;
 }
