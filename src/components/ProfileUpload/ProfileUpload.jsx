@@ -19,7 +19,7 @@ function ProfileUpload() {
         <input
           type="text"
           id="selectedFileName"
-          className="w-30 h-10 rounded border text-sm p-2 border-primary"
+          className="w-52 h-10 rounded border text-sm p-2 border-primary"
           placeholder="선택한 파일"
           readOnly
           value={selectedFile ? selectedFile.name : ''}

@@ -38,9 +38,9 @@ function UserProfileEdit() {
       const isDuplicate = usernames.includes(nickname.toLowerCase());
 
       if (isDuplicate) {
-        setValidationResult('중복');
+        setValidationResult('중복된 닉네임입니다.');
       } else {
-        setValidationResult('사용가능');
+        setValidationResult('사용가능한 닉네임입니다');
       }
     } else {
       setValidationResult('2 ~ 10글자의 영문 대소문자와 숫자만 입력하세요.');
@@ -100,59 +100,61 @@ function UserProfileEdit() {
         <div className={S.editwrapper}></div>
         <div className="flex flex-col gap-6 mt-10">
           <div className="flex gap-4 items-end">
-            <div className="flex flex-col gap-1">
-              <label htmlFor="" className="text-sm">
+            <div className='flex flex-col'>
+              <label htmlFor="nickname" className="text-sm">
                 닉네임
               </label>
-              <input
-                type="text"
-                id="nickname"
-                name="nickname"
-                placeholder="2 ~ 10문자(특수문자 사용불가)"
-                className={S.nick}
-                value={nickname}
-                onChange={(e) => handleNicknameChange(e.target.value)}
-              />
+              <div className="flex gap-4">
+                <input
+                  type="text"
+                  id="nickname"
+                  name="nickname"
+                  placeholder="2 ~ 10문자(특수문자 사용불가)"
+                  className={S.nick}
+                  value={nickname}
+                  onChange={(e) => handleNicknameChange(e.target.value)}
+                />
+                <button
+                  onClick={() => {
+                    handleButtonClick();
+                  }}
+                  className={`h-10 text-gray-900 border rounded px-2 ${
+                    nickname.length >= 2 &&
+                    nickname.length <= 10 &&
+                    /^[a-zA-Z0-9]+$/.test(nickname)
+                      ? 'bg-primary'
+                      : 'bg-gray-300 cursor-not-allowed'
+                  }`}
+                  disabled={
+                    isLoading ||
+                    !(
+                      nickname.length >= 2 &&
+                      nickname.length <= 10 &&
+                      /^[a-zA-Z0-9]+$/.test(nickname)
+                    )
+                  }
+                >
+                  중복확인
+                </button>
+            </div>
               {validationResult && (
                 <div
                   className={
-                    validationResult === '중복'
-                      ? 'text-red-500'
-                      : 'text-green-500'
+                    validationResult === '중복된 닉네임입니다.'
+                      ? 'text-red-500 text-xs'
+                      : 'text-green-500 text-xs'
                   }
                 >
                   {validationResult}
                 </div>
               )}
             </div>
-            <button
-              onClick={() => {
-                handleButtonClick();
-              }}
-              className={`h-10 text-gray-900 border rounded px-2 ${
-                nickname.length >= 2 &&
-                nickname.length <= 10 &&
-                /^[a-zA-Z0-9]+$/.test(nickname)
-                  ? 'bg-primary'
-                  : 'bg-gray-300 cursor-not-allowed'
-              }`}
-              disabled={
-                isLoading ||
-                !(
-                  nickname.length >= 2 &&
-                  nickname.length <= 10 &&
-                  /^[a-zA-Z0-9]+$/.test(nickname)
-                )
-              }
-            >
-              중복확인
-            </button>
           </div>
           <ProfileUpload />
         </div>
         <button
           onClick={async () => {
-            if (!isLoading && validationResult === '사용가능') {
+            if (!isLoading && validationResult === '사용가능한 닉네임') {
               const isUsernameUpdated = await updateUsernameOnServer();
               if (isUsernameUpdated) {
                 pocketbaseAuthData.username = nickname;
@@ -162,7 +164,7 @@ function UserProfileEdit() {
             }
           }}
           className={S.save}
-          disabled={isLoading || validationResult !== '사용가능'}
+          disabled={isLoading || validationResult !== '사용가능한 닉네임'}
         >
           저장하기
         </button>
