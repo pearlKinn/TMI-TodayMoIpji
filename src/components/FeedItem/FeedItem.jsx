@@ -47,10 +47,14 @@ function FeedItem({ item }) {
             )}
             <span className={S.local}>{postUserData?.region}</span>
           </div>
-          <div className={S.speechBubbleHead}>
-            {item.statusEmoji}
-            <div className={S.speechBubbleBody}></div>
-          </div>
+          {item.statusEmoji ? (
+            <div className={S.speechBubbleHead}>
+              {item.statusEmoji}
+              <div className={S.speechBubbleBody}></div>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </Link>
     );
