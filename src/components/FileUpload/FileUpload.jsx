@@ -25,8 +25,6 @@ function FileUpload() {
     setIsShowOptions(true);
   };
 
-  /* -------------------------------------------------------------------------- */
-
   const contentRef = useRef(null);
   const [content, setContent] = useState('');
 
