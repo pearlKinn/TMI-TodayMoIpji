@@ -14,6 +14,7 @@ async function fetchProducts({ pageParam = 1 }) {
   const response = await axios(
     `${PB_FEED_ENDPOINT}&page=${pageParam}&perPage=12`
   );
+  console.log(response.data);
   return response.data;
 }
 
@@ -66,11 +67,13 @@ function Feed() {
           onClick={() => fetchNextPage()}
           disabled={!hasNextPage || isFetchingNextPage}
         >
-          {isFetchingNextPage
-            ? 'Loading more...'
-            : hasNextPage
-            ? 'Load Newer'
-            : ''}
+          {isFetchingNextPage ? (
+            <Spinner size={160} title="데이터 가져오는 중이에요." />
+          ) : hasNextPage ? (
+            <Spinner size={160} title="데이터 가져오는 중이에요." />
+          ) : (
+            ''
+          )}
         </button>
       </div>
       <div className="flex justify-center">
