@@ -10,11 +10,20 @@ import Filter from '/Filter.svg';
 const PB = import.meta.env.VITE_PB_URL;
 const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?sort=-created&expand=user`;
 
+function getItemsPerPage() {
+  const width = window.innerWidth;
+  if (width <= 768) {
+    return 12;
+  } else {
+    return 16;
+  }
+}
+
 async function fetchProducts({ pageParam = 1 }) {
+  const itemsPerPage = getItemsPerPage();
   const response = await axios(
-    `${PB_FEED_ENDPOINT}&page=${pageParam}&perPage=12`
+    `${PB_FEED_ENDPOINT}&page=${pageParam}&perPage=${itemsPerPage}`
   );
-  console.log(response.data);
   return response.data;
 }
 
@@ -30,7 +39,8 @@ function Feed() {
     ({ pageParam }) => fetchProducts({ pageParam }), // queryFn 수정
     {
       getNextPageParam: (lastPage, allPages) => {
-        const maxPage = lastPage.totalItems / 12;
+        const itemsPerPage = getItemsPerPage();
+        const maxPage = Math.ceil(lastPage.totalItems / itemsPerPage);
         const nextPage = allPages.length + 1;
         return nextPage <= maxPage ? nextPage : undefined;
       },
