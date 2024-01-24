@@ -1,11 +1,31 @@
-# TMI - [오늘 뭐 입지? (Today Mo Ipji?)](https://frontendschool6.github.io/TMI-TodayMoIpji/#/)
+![header](https://capsule-render.vercel.app/api?&type=waving&color=0:97FCFF,100:6EFCE9)
+
+<div align="center">
+
+# 오늘 뭐 입지? - TMI
+
+### 테킷 멋쟁이사자처럼 프론트엔드 6기
+
+## 프로젝트 개요
+
+🗓️ 기획 기간 : 2023.09.02 ~ 2023.09.08<br/>
+🗓️ 개발 기간 : 2023.09.09 ~ 2023.09.25<br/>
+(web for PC)
+
+[오늘 뭐 입지? (Today Mo Ipji?)](https://frontendschool6.github.io/TMI-TodayMoIpji/#/)
+
+## 팀원 소개
+
+
+|                 [김봉석(조장) ](https://github.com/NewBsk)                 |               [방서빈](https://github.com/seobinbang7)              |                [김진주(스크럼마스터)](https://github.com/pearlKinn)               |[권혜미](https://github.com/GwonH) |
+| :---------------------------------------------------------------: | :---------------------------------------------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------: |
+| <img width="200" height="200" src="./samples/teamates/asj.png" /> | <img width="200" height="200" src="./samples/teamates/kbk.png" /> | <img width="200" height="200" src="./samples//teamates/kjj.png" /> |<img width="200" height="200" src="./samples//teamates/kjj.png" /> |
+
+</div>
+
 
 TMI는 외출시 온도/날씨에 따라 어떤 옷을 입어야 할지 고민하는 시간을 줄이기 위해 만든 웹 애플리케이션입니다.</br>
 › 이 애플리케이션은 다른 사람들이 올린 옷차림을 통해 빠른 패션 선택을 도와주고 매일의 스타일링 고민을 덜어주어 편리성을 높이고 시간 절약에 도움을 줍니다
-
-## 팀원
-
-<p style='font-size:25px'>권혜미, 김봉석(조장), 김진주(스크럼마스터), 방서빈</p>
 
 ## 기술 스택
 
