@@ -12,14 +12,14 @@
 🗓️ 개발 기간 : 2023.09.09 ~ 2023.09.25<br/>
 (web for PC)
 
-[오늘 뭐 입지? (Today Mo Ipji?)](https://frontendschool6.github.io/TMI-TodayMoIpji/#/)
+[오늘 뭐 입지? (Today Mo Ipji?) 바로가기](https://frontendschool6.github.io/TMI-TodayMoIpji/#/)
 
 ## 팀원 소개
 
 
-|                 [김봉석(조장) ](https://github.com/NewBsk)                 |               [방서빈](https://github.com/seobinbang7)              |                [김진주(스크럼마스터)](https://github.com/pearlKinn)               |[권혜미](https://github.com/GwonH) |
+|                 [김봉석(조장) ](https://github.com/NewBsk)                 |             [김진주(스크럼마스터)](https://github.com/pearlKinn)                    |               [방서빈](https://github.com/seobinbang7)            |[권혜미](https://github.com/GwonH) |
 | :---------------------------------------------------------------: | :---------------------------------------------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------: |
-| <img width="200" height="200" src="./samples/teamates/asj.png" /> | <img width="200" height="200" src="./samples/teamates/kbk.png" /> | <img width="200" height="200" src="./samples//teamates/kjj.png" /> |<img width="200" height="200" src="./samples//teamates/kjj.png" /> |
+| <img width="200" height="200" src="./public/teammate/BSK.jpg" /> | <img width="200" height="200" src="./public/teammate/pearl.jpg" /> | <img width="200" height="200" src="./public/teammate/seobin.jpg" /> | <img width="200" height="200" src="./public/teammate/gwonH.png" /> |
 
 </div>
 
