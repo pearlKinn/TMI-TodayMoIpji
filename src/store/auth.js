@@ -21,10 +21,6 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  // signUp: async (registerUser) => {
-  //   return await pb.collection('users').create(registerUser);
-  // },
-
   /* Pb SDK를 사용한 로그인 */
   signIn: async (userNameOrEmail, password) => {
     try {
@@ -38,12 +34,6 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  // signIn: async (userNameOrEmail, password) => {
-  //   return await pb
-  //     .collection('users')
-  //     .authWithPassword(userNameOrEmail, password);
-  // },
-
   /* Pb SDK를 사용한 로그아웃 */
   signOut: async () => {
     try {
@@ -54,9 +44,6 @@ const useAuthStore = create((set) => ({
       throw new Error('로그아웃에 실패했습니다. 다시 시도해주세요.');
     }
   },
-  // signOut: async () => {
-  //   return await pb.authStore.clear();
-  // },
 
   /* Pb SDK를 사용한 회원탈퇴 */
   Withdrawal: async (recordId) => {
@@ -68,9 +55,6 @@ const useAuthStore = create((set) => ({
       throw new Error('회원 탈퇴에 실패했습니다. 다시 시도해주세요.');
     }
   },
-  // Withdrawal: async (recordId) => {
-  //   return await pb.collection('users').delete(recordId);
-  // },
 }));
 
 export default useAuthStore;
