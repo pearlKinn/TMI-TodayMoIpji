@@ -2,10 +2,9 @@ import { success } from '@/api/openweathermap';
 import Loading from '@/components/Loading/Loading';
 import { getPbImageURL } from '@/utils';
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import S from './Suggestion.module.css';
-import DownArrow from '/BackIcon.svg';
 
 const suggestClothingByTemperature = (temperature) => {
   let tempId = '';
@@ -50,20 +49,9 @@ async function fetchProducts(tempId) {
 }
 
 function Suggestion() {
-  const dropdownRef = useRef(null);
-  const [isActive, setIsActive] = useState(true);
-  const [selectRegion, setSelectRegion] = useState('');
   const [regionWeather, setRegionWeather] = useState('');
   const [loading, setLoading] = useState(true);
   const [suggestClothes, setSuggestClothes] = useState(null);
-
-  const toggleDropdown = () => {
-    setIsActive(!isActive);
-  };
-  const handleOptionChange = (e) => {
-    setSelectRegion(e.target.value);
-    setIsActive(!isActive);
-  };
 
   useEffect(() => {
     const fetchData = async (tempId) => {
@@ -103,62 +91,7 @@ function Suggestion() {
 
     return (
       <div className={S.suggestWrapper}>
-        <section className={S.selectRegionWrapper}>
-          <h2 className="sr-only">온도별 의상 제안</h2>
-          <button
-            ref={dropdownRef}
-            className={S.dropdownBtn}
-            onClick={toggleDropdown}
-          >
-            <img
-              src={DownArrow}
-              className={isActive ? `${S.downArrow}` : `${S.upArrow}`}
-            />
-            {!selectRegion ? '지역을 선택해주세요' : selectRegion}
-          </button>
-
-          <ul id="myDropdown" className={isActive ? 'hidden' : S.regionList}>
-            <li className={S.regionItem}>
-              <label htmlFor="seoul" className="relative">
-                <input
-                  type="radio"
-                  name="options"
-                  id="seoul"
-                  value="서울"
-                  onChange={handleOptionChange}
-                  className={S.regionItemInput}
-                />
-                <span className="absolute bottom-5">서울</span>
-              </label>
-            </li>
-            <li className={S.regionItem}>
-              <label htmlFor="DaeGu" className="relative">
-                <input
-                  type="radio"
-                  name="options"
-                  id="DaeGu"
-                  value="대구"
-                  onChange={handleOptionChange}
-                  className={S.regionItemInput}
-                />
-                <span className="absolute bottom-5">대구</span>
-              </label>
-            </li>
-            <li className={S.regionItem}>
-              <label htmlFor="InCheon" className="relative">
-                <input
-                  type="radio"
-                  name="options"
-                  id="InCheon"
-                  value="인천"
-                  onChange={handleOptionChange}
-                  className={S.regionItemInput}
-                />
-                <span className="absolute bottom-5">인천</span>
-              </label>
-            </li>
-          </ul>
-        </section>
+        <h2 className="sr-only">온도별 의상 제안</h2>
         <section className={S.suggestClothesWrapper}>
           <div>
             <img
@@ -205,7 +138,9 @@ function Suggestion() {
                 </span>
               ))}
             </div>
-            <span className="text-center mt-3">이런 옷을 추천👍해드려요!</span>
+            <span className="text-center mt-3">
+              이런 옷을 추천 👍 해드려요!
+            </span>
           </div>
         </section>
       </div>
