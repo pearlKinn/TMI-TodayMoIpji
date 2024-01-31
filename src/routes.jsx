@@ -49,7 +49,7 @@ const router = createHashRouter([
       { path: 'mypage/:userId', element: <Mypage /> },
       { path: 'suggestion', element: <Suggestion /> },
       {
-        path: 'userprofileedit',
+        path: 'useredit/:userId',
         element: (
           <ProtectRoute>
             <UserProfileEdit />
