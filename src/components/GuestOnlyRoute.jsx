@@ -1,10 +1,8 @@
 import useStorage from '@/hooks/useStorage';
 import { element } from 'prop-types';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function GuestOnlyRoutes({ children }) {
   const navigate = useNavigate();

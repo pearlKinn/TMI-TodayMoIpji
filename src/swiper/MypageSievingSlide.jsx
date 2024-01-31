@@ -4,20 +4,21 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './swiper-bundle.css';
+import { setData } from '@/hooks/useStorage';
 
 function MypageSievingSlide(userId) {
   const mypageUserId = userId.item;
   const handleSievingClick = async (userId, value) => {
-    localStorage.setItem('userId', userId);
-    localStorage.setItem('userSievingValue', value);
+    setData('userId', userId);
+    setData('userSievingValue', value);
   };
 
   return (
     <Swiper
       modules={[A11y]}
-      spaceBetween={30}
+      spaceBetween={10}
       slidesPerView={2}
-      mousewheelControl={true}
+      mousewheelcontrol="true"
     >
       <div className="flex items-center w-[90%] mx-auto">
         <div className="flex flex-col justify-center w-[90%] mx-auto">
