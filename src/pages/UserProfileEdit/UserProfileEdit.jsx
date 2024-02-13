@@ -45,7 +45,7 @@ function UserProfileEdit() {
 
   const handleNicknameChange = (value) => {
     if (
-      value.length >= 2 &&
+      value.length >= 5 &&
       value.length <= 10 &&
       /^[a-zA-Z0-9]+$/.test(value)
     ) {
@@ -53,7 +53,7 @@ function UserProfileEdit() {
       setValidationResult('');
     } else {
       setNickname(value);
-      setValidationResult('2 ~ 10글자의 영문 대소문자와 숫자만 입력하세요.');
+      setValidationResult('5 ~ 10글자의 영문 대소문자와 숫자만 입력하세요.');
     }
   };
 
