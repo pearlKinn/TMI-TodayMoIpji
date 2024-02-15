@@ -12,7 +12,7 @@
 🗓️ 개발 기간 : 2023.09.09 ~ 2023.09.25<br/>
 (web for PC)
 
-[오늘 뭐 입지? (Today Mo Ipji?) 바로가기](https://frontendschool6.github.io/TMI-TodayMoIpji/#/)
+[오늘 뭐 입지? (Today Mo Ipji?) 바로가기](https://frontendschool6.github.io/TMI-TodayMoIpji/)
 
 ## 팀원 소개
 
