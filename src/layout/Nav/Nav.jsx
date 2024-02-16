@@ -1,26 +1,37 @@
-import useStorage from '@/hooks/useStorage';
-import { useState, useEffect } from 'react';
-import { WritingIcon } from '@/assets/WritingIcon';
 import { HomeIcon } from '@/assets/HomeIcon';
-import { Link } from 'react-router-dom';
-import { getPbImageURL } from '@/utils';
 import { MypageIcon } from '@/assets/MypageIcon';
+import { WritingIcon } from '@/assets/WritingIcon';
+import useStorage, { getData } from '@/hooks/useStorage';
+import useAuthStore from '@/store/auth';
+import { getPbImageURL } from '@/utils';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import S from './Nav.module.css';
 
 function Nav() {
   const [activeTab, setActiveTab] = useState('home');
+  const signInAuthData = useAuthStore((store) => store.user);
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
 
   const { storageData } = useStorage('pocketbase_auth');
-  const [authUserData, setAuthUserData] = useState(storageData?.model);
-  useEffect(() => {
-    setAuthUserData(storageData?.model);
-  }, [storageData]);
+  const [authModelData, setAuthModelData] = useState(storageData?.model);
 
-  if (!authUserData) {
+  useEffect(() => {
+    const pocketBaseAuthData = getData('pocketbase_auth');
+    if (pocketBaseAuthData) {
+      setAuthModelData(pocketBaseAuthData.model);
+      return;
+    }
+    if (signInAuthData) {
+      setAuthModelData(signInAuthData.record);
+      return;
+    }
+  }, [signInAuthData, signInAuthData?.record]);
+
+  if (!authModelData) {
     return (
       <nav className="w-full">
         <ul className="flex justify-around">
@@ -44,7 +55,7 @@ function Nav() {
             onClick={() => handleTabClick('mypage')}
             className={activeTab === 'mypage' ? S.active : S.beforeActive}
           >
-            <Link to={`/mypage/${authUserData?.id}`}>
+            <Link to={`/mypage/${authModelData?.id}`}>
               <MypageIcon size={50} />
             </Link>
           </li>
@@ -76,10 +87,10 @@ function Nav() {
             onClick={() => handleTabClick('mypage')}
             className={activeTab === 'mypage' ? S.active : S.beforeActive}
           >
-            <Link to={`/mypage/${authUserData?.id}`}>
-              {authUserData.avatar ? (
+            <Link to={`/mypage/${authModelData?.id}`}>
+              {authModelData.avatar ? (
                 <img
-                  src={getPbImageURL(authUserData, 'avatar')}
+                  src={getPbImageURL(authModelData, 'avatar')}
                   className="w-[50px] h-[50px] mt-1 rounded-full"
                 />
               ) : (
@@ -94,8 +105,3 @@ function Nav() {
 }
 
 export default Nav;
-
-// Link.propTypes = {
-//   href: string.isRequired,
-//   children: node.isRequired,
-// };
