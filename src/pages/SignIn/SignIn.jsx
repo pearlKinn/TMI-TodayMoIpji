@@ -3,11 +3,11 @@ import Input from '@/components/Input/Input';
 import useAuthStore from '@/store/auth';
 import debounce from '@/utils/debounce';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import S from './SignIn.module.css';
 import logo from '/logo.svg';
 import ChatIcon from '/mdi-chat.svg';
-import toast from 'react-hot-toast';
-import S from './SignIn.module.css';
 
 function SignIn() {
   const [formState, setFormState] = useState({
