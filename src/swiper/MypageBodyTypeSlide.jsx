@@ -6,11 +6,8 @@ import { A11y, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './swiper-bundle.css';
 
-function MypageSievingSlide(userId) {
-  const mypageUserId = userId.item;
-
-  const handleBodyTypeClick = async (userId, value) => {
-    setData('userId', userId);
+function MypageSievingSlide() {
+  const handleBodyTypeClick = async (value) => {
     setData('userBodyTypeValue', value);
   };
 
@@ -34,7 +31,7 @@ function MypageSievingSlide(userId) {
                 <button
                   type="button"
                   className="text-sm leading-base"
-                  onClick={() => handleBodyTypeClick(mypageUserId, '하체발달')}
+                  onClick={() => handleBodyTypeClick('하체발달')}
                 >
                   하체발달
                 </button>
@@ -43,7 +40,7 @@ function MypageSievingSlide(userId) {
                 <button
                   type="button"
                   className="text-sm leading-base"
-                  onClick={() => handleBodyTypeClick(mypageUserId, '상체발달')}
+                  onClick={() => handleBodyTypeClick('상체발달')}
                 >
                   상체발달
                 </button>

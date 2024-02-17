@@ -1,15 +1,13 @@
+import { setData } from '@/hooks/useStorage';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import { A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 import './swiper-bundle.css';
-import { setData } from '@/hooks/useStorage';
 
-function MypageSievingSlide(userId) {
-  const mypageUserId = userId.item;
-  const handleSievingClick = async (userId, value) => {
-    setData('userId', userId);
+function MypageSievingSlide() {
+  const handleSievingClick = async (value) => {
     setData('userSievingValue', value);
   };
 
@@ -28,9 +26,7 @@ function MypageSievingSlide(userId) {
                 <button
                   type="button"
                   className="text-sm leading-base"
-                  onClick={() =>
-                    handleSievingClick(mypageUserId, '더위 많이 탐')
-                  }
+                  onClick={() => handleSievingClick('더위 많이 탐')}
                 >
                   더위 많이 탐
                 </button>
@@ -39,9 +35,7 @@ function MypageSievingSlide(userId) {
                 <button
                   type="button"
                   className="text-sm leading-base"
-                  onClick={() =>
-                    handleSievingClick(mypageUserId, '추위 많이 탐')
-                  }
+                  onClick={() => handleSievingClick('추위 많이 탐')}
                 >
                   추위 많이 탐
                 </button>

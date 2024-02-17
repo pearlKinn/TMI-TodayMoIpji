@@ -1,26 +1,21 @@
+import { getData, setData } from '@/hooks/useStorage';
 import 'swiper/css';
 import { A11y, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './swiper-bundle.css';
 
-function MypageStyleSlide(userId) {
-  const mypageUserId = userId.item;
+function MypageStyleSlide() {
+  const handleStyleClick = (value) => {
+    const storedUserStyleValue = getData('userStyleValue');
 
-  const handleStyleClick = (userId, value) => {
-    const storedUserStyleValue = localStorage.getItem('userStyleValue');
     const parsedStoredUserStyleValue = storedUserStyleValue
-      ? new Set(JSON.parse(storedUserStyleValue))
+      ? new Set(storedUserStyleValue)
       : new Set();
 
     if (!parsedStoredUserStyleValue.has(value)) {
       parsedStoredUserStyleValue.add(value);
-      localStorage.setItem(
-        'userStyleValue',
-        JSON.stringify(Array.from(parsedStoredUserStyleValue))
-      );
+      setData('userStyleValue', Array.from(parsedStoredUserStyleValue));
     }
-
-    localStorage.setItem('userId', userId);
   };
 
   const styles = [
@@ -60,7 +55,7 @@ function MypageStyleSlide(userId) {
                   <button
                     type="button"
                     className="text-sm leading-base"
-                    onClick={() => handleStyleClick(mypageUserId, style.value)}
+                    onClick={() => handleStyleClick(style.value)}
                     aria-label={style.label}
                   >
                     <span aria-hidden="true">{style.value}</span>
