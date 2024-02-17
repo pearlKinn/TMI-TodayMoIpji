@@ -1,19 +1,20 @@
 import pb from '@/api/pocketbase';
 import { create } from 'zustand';
 
-const initalAuthState = {
+const initialAuthState = {
   isAuth: false,
   user: null,
   token: '',
 };
 
 const useAuthStore = create((set) => ({
-  ...initalAuthState,
+  ...initialAuthState,
 
   /* Pb SDK를 사용한 회원가입 */
   signUp: async (registerUser) => {
     try {
       const user = await pb.collection('users').create(registerUser);
+
       set({ isAuth: true, user, token: user.token });
     } catch (error) {
       console.error(error);
