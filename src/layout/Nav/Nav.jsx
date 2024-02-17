@@ -1,7 +1,7 @@
 import { HomeIcon } from '@/assets/HomeIcon';
 import { MypageIcon } from '@/assets/MypageIcon';
 import { WritingIcon } from '@/assets/WritingIcon';
-import useStorage, { getData } from '@/hooks/useStorage';
+import useStorage, { deleteData, getData } from '@/hooks/useStorage';
 import useAuthStore from '@/store/auth';
 import { getPbImageURL } from '@/utils';
 import { useEffect, useState } from 'react';
@@ -14,6 +14,9 @@ function Nav() {
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
+    deleteData('userBodyTypeValue');
+    deleteData('userSievingValue');
+    deleteData('userStyleValue');
   };
 
   const { storageData } = useStorage('pocketbase_auth');
@@ -82,7 +85,6 @@ function Nav() {
               <HomeIcon size={50} />
             </Link>
           </li>
-
           <li
             onClick={() => handleTabClick('mypage')}
             className={activeTab === 'mypage' ? S.active : S.beforeActive}
