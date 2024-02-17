@@ -27,7 +27,7 @@ const useAuthStore = create((set) => ({
       const user = await pb
         .collection('users')
         .authWithPassword(userNameOrEmail, password);
-      set({ isAuth: true, user, token: user.token }); //
+      set({ isAuth: true, user, token: user.token });
     } catch (error) {
       console.error(error);
       throw new Error('아이디나 비밀번호를 확인해주세요.');
