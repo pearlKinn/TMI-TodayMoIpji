@@ -65,7 +65,7 @@ function UserProfileEdit() {
 
   const updateUsernameOnServer = async () => {
     try {
-      await pb.collection('users').update(userId, {
+      return await pb.collection('users').update(userId, {
         username: nickname,
       });
     } catch (error) {
@@ -84,10 +84,12 @@ function UserProfileEdit() {
   async function handleSaveButtonClick() {
     try {
       if (!isLoading && isNicknameAvailable) {
-        await updateUsernameOnServer();
+        const result = await updateUsernameOnServer();
+        if (result) {
+          toast.success('성공적으로 변경되었습니다');
+          navigate(`/mypage/${userId}`);
+        }
       }
-      toast.success('성공적으로 변경되었습니다');
-      navigate(`/mypage/${userId}`);
     } catch (error) {
       toast.error(error.message);
     }
