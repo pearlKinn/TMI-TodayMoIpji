@@ -4,6 +4,7 @@ import { getNextSlideIndex, getPreviousSlideIndex } from '@/utils';
 import debounce from '@/utils/debounce';
 import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import Resizer from 'react-image-file-resizer';
 import { useNavigate } from 'react-router-dom';
 import MoveSlide from '../MoveSlide/MoveSlide';
 import S from './FileUpload.module.css';
@@ -13,31 +14,71 @@ function FileUpload() {
   const navigate = useNavigate();
   const { storageData } = useStorage('pocketbase_auth');
   const authUser = storageData?.model;
-
-  const [isShowOptions, setIsShowOptions] = useState(true);
-  const [selectedOption, setSelectedOption] = useState('');
-
-  const toggleOptions = () => {
-    setIsShowOptions(!isShowOptions);
-  };
-  const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
-    setIsShowOptions(true);
-  };
-
   const contentRef = useRef(null);
-  const [content, setContent] = useState('');
-
   const formRef = useRef(null);
   const photoRef = useRef(null);
 
-  /* 게시물 업로드  --------------------------------------------------------------------- */
+  const [content, setContent] = useState('');
+  const [isShowOptions, setIsShowOptions] = useState(true);
+  const [selectedOption, setSelectedOption] = useState('');
+  const [uploadFiles, setUploadFiles] = useState();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [fileImages, setFileImages] = useState([]);
+
+  const toggleOptions = () => setIsShowOptions(!isShowOptions);
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+    toggleOptions();
+  };
+
+  const handleContent = debounce((e) => setContent(e.target.value));
+
+  const handleUpload = async (e) => {
+    const { files } = await e.target;
+    try {
+      const resizePromises = Array.from(files).map(resizeFile);
+      const compressedFiles = await Promise.all(resizePromises);
+
+      setUploadFiles(compressedFiles);
+      setFileImages(
+        compressedFiles.map((file, index) => ({
+          image: URL.createObjectURL(file),
+          label: files[index].name,
+        }))
+      );
+    } catch (error) {
+      console.error('이미지 리사이징 및 압축 중 오류가 발생했습니다:', error);
+    }
+  };
+
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        288,
+        288,
+        'JPEG',
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        'file'
+      );
+    });
+
+  const handleNextSlide = () =>
+    setCurrentIndex(getNextSlideIndex(currentIndex, fileImages));
+
+  const handelPrevSlide = () =>
+    setCurrentIndex(getPreviousSlideIndex(currentIndex, fileImages));
 
   const handlePost = async (e) => {
     e.preventDefault();
     const statusValue = selectedOption;
     const contentValue = contentRef.current.value;
-    const photoValue = photoRef.current.files;
+    const photoValue = uploadFiles;
 
     if (
       photoValue.length === 0 ||
@@ -76,32 +117,6 @@ function FileUpload() {
       console.error(error);
     }
   };
-  /* 페이지 이동 버튼 --------------------------------------------------------------------- */
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handleNextSlide = () => {
-    setCurrentIndex(getNextSlideIndex(currentIndex, fileImages));
-  };
-
-  const handelPrevSlide = () => {
-    setCurrentIndex(getPreviousSlideIndex(currentIndex, fileImages));
-  };
-
-  const [fileImages, setFileImages] = useState([]);
-
-  const handleUpload = (e) => {
-    const { files } = e.target;
-    const fileImages = Array.from(files).map((file) => ({
-      image: URL.createObjectURL(file),
-      label: file.name,
-    }));
-    setFileImages(fileImages);
-  };
-
-  const handleContent = debounce((e) => {
-    const { value } = e.target;
-    setContent(value);
-  });
 
   return (
     <>
