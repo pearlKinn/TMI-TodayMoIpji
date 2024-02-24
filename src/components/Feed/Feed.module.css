@@ -12,5 +12,5 @@
 
 .feedWrapper {
   @apply grid grid-cols-3 gap-x-1 gap-y-6 md:grid-cols-4;
-  @apply min-w-[300px] w-72 mt-4 mx-auto md:min-w-[400px];
+  @apply min-w-[320px] w-72 mt-4 mx-auto md:min-w-[400px];
 }

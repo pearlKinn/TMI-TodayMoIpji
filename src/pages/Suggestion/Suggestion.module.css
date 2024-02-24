@@ -31,7 +31,7 @@ button.dropdownBtn {
 }
 
 .suggestClothesWrapper {
-  @apply mt-24 flex flex-col items-center;
+  @apply mt-10 flex flex-col items-center;
 }
 
 .nowWeather {
@@ -52,7 +52,7 @@ button.dropdownBtn {
 }
 
 .clothesImg {
-  @apply w-60 mx-auto;
+  @apply w-[320px] mx-auto;
 }
 
 .clothesWrapper {

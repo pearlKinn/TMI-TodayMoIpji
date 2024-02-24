@@ -1,12 +1,23 @@
+.mypageWrapper {
+  @apply flex flex-col pt-5 pb-5 h-[calc(100vh-132px)];
+}
 .mypagePostImg {
   @apply w-[6.125rem] h-[6.125rem];
 }
 .mypageInfo {
-  @apply grid grid-cols-3 gap-x-2 gap-y-6 md:grid-cols-4 overflow-y-auto;
-  @apply min-w-[320px] w-full  mt-4 mx-auto;
+  @apply grid grid-cols-3 gap-x-1 gap-y-6 md:grid-cols-4;
+  @apply min-w-[320px] w-72 mt-4 mx-auto md:min-w-[400px];
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .mypageUserImg {
   @apply bg-gray-300 rounded-full w-5 h-5 self-center;
+}
+.bodyTypeWrapper {
+  @apply w-full flex justify-between items-center mb-[1.6rem];
+}
+.bodyType {
+  @apply font-bold whitespace-nowrap;
 }
 .speechBubbleHead {
   @apply relative bg-white border border-black;

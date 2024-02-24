@@ -8,10 +8,10 @@ import GuestSetting from './pages/GuestSetting';
 import UserProfileEdit from './pages/UserProfileEdit/UserProfileEdit';
 import ProtectRoute from './components/ProtectRoute';
 import Mypage from './pages/Mypage/Mypage';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import SignIn from './pages/SignIn/SignIn';
+import SignUp from './pages/SignUp/SignUp';
 import Suggestion from './pages/Suggestion/Suggestion';
-import Welcome from './pages/Welcome';
+import Welcome from './pages/Welcome/Welcome';
 import GuestOnlyRoutes from './components/GuestOnlyRoute';
 
 const router = createHashRouter([
@@ -49,7 +49,7 @@ const router = createHashRouter([
       { path: 'mypage/:userId', element: <Mypage /> },
       { path: 'suggestion', element: <Suggestion /> },
       {
-        path: 'userprofileedit',
+        path: 'useredit/:userId',
         element: (
           <ProtectRoute>
             <UserProfileEdit />

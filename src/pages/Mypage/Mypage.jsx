@@ -1,19 +1,20 @@
-import pb from '@/api/pocketbase';
-import axios from 'axios';
-import useStorage from '@/hooks/useStorage';
-import S from './Mypage.module.css';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Loading from '@/components/Loading/Loading';
-import MypageStyleSlide from '../../swiper/MypageStyleSlide';
-import MypageSievingSlide from '../../swiper/MypageSievingSlide';
-import MypageBodyTypeSlide from '../../swiper/MypageBodyTypeSlide';
-import MyItem from '../../components/MyItem/MyItem';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
-import UserProfilePicture from '@/components/UserProfilePicture/UserProfilePicture';
-import GuestSetting from '../GuestSetting';
 import { MypageIcon } from '@/assets/MypageIcon';
+import Loading from '@/components/Loading/Loading';
+import MyItem from '@/components/MyItem/MyItem';
+import UserProfilePicture from '@/components/UserProfilePicture/UserProfilePicture';
+import { deleteData, getData } from '@/hooks/useStorage';
+import useAuthStore from '@/store/auth';
+import MypageBodyTypeSlide from '@/swiper/MypageBodyTypeSlide';
+import MypageSievingSlide from '@/swiper/MypageSievingSlide';
+import MypageStyleSlide from '@/swiper/MypageStyleSlide';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import GuestSetting from '../GuestSetting';
+import S from './Mypage.module.css';
+import useUserStore from '@/store/bodyStyle';
 
 const PB = import.meta.env.VITE_PB_URL;
 const PB_FEED_ENDPOINT = `${PB}/api/collections/posts/records?expand=user`;
@@ -25,18 +26,20 @@ async function fetchProducts() {
 
 function Mypage() {
   const { userId } = useParams();
+  const navigate = useNavigate();
 
+  const signOut = useAuthStore((store) => store.signOut);
+  const checkLogIn = useAuthStore((store) => store.checkLogIn);
+  const user = useAuthStore((store) => store.user);
+
+  const updateUser = useUserStore((store) => store.updateUserStyle);
+
+  const userBodyStyle = useUserStore((store) => store);
+  const [authUserData, setAuthUserData] = useState(user);
   const [showPosts, setShowPosts] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
-
   const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const { storageData } = useStorage('pocketbase_auth');
-  const [authUserData, setAuthUserData] = useState(storageData?.model);
-
-  useEffect(() => {
-    setAuthUserData(storageData?.model);
-  });
+  const [isDisabled, setIsDisabled] = useState(true);
 
   function toggleDarkModeHandler() {
     setIsDarkMode((prevMode) => !prevMode);
@@ -52,145 +55,169 @@ function Mypage() {
 
   let dataItems = postData?.items;
 
-  const handleSaveClick = async () => {
-    const userId = localStorage.getItem('userId');
-    const storedUserSievingValue = localStorage
-      .getItem('userSievingValue')
-      .replace(/\s/g, '');
-    const storedUserStyleValue = JSON.parse(
-      localStorage.getItem('userStyleValue')
-    );
-    const storedBodyTypeValue = localStorage.getItem('userBodyTypeValue');
+  const storedUserSievingValue = getData('userSievingValue')?.replace(
+    /\s/g,
+    ''
+  );
+  const storedUserStyleValue = getData('userStyleValue');
+  const storedBodyTypeValue = getData('userBodyTypeValue');
 
-    await pb.collection('users').update(userId, {
-      sieving:
-        storedUserSievingValue !== null
-          ? storedUserSievingValue
-          : authUserData?.sieving,
-      style:
-        storedUserStyleValue !== null
-          ? storedUserStyleValue
-          : authUserData?.style,
-      bodyType:
-        storedBodyTypeValue !== null
-          ? storedBodyTypeValue
-          : authUserData?.bodyType,
-    });
+  const handleSaveClick = async () => {
+    try {
+      await updateUser(userId, authUserData);
+
+      toast.success('정보가 수정되었습니다.');
+      deleteData('userBodyTypeValue');
+      deleteData('userSievingValue');
+      deleteData('userStyleValue');
+      navigate('/');
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      localStorage.clear();
+      toast.success('로그아웃되었습니다.');
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  if (error) {
+  useEffect(() => {
+    checkLogIn();
+  }, [checkLogIn]);
+
+  useEffect(() => {
+    setAuthUserData(user);
+  }, [user]);
+
+  useEffect(() => {
+    if (storedUserSievingValue || storedUserStyleValue || storedBodyTypeValue) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [
+    storedUserSievingValue,
+    storedUserStyleValue,
+    storedBodyTypeValue,
+    userBodyStyle,
+  ]);
+
+  if (isLoading) return <Loading />;
+
+  if (error)
     return (
       <div role="alert">
         <h2>{error.type}</h2>
         <p>{error.message}</p>
       </div>
     );
-  }
 
-  if (!authUserData) {
-    return <GuestSetting />;
-  } else {
-    if (postData) {
-      return (
-        <div className={`flex flex-col pt-5 pb-5 h-[calc(100vh-132px)]`}>
-          <div className="w-full flex flex-col items-center ">
-            <div className="flex justify-center">
-              {authUserData.avatar === '' ? (
-                <span className="border border-gray500 rounded-full">
-                  <MypageIcon size={64} />
-                </span>
-              ) : (
-                <UserProfilePicture avatar={authUserData} name={authUserData} />
-              )}
-            </div>
-            <span>
-              {authUserData.username ? authUserData.username : '닉네임'}
+  if (!authUserData) return <GuestSetting />;
+
+  return (
+    <div className={S.mypageWrapper}>
+      <div className="w-full flex flex-col items-center ">
+        <div className="flex justify-center">
+          {authUserData.avatar === '' ? (
+            <span className="border border-gray500 rounded-full">
+              <MypageIcon size={64} />
             </span>
-            <Link
-              to="/userprofileedit"
-              className="w-[6.625rem] h-[2.875rem] flex justify-center items-center rounded-lg bg-primary mb-8"
-            >
-              프로필 수정
-            </Link>
-          </div>
-          <div className="w-full h-[1.5rem] flex items-center mb-3 border-t-2 border-black">
-            <button
-              className={`w-1/2 flex justify-center ${
-                showPosts ? 'bg-secondary text-white' : 'bg-white'
-              }`}
-              onClick={() => {
-                setShowPosts(true);
-                setShowSettings(false);
-              }}
-            >
-              게시물 보기
-            </button>
-
-            <button
-              className={`w-1/2 flex justify-center ${
-                showSettings ? 'bg-secondary text-white' : 'bg-white'
-              }`}
-              onClick={() => {
-                setShowSettings(true);
-                setShowPosts(false);
-              }}
-            >
-              설정 및 정보수정
-            </button>
-          </div>
-          {showPosts && (
-            <div className={S.mypageInfo}>
-              {dataItems?.map((item) => (
-                <MyItem key={item.id} item={item} />
-              ))}
-            </div>
-          )}
-          {showSettings && (
-            <div className={`flex flex-col p-8 `}>
-              {
-                <div className="flex flex-col items-center">
-                  <div className="w-full flex justify-between">
-                    <span className="w-[5.25rem] h-[2.75rem] flex justify-center items-center rounded-3xl bg-black text-white mb-[1.6rem] font-bold">
-                      다크모드
-                    </span>
-                    <div
-                      className={`${S.toggleBtn} ${isDarkMode ? S.on : S.off}`}
-                    >
-                      <button
-                        className={`${S.circle}`}
-                        onClick={toggleDarkModeHandler}
-                      ></button>
-                    </div>
-                  </div>
-                  <div className="mb-[1.6rem]">
-                    <MypageStyleSlide item={userId} />
-                  </div>
-                  <div className="w-full flex justify-between items-center mb-[1.6rem]">
-                    <span className="font-bold">체질</span>
-                    <MypageSievingSlide item={userId} />
-                  </div>
-                  <div className="w-full flex justify-between items-center mb-[7rem]">
-                    <span className="font-bold">체형</span>
-                    <MypageBodyTypeSlide item={userId} />
-                  </div>
-                  <button
-                    className="w-[17.5rem] h-[3.375rem] flex justify-center items-center bg-secondary rounded-md"
-                    onClick={() => handleSaveClick()}
-                  >
-                    저장하기
-                  </button>
-                </div>
-              }
-            </div>
+          ) : (
+            <UserProfilePicture avatar={authUserData} name={authUserData} />
           )}
         </div>
-      );
-    }
-  }
+        <span>{authUserData.username ? authUserData.username : '닉네임'}</span>
+        <Link
+          to={`/useredit/${userId}`}
+          className="w-[6.625rem] h-[2.875rem] flex justify-center items-center rounded-lg bg-primary mb-8"
+        >
+          프로필 수정
+        </Link>
+      </div>
+      <div className="w-full h-[1.5rem] flex items-center mb-3 border-t-2 border-black">
+        <button
+          className={`w-1/2 flex justify-center ${
+            showPosts ? 'bg-white' : 'bg-secondary text-white'
+          }`}
+          onClick={() => {
+            setShowPosts(true);
+            setShowSettings(false);
+          }}
+        >
+          게시물 보기
+        </button>
+
+        <button
+          className={`w-1/2 flex justify-center ${
+            showSettings ? 'bg-white' : 'bg-secondary text-white'
+          }`}
+          onClick={() => {
+            setShowSettings(true);
+            setShowPosts(false);
+          }}
+        >
+          설정 및 정보수정
+        </button>
+      </div>
+      {showPosts && (
+        <div className={S.mypageInfo}>
+          {dataItems?.map((item) => (
+            <MyItem key={item.id} item={item} />
+          ))}
+        </div>
+      )}
+      {showSettings && (
+        <section className="flex flex-col p-8 overflow-y-scroll min-w-[320px]">
+          <div className="flex flex-col items-center">
+            <div className="w-full flex justify-between">
+              <span className="w-[5.25rem] h-[2.75rem] flex justify-center items-center rounded-3xl bg-black text-white mb-[1.6rem] font-bold">
+                다크모드
+              </span>
+              <div className={`${S.toggleBtn} ${isDarkMode ? S.on : S.off}`}>
+                <button
+                  className={`${S.circle}`}
+                  onClick={toggleDarkModeHandler}
+                ></button>
+              </div>
+            </div>
+            <div className={`${S.bodyTypeWrapper}`}>
+              <MypageStyleSlide />
+            </div>
+            <div className={`${S.bodyTypeWrapper} gap-2`}>
+              <span className={S.bodyType}>체질</span>
+              <MypageSievingSlide />
+            </div>
+            <div className={`${S.bodyTypeWrapper} flex-nowrap gap-2`}>
+              <span className={S.bodyType}>체형</span>
+              <MypageBodyTypeSlide />
+            </div>
+            <button
+              className={`w-[17.5rem] h-[3.375rem] flex justify-center items-center rounded-md ${
+                isDisabled ? 'bg-gray-700 text-white' : 'bg-primary'
+              }`}
+              onClick={handleSaveClick}
+              disabled={isDisabled}
+            >
+              저장하기
+            </button>
+          </div>
+          <button
+            type="button"
+            className="underline text-gray750"
+            onClick={handleLogout}
+          >
+            로그아웃
+          </button>
+        </section>
+      )}
+    </div>
+  );
 }
 
 export default Mypage;

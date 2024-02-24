@@ -1,23 +1,25 @@
+import { setData } from '@/hooks/useStorage';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import { A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 import './swiper-bundle.css';
+import useUserStore from '@/store/bodyStyle';
 
-function MypageSievingSlide(userId) {
-  const mypageUserId = userId.item;
-  const handleSievingClick = async (userId, value) => {
-    localStorage.setItem('userId', userId);
-    localStorage.setItem('userSievingValue', value);
+function MypageSievingSlide() {
+  const setSieving = useUserStore((store) => store.setSieving);
+  const handleSievingClick = async (value) => {
+    setData('userSievingValue', value);
+    setSieving(value);
   };
 
   return (
     <Swiper
       modules={[A11y]}
-      spaceBetween={30}
+      spaceBetween={10}
       slidesPerView={2}
-      mousewheelControl={true}
+      mousewheelcontrol="true"
     >
       <div className="flex items-center w-[90%] mx-auto">
         <div className="flex flex-col justify-center w-[90%] mx-auto">
@@ -27,9 +29,7 @@ function MypageSievingSlide(userId) {
                 <button
                   type="button"
                   className="text-sm leading-base"
-                  onClick={() =>
-                    handleSievingClick(mypageUserId, '더위 많이 탐')
-                  }
+                  onClick={() => handleSievingClick('더위 많이 탐')}
                 >
                   더위 많이 탐
                 </button>
@@ -38,9 +38,7 @@ function MypageSievingSlide(userId) {
                 <button
                   type="button"
                   className="text-sm leading-base"
-                  onClick={() =>
-                    handleSievingClick(mypageUserId, '추위 많이 탐')
-                  }
+                  onClick={() => handleSievingClick('추위 많이 탐')}
                 >
                   추위 많이 탐
                 </button>

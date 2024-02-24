@@ -1,18 +1,23 @@
-import useStorage from '@/hooks/useStorage';
+import useAuthStore from '@/store/auth';
 import { element } from 'prop-types';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function GuestOnlyRoutes({ children }) {
   const navigate = useNavigate();
-  const { storageData } = useStorage('pocketbase_auth');
-  const isAuthenticated = storageData?.token;
+  const checkLogIn = useAuthStore((store) => store.checkLogIn);
+
+  const user = useAuthStore((store) => store.user);
+  const isAuthenticated = user?.token;
   const { pathname, search, hash } = useLocation();
+
   const [isLoading, setIsLoading] = useState(true);
   const wishLocationPath = `${pathname}${search}${hash}`;
+
+  useEffect(() => {
+    checkLogIn();
+  }, [checkLogIn]);
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
